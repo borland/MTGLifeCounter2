@@ -12,6 +12,9 @@
 		D3F5431219B867AD0053DA1A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D3F5431019B867AD0053DA1A /* Main.storyboard */; };
 		D3F5431419B867AD0053DA1A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D3F5431319B867AD0053DA1A /* Images.xcassets */; };
 		D3F5432019B867AD0053DA1A /* MTGLifeCounter2Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F5431F19B867AD0053DA1A /* MTGLifeCounter2Tests.swift */; };
+		D3F5432A19B86CAA0053DA1A /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F5432919B86CAA0053DA1A /* PlayerViewController.swift */; };
+		D3F5432C19B86F230053DA1A /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F5432B19B86F230053DA1A /* Utility.swift */; };
+		D3F5432E19B8734A0053DA1A /* DuelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F5432D19B8734A0053DA1A /* DuelViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +37,9 @@
 		D3F5431919B867AD0053DA1A /* MTGLifeCounter2Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MTGLifeCounter2Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3F5431E19B867AD0053DA1A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D3F5431F19B867AD0053DA1A /* MTGLifeCounter2Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MTGLifeCounter2Tests.swift; sourceTree = "<group>"; };
+		D3F5432919B86CAA0053DA1A /* PlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
+		D3F5432B19B86F230053DA1A /* Utility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Utility.swift; path = ../Utility.swift; sourceTree = "<group>"; };
+		D3F5432D19B8734A0053DA1A /* DuelViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DuelViewController.swift; path = ../DuelViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,8 +81,11 @@
 		D3F5430919B867AD0053DA1A /* MTGLifeCounter2 */ = {
 			isa = PBXGroup;
 			children = (
+				D3F5432B19B86F230053DA1A /* Utility.swift */,
 				D3F5430C19B867AD0053DA1A /* AppDelegate.swift */,
+				D3F5432919B86CAA0053DA1A /* PlayerViewController.swift */,
 				D3F5430E19B867AD0053DA1A /* ViewController.swift */,
+				D3F5432D19B8734A0053DA1A /* DuelViewController.swift */,
 				D3F5431019B867AD0053DA1A /* Main.storyboard */,
 				D3F5431319B867AD0053DA1A /* Images.xcassets */,
 				D3F5430A19B867AD0053DA1A /* Supporting Files */,
@@ -208,8 +217,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D3F5432E19B8734A0053DA1A /* DuelViewController.swift in Sources */,
+				D3F5432C19B86F230053DA1A /* Utility.swift in Sources */,
 				D3F5430F19B867AD0053DA1A /* ViewController.swift in Sources */,
 				D3F5430D19B867AD0053DA1A /* AppDelegate.swift in Sources */,
+				D3F5432A19B86CAA0053DA1A /* PlayerViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -326,6 +338,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				INFOPLIST_FILE = MTGLifeCounter2/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -337,6 +350,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				INFOPLIST_FILE = MTGLifeCounter2/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

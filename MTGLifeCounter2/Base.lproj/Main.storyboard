@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6206.9" systemVersion="14A343f" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="ydO-1x-fO3">
     <dependencies>
+        <deployment defaultVersion="1808" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7026.1"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints with attributes relative to the layout margin" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -10,6 +12,7 @@
             <objects>
                 <tableViewController id="bbe-oY-pr0" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="0Kk-gb-Kvn">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <sections>
@@ -113,6 +116,7 @@
                         <viewControllerLayoutGuide type="bottom" id="HUz-Gq-3MK"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Yz8-Az-Kj6">
+                        <rect key="frame" x="0.0" y="0.0" width="400" height="800"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="twt-k1-mFC">
@@ -184,11 +188,11 @@
                                 <exclude reference="JE2-nl-vFk"/>
                             </mask>
                             <mask key="constraints">
+                                <exclude reference="5Zh-B8-XOt"/>
                                 <exclude reference="2Ie-e9-sqc"/>
                                 <exclude reference="QHq-A4-Lhu"/>
                                 <exclude reference="TcZ-cj-MM6"/>
                                 <exclude reference="sSF-q0-C1e"/>
-                                <exclude reference="5Zh-B8-XOt"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
@@ -198,17 +202,22 @@
                                 <include reference="JE2-nl-vFk"/>
                             </mask>
                             <mask key="constraints">
+                                <include reference="5Zh-B8-XOt"/>
                                 <include reference="2Ie-e9-sqc"/>
                                 <include reference="QHq-A4-Lhu"/>
                                 <exclude reference="TcZ-cj-MM6"/>
                                 <exclude reference="sSF-q0-C1e"/>
-                                <include reference="5Zh-B8-XOt"/>
                             </mask>
                         </variation>
                     </view>
                     <navigationItem key="navigationItem" id="f3z-mA-Cik"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="400" height="800"/>
+                    <connections>
+                        <outlet property="container1" destination="twt-k1-mFC" id="mjl-lb-X5G"/>
+                        <outlet property="container2" destination="JE2-nl-vFk" id="MqT-eE-LN8"/>
+                        <outlet property="toolbar" destination="exV-rR-wHa" id="lNL-1o-Ezn"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8GD-YH-8Ec" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -231,27 +240,27 @@
             </objects>
             <point key="canvasLocation" x="-465" y="279"/>
         </scene>
-        <!--View Controller-->
+        <!--Player View Controller-->
         <scene sceneID="4Pu-1e-HhP">
             <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="CaN-LE-yH2" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="CaN-LE-yH2" customClass="PlayerViewController" customModule="MTGLifeCounter2" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="xqM-Lr-TBb"/>
                         <viewControllerLayoutGuide type="bottom" id="7Qw-g8-b0W"/>
                     </layoutGuides>
-                    <view key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="ykH-2h-nWg" customClass="MTGPlayerBackgroundView">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="144"/>
+                    <view key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="ykH-2h-nWg" customClass="PlayerBackgroundView" customModule="MTGLifeCounter2" customModuleProvider="target">
+                        <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="20" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0jV-SI-aPq">
-                                <rect key="frame" x="86" y="-6" width="149" height="156"/>
+                                <rect key="frame" x="46" y="-14" width="148.5" height="156"/>
                                 <gestureRecognizers/>
                                 <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="120"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6kK-Je-ogu">
-                                <rect key="frame" x="270" y="36" width="30" height="72"/>
+                                <rect key="frame" x="190" y="28" width="30" height="72"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="50"/>
                                 <state key="normal" title="+">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -259,7 +268,7 @@
                                 </state>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F1p-Xe-vmS">
-                                <rect key="frame" x="20" y="42" width="30" height="72"/>
+                                <rect key="frame" x="20" y="34" width="30" height="72"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="50"/>
                                 <state key="normal" title="-">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -286,6 +295,13 @@
                         </constraints>
                     </view>
                     <toolbarItems/>
+                    <connections>
+                        <outlet property="backgroundView" destination="ykH-2h-nWg" id="8xk-Ju-dnJ"/>
+                        <outlet property="lifeTotalLabel" destination="0jV-SI-aPq" id="KyW-BU-6NL"/>
+                        <outlet property="minusButton" destination="F1p-Xe-vmS" id="lVB-RW-kaa"/>
+                        <outlet property="playerNameButton" destination="H8I-98-B5F" id="nl0-Hl-knR"/>
+                        <outlet property="plusButton" destination="6kK-Je-ogu" id="ydt-BU-UTe"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="v5H-96-aPk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -300,6 +316,7 @@
                         <viewControllerLayoutGuide type="bottom" id="IsI-yh-N2e"/>
                     </layoutGuides>
                     <view key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="Nql-uy-lUE">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>

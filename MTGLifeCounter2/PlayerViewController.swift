@@ -12,6 +12,83 @@ import UIKit
 class PlayerViewController : UIViewController {
     var playerName:String = ""
     var lifeTotal:Int = 0
+    var isUpsideDown:Bool = false
+    
+    func selectRandomColor() {
+        if let bg = backgroundView {
+            bg.selectRandomColor()
+        }
+    }
+    
+    @IBOutlet var backgroundView: PlayerBackgroundView!
+    @IBOutlet weak var lifeTotalLabel: UILabel!
+    @IBOutlet weak var plusButton: UIButton!
+    @IBOutlet weak var minusButton: UIButton!
+    @IBOutlet weak var playerNameButton: UIButton!
+    
+    override func viewDidLoad() {
+        setConstraintsFor(interfaceOrientation)
+        
+        if isUpsideDown {
+            view.transform = CGAffineTransformRotate(CGAffineTransformIdentity, M_PI)
+        }
+        
+//        [self addObserver:self forKeyPath:@"lifeTotal" options:NSKeyValueObservingOptionNew context:nil];
+//        [self addObserver:self forKeyPath:@"playerName" options:NSKeyValueObservingOptionNew context:nil];
+//        [self addObserver:self forKeyPath:@"isUpsideDown" options:NSKeyValueObservingOptionNew context:nil];
+    }
+    
+    func setConstraintsFor(orientation:UIInterfaceOrientation) {
+        view.removeConstraints(view.constraints())
+        
+        let views:[NSString:AnyObject] = ["view":view, "plus":plusButton, "minus":minusButton, "lifeTotal":lifeTotalLabel, "playerName":playerNameButton]
+        
+        let addConstraintsWithOptions = { format, options in
+            self.view.addConstraints(
+                NSLayoutConstraint .constraintsWithVisualFormat(format, options: options, metrics: nil, views: views))
+        }
+        
+        let addConstraints = { format in addConstraintsWithOptions(format, NSLayoutFormatOptions.AlignAllLeft) }
+        
+        addConstraintsWithOptions("H:[view]-(<=1)-[lifeTotal]", NSLayoutFormatOptions.AlignAllCenterY)
+        addConstraintsWithOptions("V:[view]-(<=1)-[lifeTotal]", NSLayoutFormatOptions.AlignAllCenterX)
+        
+        switch(orientation) {
+        case .Unknown, .Portrait, .PortraitUpsideDown: // the plus/minus buttons go on the left/right
+            addConstraints("H:|-6-[playerName]")
+            addConstraints("V:|-6-[playerName]")
+            
+            addConstraintsWithOptions("H:[plus(44)]-|", NSLayoutFormatOptions.AlignAllCenterY
+        }
+
+    
+    switch (orientation) {
+    case UIInterfaceOrientationPortrait:
+    case UIInterfaceOrientationPortraitUpsideDown: // +/- on the sides
+
+        // keep porting here!
+    addConstraints([NSLayoutConstraint constraintsWithVisualFormat:@"H:[plus(44)]-|" options:0 metrics:nil views:views]);
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:plus attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:view attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0]];
+    
+    addConstraints([NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[minus(44)]" options:0 metrics:nil views:views]);
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:minus attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:view attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0]];
+    break;
+    
+    case UIInterfaceOrientationLandscapeLeft: // +/- on the top/bottom
+    case UIInterfaceOrientationLandscapeRight:
+    addConstraints([NSLayoutConstraint constraintsWithVisualFormat:@"H:|-6-[playerName]" options:0 metrics:nil views:views]);
+    addConstraints([NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[playerName]" options:0 metrics:nil views:views]);
+    
+    addConstraints([NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[plus(44)]" options:0 metrics:nil views:views]);
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:plus attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:view attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
+    
+    addConstraints([NSLayoutConstraint constraintsWithVisualFormat:@"V:[minus(44)]-|" options:0 metrics:nil views:views]);
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:minus attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:view attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
+    break;
+    default:
+    break;
+    }
+    }
 }
 
 class PlayerBackgroundView : UIView {

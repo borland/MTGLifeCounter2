@@ -21,6 +21,10 @@ class DuelViewController : UIViewController {
     }
     
     @IBAction func d20ButtonPressed(sender: UIBarButtonItem) {
+        let diceRollView = DiceRollView(frame: view.frame, faceCount: 20)
+        view.addSubview(diceRollView)
+        
+        diceRollView.roll(completion: { _ in diceRollView.removeFromSuperview() })
     }
     
     @IBAction func refreshButtonPressed(sender: UIBarButtonItem) {

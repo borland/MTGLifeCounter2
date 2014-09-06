@@ -10,7 +10,7 @@
         <!--MTG Life Counter-->
         <scene sceneID="weq-uu-Ggk">
             <objects>
-                <tableViewController id="bbe-oY-pr0" sceneMemberID="viewController">
+                <tableViewController id="bbe-oY-pr0" customClass="MainMenuViewController" customModule="MTGLifeCounter2" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="0Kk-gb-Kvn">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

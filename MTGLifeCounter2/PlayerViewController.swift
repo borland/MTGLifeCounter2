@@ -30,7 +30,7 @@ class PlayerViewController : UIViewController {
         setConstraintsFor(interfaceOrientation)
         
         if isUpsideDown {
-            view.transform = CGAffineTransformRotate(CGAffineTransformIdentity, M_PI)
+            view.transform = CGAffineTransformRotate(CGAffineTransformIdentity, CGFloat(M_PI))
         }
         
 //        [self addObserver:self forKeyPath:@"lifeTotal" options:NSKeyValueObservingOptionNew context:nil];
@@ -41,53 +41,32 @@ class PlayerViewController : UIViewController {
     func setConstraintsFor(orientation:UIInterfaceOrientation) {
         view.removeConstraints(view.constraints())
         
-        let views:[NSString:AnyObject] = ["view":view, "plus":plusButton, "minus":minusButton, "lifeTotal":lifeTotalLabel, "playerName":playerNameButton]
+        let views = ["view":view, "plus":plusButton, "minus":minusButton, "lifeTotal":lifeTotalLabel, "playerName":playerNameButton]
         
-        let addConstraintsWithOptions = { format, options in
-            self.view.addConstraints(
-                NSLayoutConstraint .constraintsWithVisualFormat(format, options: options, metrics: nil, views: views))
-        }
+        view.addConstraints("H:[view]-(<=1)-[lifeTotal]", views: views, options: .AlignAllCenterY)
+        view.addConstraints("V:[view]-(<=1)-[lifeTotal]", views: views, options: .AlignAllCenterX)
+
         
-        let addConstraints = { format in addConstraintsWithOptions(format, NSLayoutFormatOptions.AlignAllLeft) }
-        
-        addConstraintsWithOptions("H:[view]-(<=1)-[lifeTotal]", NSLayoutFormatOptions.AlignAllCenterY)
-        addConstraintsWithOptions("V:[view]-(<=1)-[lifeTotal]", NSLayoutFormatOptions.AlignAllCenterX)
-        
-        switch(orientation) {
-        case .Unknown, .Portrait, .PortraitUpsideDown: // the plus/minus buttons go on the left/right
-            addConstraints("H:|-6-[playerName]")
-            addConstraints("V:|-6-[playerName]")
+        switch (orientation) {
+        case .Unknown, .Portrait, .PortraitUpsideDown: // +/- on the sides
+            view.addConstraints("H:|-6-[playerName]", views: views)
+            view.addConstraints("V:|-6-[playerName]", views: views)
             
-            addConstraintsWithOptions("H:[plus(44)]-|", NSLayoutFormatOptions.AlignAllCenterY
+            view.addConstraints("H:[plus(44)]-|", views: views)
+            view.addConstraint(NSLayoutConstraint(item: plusButton, attribute: .CenterY, relatedBy: .Equal, toItem: view, attribute: .CenterY, multiplier: 1, constant: 0))
+
+            view.addConstraints("H:|-[minus(44)]", views: views)
+            view.addConstraint(NSLayoutConstraint(item: minusButton, attribute: .CenterY, relatedBy: .Equal, toItem: view, attribute: .CenterY, multiplier: 1, constant: 0))
+            
+        case .LandscapeLeft, .LandscapeRight: // +/- on the top/bottom
+            view.addConstraints("H:|-6-[playerName]", views: views)
+            view.addConstraints("V:|-[playerName]", views: views)
+            
+            view.addConstraints("V:|-[plus(44)]", views: views)
+            view.addConstraint(NSLayoutConstraint(item: plusButton, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0))
+            view.addConstraints("V:[minus(44)]-|", views: views)
+            view.addConstraint(NSLayoutConstraint(item: minusButton, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0))
         }
-
-    
-    switch (orientation) {
-    case UIInterfaceOrientationPortrait:
-    case UIInterfaceOrientationPortraitUpsideDown: // +/- on the sides
-
-        // keep porting here!
-    addConstraints([NSLayoutConstraint constraintsWithVisualFormat:@"H:[plus(44)]-|" options:0 metrics:nil views:views]);
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:plus attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:view attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0]];
-    
-    addConstraints([NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[minus(44)]" options:0 metrics:nil views:views]);
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:minus attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:view attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0]];
-    break;
-    
-    case UIInterfaceOrientationLandscapeLeft: // +/- on the top/bottom
-    case UIInterfaceOrientationLandscapeRight:
-    addConstraints([NSLayoutConstraint constraintsWithVisualFormat:@"H:|-6-[playerName]" options:0 metrics:nil views:views]);
-    addConstraints([NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[playerName]" options:0 metrics:nil views:views]);
-    
-    addConstraints([NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[plus(44)]" options:0 metrics:nil views:views]);
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:plus attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:view attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
-    
-    addConstraints([NSLayoutConstraint constraintsWithVisualFormat:@"V:[minus(44)]-|" options:0 metrics:nil views:views]);
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:minus attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:view attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
-    break;
-    default:
-    break;
-    }
     }
 }
 

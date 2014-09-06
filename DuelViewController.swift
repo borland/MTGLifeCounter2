@@ -47,7 +47,7 @@ private
     var player2:PlayerViewController?
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        let segueName:String? = segue.identifier
+        let segueName = segue.identifier
         if segueName == "player1_embed" {
             if let viewController = segue.destinationViewController as? PlayerViewController {
                 self.player1 = viewController
@@ -79,25 +79,20 @@ private
     func setConstraintsFor(orientation:UIInterfaceOrientation) {
         view.removeConstraints(view.constraints()) // remove ALL constraints
     
-        let views:[NSObject:AnyObject] = ["c1":container1!, "c2":container2!, "toolbar":toolbar!]
+        let views = ["c1":container1!, "c2":container2!, "toolbar":toolbar!]
         
-        let addConstraints = { format in
-            self.view.addConstraints(
-                NSLayoutConstraint.constraintsWithVisualFormat(format, options: NSLayoutFormatOptions.AlignAllBaseline, metrics: nil, views: views))
-        }
-        
-        addConstraints("|[toolbar]|")
+        view.addConstraints("|[toolbar]|", views: views)
         
         switch (orientation) {
         case .Portrait, .PortraitUpsideDown, .Unknown:
-            addConstraints("V:|[c1(==c2)][toolbar(33)][c2(==c1)]|");
-            addConstraints("|[c1]|");
-            addConstraints("|[c2]|");
+            view.addConstraints("V:|[c1(==c2)][toolbar(33)][c2(==c1)]|", views: views);
+            view.addConstraints("|[c1]|", views: views);
+            view.addConstraints("|[c2]|", views: views);
             
         case .LandscapeLeft, .LandscapeRight:
-            addConstraints("|[c1(==c2)][c2(==c1)]|");
-            addConstraints("V:|[c1][toolbar(33)]|");
-            addConstraints("V:|[c2][toolbar(33)]|");
+            view.addConstraints("|[c1(==c2)][c2(==c1)]|", views: views);
+            view.addConstraints("V:|[c1][toolbar(33)]|", views: views);
+            view.addConstraints("V:|[c2][toolbar(33)]|", views: views);
         }
     }
 }

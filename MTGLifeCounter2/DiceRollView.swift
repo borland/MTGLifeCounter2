@@ -68,7 +68,10 @@ class DiceRollView : UIView {
     
     func roll(#completion:(Bool -> Void)){
         let n = unbiasedRandom(Int32(faceCount)) + 1
-        label.text = "\(n)"
+        
+        let attrs:[NSObject:AnyObject] = [NSUnderlineStyleAttributeName: NSNumber(int: 0x01)] // single underline
+        var ats = NSAttributedString(string:"\(n)", attributes: attrs)
+        label.attributedText = ats
         
         UIView.animateWithDuration(1.7,
             delay:0,

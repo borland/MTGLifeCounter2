@@ -10,15 +10,6 @@ import Foundation
 import UIKit
 
 class PlayerViewController : UIViewController {
-    var playerName:String = ""
-    var lifeTotal:Int = 0
-    var isUpsideDown:Bool = false
-    
-    func selectRandomColor() {
-        if let bg = backgroundView {
-            bg.selectRandomColor()
-        }
-    }
     
     @IBOutlet var backgroundView: PlayerBackgroundView!
     @IBOutlet weak var lifeTotalLabel: UILabel!
@@ -26,16 +17,79 @@ class PlayerViewController : UIViewController {
     @IBOutlet weak var minusButton: UIButton!
     @IBOutlet weak var playerNameButton: UIButton!
     
+    @IBAction func plusButtonPressed(sender: UIButton) {
+        lifeTotal += 1
+    }
+    
+    @IBAction func minusButtonPressed(sender: UIButton) {
+        lifeTotal -= 1
+    }
+    
+    @IBAction func playerNamePressed(sender: UIButton) {
+    }
+    
+    var _playerName = ""
+    var playerName:String {
+        get{ return _playerName }
+        set(value) {
+            _playerName = value
+            propertyDidChange("playerName")
+        }
+    }
+
+    var _lifeTotal = 0 // do not access directly
+    var lifeTotal:Int {
+        get { return _lifeTotal }
+        set(value) {
+            _lifeTotal = value
+            propertyDidChange("lifeTotal")
+        }
+    }
+    
+    var _isUpsideDown = false // do not access directly
+    var isUpsideDown:Bool {
+        get{ return _isUpsideDown }
+        set(value) {
+            _isUpsideDown = value
+            propertyDidChange("isUpsideDown")
+        }
+    }
+    
+    func selectRandomColor() {
+        if let bg = backgroundView {
+            bg.selectRandomColor()
+        }
+    }
+    
+    func propertyDidChange(propertyName:String) {
+        switch(propertyName) {
+        case "lifeTotal":
+            if let x = lifeTotalLabel {
+                x.text = "\(lifeTotal)"
+            }
+        case "playerName":
+            if let x = playerNameButton {
+                x.setTitle(playerName, forState: .Normal)
+            }
+            
+        case "isUpsideDown":
+            if isUpsideDown {
+                view.transform = CGAffineTransformRotate(CGAffineTransformIdentity, CGFloat(M_PI));
+            } else {
+                view.transform = CGAffineTransformIdentity;
+            }
+
+        default:
+            assertionFailure("unhandled property")
+        }
+    }
+    
     override func viewDidLoad() {
         setConstraintsFor(interfaceOrientation)
         
-        if isUpsideDown {
-            view.transform = CGAffineTransformRotate(CGAffineTransformIdentity, CGFloat(M_PI))
-        }
-        
-//        [self addObserver:self forKeyPath:@"lifeTotal" options:NSKeyValueObservingOptionNew context:nil];
-//        [self addObserver:self forKeyPath:@"playerName" options:NSKeyValueObservingOptionNew context:nil];
-//        [self addObserver:self forKeyPath:@"isUpsideDown" options:NSKeyValueObservingOptionNew context:nil];
+        propertyDidChange("playerName")
+        propertyDidChange("lifeTotal")
+        propertyDidChange("isUpsideDown")
     }
     
     func setConstraintsFor(orientation:UIInterfaceOrientation) {

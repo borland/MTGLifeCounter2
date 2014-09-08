@@ -17,18 +17,51 @@ class PlayerViewController : UIViewController {
     @IBOutlet weak var minusButton: UIButton!
     @IBOutlet weak var playerNameButton: UIButton!
     
-    @IBAction func plusButtonPressed(sender: UIButton) {
+    @IBAction func plusButtonPressed(sender: AnyObject) {
         lifeTotal += 1
     }
     
-    @IBAction func minusButtonPressed(sender: UIButton) {
+    @IBAction func minusButtonPressed(sender: AnyObject) {
         lifeTotal -= 1
     }
     
-    @IBAction func playerNamePressed(sender: UIButton) {
+    @IBAction func playerNamePressed(sender: AnyObject) {
+    }
+    
+    @IBAction func lifeTotalPanning(sender: UIPanGestureRecognizer) {
+        let translation = sender.translationInView(view)
+        
+        let m:CGFloat = 7.0
+        
+        if translation.y < -m || translation.y > m {
+            lifeTotal -= Int(translation.y / m)
+            sender.setTranslation(CGPointMake(0,0), inView: view) // reset the recognizer
+        }
+    }
+    
+    @IBAction func lifeTotalWasTapped(sender: UITapGestureRecognizer) {
+        let location = sender.locationInView(view)
+        let reference = view.frame
+        
+        var up = true;
+        switch interfaceOrientation {
+        case .Unknown, .Portrait, .PortraitUpsideDown:
+            up = location.x > (reference.size.width / 2)
+            
+        case .LandscapeLeft, .LandscapeRight:
+            up = location.y < (reference.size.height / 2)
+        }
+        
+        if(up) {
+            plusButtonPressed(sender)
+        } else {
+            minusButtonPressed(sender)
+        }
     }
     
     var _playerName = ""
+    
+    /// The name of the player
     var playerName:String {
         get{ return _playerName }
         set(value) {
@@ -38,6 +71,8 @@ class PlayerViewController : UIViewController {
     }
 
     var _lifeTotal = 0 // do not access directly
+    
+    /// The player's current life total
     var lifeTotal:Int {
         get { return _lifeTotal }
         set(value) {
@@ -47,6 +82,8 @@ class PlayerViewController : UIViewController {
     }
     
     var _isUpsideDown = false // do not access directly
+    
+    /// Whether the view should be rendered upside-down (vertically flipped) or not
     var isUpsideDown:Bool {
         get{ return _isUpsideDown }
         set(value) {

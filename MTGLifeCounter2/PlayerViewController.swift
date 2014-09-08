@@ -127,6 +127,8 @@ class PlayerViewController : UIViewController {
         propertyDidChange("playerName")
         propertyDidChange("lifeTotal")
         propertyDidChange("isUpsideDown")
+        
+        selectRandomColor()
     }
     
     func setConstraintsFor(orientation:UIInterfaceOrientation) {
@@ -197,6 +199,7 @@ class PlayerBackgroundView : UIView {
         default:
             break
         }
+        
         self.setNeedsDisplay()
     }
     
@@ -212,16 +215,15 @@ class PlayerBackgroundView : UIView {
         CGContextFillRect(context, rect)
         
         //Define the gradient ----------------------
-        let locations_num:size_t = 2;
-        
         let locations:[CGFloat] = [0.0, 1.0];
         
-        let components:[CGFloat] = [0, 0, 0, 0,  0,0,0,0]
-        
+        let components:[CGFloat] = [
+            c1.memory, (c1+1).memory,(c1+2).memory,(c1+3).memory,
+            c2.memory, (c2+1).memory,(c2+2).memory,(c2+3).memory ]
+
         let colorSpace = CGColorSpaceCreateDeviceRGB();
         
-        let gradient = CGGradientCreateWithColorComponents (colorSpace, components,
-            locations, locations_num);
+        let gradient = CGGradientCreateWithColorComponents (colorSpace, components, locations, UInt(locations.count));
         
         //Define Gradient Positions ---------------
         

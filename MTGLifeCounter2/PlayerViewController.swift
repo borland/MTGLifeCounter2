@@ -131,6 +131,11 @@ class PlayerViewController : UIViewController {
         selectRandomColor()
     }
     
+    override func willRotateToInterfaceOrientation(toInterfaceOrientation: UIInterfaceOrientation, duration: NSTimeInterval) {
+        setConstraintsFor(toInterfaceOrientation)
+        view.setNeedsDisplay()
+    }
+    
     func setConstraintsFor(orientation:UIInterfaceOrientation) {
         view.removeConstraints(view.constraints())
         
@@ -143,7 +148,7 @@ class PlayerViewController : UIViewController {
         switch (orientation) {
         case .Unknown, .Portrait, .PortraitUpsideDown: // +/- on the sides
             view.addConstraints("H:|-6-[playerName]", views: views)
-            view.addConstraints("V:|-6-[playerName]", views: views)
+            view.addConstraints("V:|-10-[playerName]", views: views)
             
             view.addConstraints("H:[plus(44)]-|", views: views)
             view.addConstraint(NSLayoutConstraint(item: plusButton, attribute: .CenterY, relatedBy: .Equal, toItem: view, attribute: .CenterY, multiplier: 1, constant: 0))
@@ -153,11 +158,11 @@ class PlayerViewController : UIViewController {
             
         case .LandscapeLeft, .LandscapeRight: // +/- on the top/bottom
             view.addConstraints("H:|-6-[playerName]", views: views)
-            view.addConstraints("V:|-[playerName]", views: views)
+            view.addConstraints("V:|-30-[playerName]", views: views)
             
-            view.addConstraints("V:|-[plus(44)]", views: views)
+            view.addConstraints("V:|-40-[plus(44)]", views: views)
             view.addConstraint(NSLayoutConstraint(item: plusButton, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0))
-            view.addConstraints("V:[minus(44)]-|", views: views)
+            view.addConstraints("V:[minus(44)]-40-|", views: views)
             view.addConstraint(NSLayoutConstraint(item: minusButton, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0))
         }
     }

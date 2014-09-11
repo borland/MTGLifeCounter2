@@ -94,13 +94,13 @@
 				D3F5432919B86CAA0053DA1A /* PlayerViewController.swift */,
 				D3F5430E19B867AD0053DA1A /* ViewController.swift */,
 				D3F5432D19B8734A0053DA1A /* DuelViewController.swift */,
-				D3F5431019B867AD0053DA1A /* Main.storyboard */,
-				D3F9A57819BB0AA4008C3BF0 /* MainMenuViewController.swift */,
-				D3F5431319B867AD0053DA1A /* Images.xcassets */,
-				D3F5430A19B867AD0053DA1A /* Supporting Files */,
-				D3F9A57A19BB0CCE008C3BF0 /* DiceRollView.swift */,
 				D3B96E6319BDBC030065B8C4 /* TwoHeadedGiantViewController.swift */,
 				D3BC006B19BDBFBC00101198 /* ThreePlayerViewController.swift */,
+				D3F5431019B867AD0053DA1A /* Main.storyboard */,
+				D3F9A57819BB0AA4008C3BF0 /* MainMenuViewController.swift */,
+				D3F9A57A19BB0CCE008C3BF0 /* DiceRollView.swift */,
+				D3F5431319B867AD0053DA1A /* Images.xcassets */,
+				D3F5430A19B867AD0053DA1A /* Supporting Files */,
 			);
 			path = MTGLifeCounter2;
 			sourceTree = "<group>";

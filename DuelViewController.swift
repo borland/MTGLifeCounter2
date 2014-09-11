@@ -93,10 +93,6 @@ private
             case .LandscapeLeft, .LandscapeRight:
                 p1.isUpsideDown = false
             }
-            p1.view.setNeedsDisplay()
-        }
-        if let p2 = player2 {
-            p2.view.setNeedsDisplay()
         }
     }
     
@@ -109,14 +105,14 @@ private
         
         switch (orientation) {
         case .Portrait, .PortraitUpsideDown, .Unknown:
-            view.addConstraints("V:|[c1(==c2)][toolbar(44)][c2(==c1)]|", views: views);
+            view.addConstraints("V:|[c1(==c2)][toolbar(34)][c2(==c1)]|", views: views);
             view.addConstraints("|[c1]|", views: views);
             view.addConstraints("|[c2]|", views: views);
             
         case .LandscapeLeft, .LandscapeRight:
             view.addConstraints("|[c1(==c2)][c2(==c1)]|", views: views);
-            view.addConstraints("V:|[c1][toolbar(33)]|", views: views);
-            view.addConstraints("V:|[c2][toolbar(33)]|", views: views);
+            view.addConstraints("V:|[c1][toolbar(34)]|", views: views);
+            view.addConstraints("V:|[c2][toolbar(34)]|", views: views);
         }
     }
 }

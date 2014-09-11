@@ -91,12 +91,6 @@ private
     
     override func willRotateToInterfaceOrientation(toInterfaceOrientation: UIInterfaceOrientation, duration: NSTimeInterval) {
         setConstraintsFor(toInterfaceOrientation)
-        
-        for x in [player1, player2, player3] {
-            if let vc = x {
-                vc.view.setNeedsDisplay()
-            }
-        }
     }
     
     func setConstraintsFor(orientation:UIInterfaceOrientation) {
@@ -108,16 +102,16 @@ private
         
         switch (orientation) {
         case .Portrait, .PortraitUpsideDown, .Unknown:
-            view.addConstraints("V:|[c1(==c2)][c2(==c3)][c3(==c1)][toolbar(40)]|", views: views)
+            view.addConstraints("V:|[c1(==c2)][c2(==c3)][c3(==c1)][toolbar(34)]|", views: views)
             view.addConstraints("|[c1]|", views: views)
             view.addConstraints("|[c2]|", views: views)
             view.addConstraints("|[c3]|", views: views)
             
         case .LandscapeLeft, .LandscapeRight:
             view.addConstraints("|[c1(==c2)][c2(==c3)][c3(==c1)]|", views: views)
-            view.addConstraints("V:|[c1][toolbar(33)]|", views: views)
-            view.addConstraints("V:|[c2][toolbar(33)]|", views: views)
-            view.addConstraints("V:|[c3][toolbar(33)]|", views: views)
+            view.addConstraints("V:|[c1][toolbar(34)]|", views: views)
+            view.addConstraints("V:|[c2][toolbar(34)]|", views: views)
+            view.addConstraints("V:|[c3][toolbar(34)]|", views: views)
         }
     }
 }

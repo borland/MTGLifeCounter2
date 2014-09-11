@@ -35,11 +35,9 @@ class DuelViewController : UIViewController {
     @IBAction func refreshButtonPressed(sender: UIBarButtonItem) {
         if let vc = player1 {
             vc.lifeTotal = initialLifeTotal
-            vc.color = Int(unbiasedRandom(5))
         }
         if let vc = player2 {
             vc.lifeTotal = initialLifeTotal
-            vc.color = Int(unbiasedRandom(5))
         }
     }
     

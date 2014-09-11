@@ -31,10 +31,22 @@ class PlayerViewController : UIViewController {
     @IBAction func lifeTotalPanning(sender: UIPanGestureRecognizer) {
         let translation = sender.translationInView(view)
         
-        let m:CGFloat = 7.0
+        let verticalPanDivisor:CGFloat = 7.0
+        if translation.y < -verticalPanDivisor || translation.y > verticalPanDivisor { // vertical pan greater than threshold
+            lifeTotal -= Int(translation.y / verticalPanDivisor)
+            sender.setTranslation(CGPointMake(0,0), inView: view) // reset the recognizer
+        }
         
-        if translation.y < -m || translation.y > m {
-            lifeTotal -= Int(translation.y / m)
+        let horizontalPanDivisor:CGFloat = 20.0
+        if translation.x < -horizontalPanDivisor || translation.x > horizontalPanDivisor { // horz pan greater than threshold
+            let newColor = color + Int(translation.x / horizontalPanDivisor)
+            if newColor < 0 { // wrap
+                color = 4
+            } else if newColor > 4 {
+                color = 0
+            } else {
+                color = newColor
+            }
             sender.setTranslation(CGPointMake(0,0), inView: view) // reset the recognizer
         }
     }
@@ -63,6 +75,35 @@ class PlayerViewController : UIViewController {
         get{ return backgroundView.color }
         set(value) {
             backgroundView.color = value
+            
+            if(value == 0) {
+                textColor = UIColor.darkGrayColor()
+            } else {
+                textColor = UIColor.whiteColor()
+            }
+        }
+    }
+    
+    var textColor:UIColor {
+        get {
+            if let x = lifeTotalLabel {
+                return x.textColor
+            }
+            return UIColor.whiteColor()
+        }
+        set(color) {
+            if let x = lifeTotalLabel {
+                x.textColor = color
+            }
+            if let x = plusButton {
+                x.setTitleColor(color, forState: .Normal)
+            }
+            if let x = minusButton {
+                x.setTitleColor(color, forState: .Normal)
+            }
+            if let x = playerNameButton {
+                x.setTitleColor(color, forState: .Normal)
+            }
         }
     }
     
@@ -122,7 +163,7 @@ class PlayerViewController : UIViewController {
         propertyDidChange("playerName")
         propertyDidChange("lifeTotal")
         propertyDidChange("isUpsideDown")
-        color = Int(unbiasedRandom(5))
+        color = Int(unbiasedRandom(5)) // likely to get overwritten by config load
     }
     
     override func willRotateToInterfaceOrientation(toInterfaceOrientation: UIInterfaceOrientation, duration: NSTimeInterval) {

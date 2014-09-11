@@ -29,15 +29,12 @@ class ThreePlayerViewController : UIViewController {
     @IBAction func refreshButtonPressed(sender: AnyObject) {
         if let vc = player1 {
             vc.lifeTotal = initialLifeTotal
-            vc.color = Int(unbiasedRandom(5))
         }
         if let vc = player2 {
             vc.lifeTotal = initialLifeTotal
-            vc.color = Int(unbiasedRandom(5))
         }
         if let vc = player3 {
             vc.lifeTotal = initialLifeTotal
-            vc.color = Int(unbiasedRandom(5))
         }
     }
     

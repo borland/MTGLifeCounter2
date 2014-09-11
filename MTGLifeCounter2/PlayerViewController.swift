@@ -59,7 +59,12 @@ class PlayerViewController : UIViewController {
         }
     }
     
-    var _playerName = ""
+    var color:Int {
+        get{ return backgroundView.color }
+        set(value) {
+            backgroundView.color = value
+        }
+    }
     
     /// The name of the player
     var playerName:String {
@@ -69,8 +74,6 @@ class PlayerViewController : UIViewController {
             propertyDidChange("playerName")
         }
     }
-
-    var _lifeTotal = 0 // do not access directly
     
     /// The player's current life total
     var lifeTotal:Int {
@@ -81,20 +84,12 @@ class PlayerViewController : UIViewController {
         }
     }
     
-    var _isUpsideDown = false // do not access directly
-    
     /// Whether the view should be rendered upside-down (vertically flipped) or not
     var isUpsideDown:Bool {
         get{ return _isUpsideDown }
         set(value) {
             _isUpsideDown = value
             propertyDidChange("isUpsideDown")
-        }
-    }
-    
-    func selectRandomColor() {
-        if let bg = backgroundView {
-            bg.selectRandomColor()
         }
     }
     
@@ -127,8 +122,7 @@ class PlayerViewController : UIViewController {
         propertyDidChange("playerName")
         propertyDidChange("lifeTotal")
         propertyDidChange("isUpsideDown")
-        
-        selectRandomColor()
+        color = Int(unbiasedRandom(5))
     }
     
     override func willRotateToInterfaceOrientation(toInterfaceOrientation: UIInterfaceOrientation, duration: NSTimeInterval) {
@@ -166,11 +160,25 @@ class PlayerViewController : UIViewController {
             view.addConstraint(NSLayoutConstraint(item: minusButton, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0))
         }
     }
+    
+private
+    var _playerName = ""
+    var _lifeTotal = 0 // do not access directly
+    var _isUpsideDown = false // do not access directly
 }
 
 class PlayerBackgroundView : UIView {
     var _color1:UIColor = UIColor.blueColor()
     var _color2:UIColor = UIColor.blueColor()
+    var _color:Int = 0 // white?
+    
+    var color:Int {
+        get{ return _color }
+        set(value) {
+            _color = value
+            setBackgroundToColor(value)
+        }
+    }
     
     class func lighterColor(c:UIColor) -> UIColor {
         var h:CGFloat = 0,
@@ -184,23 +192,23 @@ class PlayerBackgroundView : UIView {
         return c
     }
     
-    func selectRandomColor() {
-        switch(unbiasedRandom(5)) {
-        case 0: // WHITE
+    func setBackgroundToColor(value:Int) {
+        switch(value) {
+        case 0: // WHITE - todo make the text black?
             _color1 = UIColor(red: 0.7, green: 0.68, blue: 0.66, alpha: 1)
             _color2 = UIColor(red: 0.8, green: 0.77, blue: 0.73, alpha: 1)
         case 1: // BLUE
             _color1 = UIColor(red: 0.0, green: 0.22, blue: 0.42, alpha: 1)
-            _color2 = UIColor(red: 0.6, green: 0.80, blue: 0.10, alpha: 1)
+            _color2 = UIColor(red: 0.3, green: 0.50, blue: 1.00, alpha: 1)
         case 2: // BLACK
             _color1 = UIColor(red: 0.12, green: 0.19, blue: 0.25, alpha: 1)
-            _color2 = UIColor(red: 0.25, green: 0.29, blue: 0.28, alpha: 1)
+            _color2 = UIColor(red: 0.05, green: 0.09, blue: 0.08, alpha: 1)
         case 3: // RED
             _color1 = UIColor(red: 0.34, green: 0.04, blue: 0.07, alpha: 1)
-            _color2 = UIColor(red: 0.88, green: 0.44, blue: 0.34, alpha: 1)
+            _color2 = UIColor(red: 0.78, green: 0.14, blue: 0.04, alpha: 1)
         case 4: // GREEN
             _color1 = UIColor(red: 0.15, green: 0.38, blue: 0.27, alpha: 1)
-            _color2 = UIColor(red: 0.39, green: 0.66, blue: 0.40, alpha: 1)
+            _color2 = UIColor(red: 0.19, green: 0.66, blue: 0.20, alpha: 1)
         default:
             break
         }

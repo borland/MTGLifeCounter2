@@ -35,11 +35,11 @@ class DuelViewController : UIViewController {
     @IBAction func refreshButtonPressed(sender: UIBarButtonItem) {
         if let vc = player1 {
             vc.lifeTotal = initialLifeTotal
-            vc.selectRandomColor()
+            vc.color = Int(unbiasedRandom(5))
         }
         if let vc = player2 {
             vc.lifeTotal = initialLifeTotal
-            vc.selectRandomColor()
+            vc.color = Int(unbiasedRandom(5))
         }
     }
     
@@ -48,9 +48,19 @@ class DuelViewController : UIViewController {
         
         if let settings = DataStore.getWithKey(configKey) {
             if let p1 = player1 {
-                if let p2 = player2 {
-                    p1.lifeTotal = (settings["player1"] as NSNumber).integerValue
-                    p2.lifeTotal = (settings["player2"] as NSNumber).integerValue
+                if let x = (settings["player1"] as? NSNumber) {
+                    p1.lifeTotal = x.integerValue
+                }
+                if let x = (settings["player1color"] as? NSNumber) {
+                    p1.color = x.integerValue
+                }
+            }
+            if let p2 = player2 {
+                if let x = (settings["player2"] as? NSNumber) {
+                    p2.lifeTotal = x.integerValue
+                }
+                if let x = (settings["player2color"] as? NSNumber) {
+                    p2.color = x.integerValue
                 }
             }
         }
@@ -61,7 +71,12 @@ class DuelViewController : UIViewController {
         
         if let p1 = player1 {
             if let p2 = player2 {
-                let settings = ["player1": p1.lifeTotal, "player2": p2.lifeTotal]
+                let settings = [
+                    "player1": p1.lifeTotal,
+                    "player1color": p1.color,
+                    "player2": p2.lifeTotal,
+                    "player2color": p2.color]
+                
                 DataStore.setWithKey(configKey, value: settings)
             }
         }

@@ -107,7 +107,6 @@ class PlayerViewController : UIViewController {
         }
     }
     
-    /// The name of the player
     var playerName:String {
         get{ return _playerName }
         set(value) {
@@ -116,7 +115,6 @@ class PlayerViewController : UIViewController {
         }
     }
     
-    /// The player's current life total
     var lifeTotal:Int {
         get { return _lifeTotal }
         set(value) {
@@ -125,7 +123,6 @@ class PlayerViewController : UIViewController {
         }
     }
     
-    /// Whether the view should be rendered upside-down (vertically flipped) or not
     var isUpsideDown:Bool {
         get{ return _isUpsideDown }
         set(value) {

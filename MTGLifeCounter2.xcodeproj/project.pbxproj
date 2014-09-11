@@ -46,8 +46,8 @@
 		D3F5431E19B867AD0053DA1A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D3F5431F19B867AD0053DA1A /* MTGLifeCounter2Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MTGLifeCounter2Tests.swift; sourceTree = "<group>"; };
 		D3F5432919B86CAA0053DA1A /* PlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
-		D3F5432B19B86F230053DA1A /* Utility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Utility.swift; path = ../Utility.swift; sourceTree = "<group>"; };
-		D3F5432D19B8734A0053DA1A /* DuelViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DuelViewController.swift; path = ../DuelViewController.swift; sourceTree = "<group>"; };
+		D3F5432B19B86F230053DA1A /* Utility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
+		D3F5432D19B8734A0053DA1A /* DuelViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DuelViewController.swift; sourceTree = "<group>"; };
 		D3F9A57819BB0AA4008C3BF0 /* MainMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainMenuViewController.swift; sourceTree = "<group>"; };
 		D3F9A57A19BB0CCE008C3BF0 /* DiceRollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiceRollView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */

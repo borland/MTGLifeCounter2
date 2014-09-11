@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D38B324219C1AF94009F8345 /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38B324119C1AF94009F8345 /* DataStore.swift */; };
 		D3B96E6419BDBC030065B8C4 /* TwoHeadedGiantViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3B96E6319BDBC030065B8C4 /* TwoHeadedGiantViewController.swift */; };
 		D3BC006C19BDBFBC00101198 /* ThreePlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3BC006B19BDBFBC00101198 /* ThreePlayerViewController.swift */; };
 		D3F5430D19B867AD0053DA1A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F5430C19B867AD0053DA1A /* AppDelegate.swift */; };
@@ -32,6 +33,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D38B324119C1AF94009F8345 /* DataStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
 		D3B96E6319BDBC030065B8C4 /* TwoHeadedGiantViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwoHeadedGiantViewController.swift; sourceTree = "<group>"; };
 		D3BC006B19BDBFBC00101198 /* ThreePlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThreePlayerViewController.swift; sourceTree = "<group>"; };
 		D3F5430719B867AD0053DA1A /* MTGLifeCounter2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MTGLifeCounter2.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -99,6 +101,7 @@
 				D3F5431019B867AD0053DA1A /* Main.storyboard */,
 				D3F9A57819BB0AA4008C3BF0 /* MainMenuViewController.swift */,
 				D3F9A57A19BB0CCE008C3BF0 /* DiceRollView.swift */,
+				D38B324119C1AF94009F8345 /* DataStore.swift */,
 				D3F5431319B867AD0053DA1A /* Images.xcassets */,
 				D3F5430A19B867AD0053DA1A /* Supporting Files */,
 			);
@@ -232,6 +235,7 @@
 				D3BC006C19BDBFBC00101198 /* ThreePlayerViewController.swift in Sources */,
 				D3F9A57919BB0AA4008C3BF0 /* MainMenuViewController.swift in Sources */,
 				D3F5432E19B8734A0053DA1A /* DuelViewController.swift in Sources */,
+				D38B324219C1AF94009F8345 /* DataStore.swift in Sources */,
 				D3F5432C19B86F230053DA1A /* Utility.swift in Sources */,
 				D3F9A57B19BB0CCE008C3BF0 /* DiceRollView.swift in Sources */,
 				D3B96E6419BDBC030065B8C4 /* TwoHeadedGiantViewController.swift in Sources */,

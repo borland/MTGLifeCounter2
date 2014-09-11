@@ -15,4 +15,5 @@ class TwoHeadedGiantViewController : DuelViewController {
     // (I ctrl+dragged in IB to set up the outlet, then deleted the line of code)
     
     override var initialLifeTotal:Int { get { return 30 } }
+    override var configKey:String {get { return "2hg" } }
 }

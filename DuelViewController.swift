@@ -11,6 +11,7 @@ import UIKit
 
 class DuelViewController : UIViewController {
     var initialLifeTotal:Int { get { return 20 } }
+    var configKey:String {get { return "duel" } }
     
     @IBOutlet weak var container1: UIView!
     @IBOutlet weak var container2: UIView!
@@ -44,10 +45,26 @@ class DuelViewController : UIViewController {
     
     override func viewWillAppear(animated: Bool) {
         navigationController!.navigationBarHidden = true
+        
+        if let settings = DataStore.getWithKey(configKey) {
+            if let p1 = player1 {
+                if let p2 = player2 {
+                    p1.lifeTotal = (settings["player1"] as NSNumber).integerValue
+                    p2.lifeTotal = (settings["player2"] as NSNumber).integerValue
+                }
+            }
+        }
     }
     
     override func viewWillDisappear(animated: Bool) {
         navigationController!.navigationBarHidden = false
+        
+        if let p1 = player1 {
+            if let p2 = player2 {
+                let settings = ["player1": p1.lifeTotal, "player2": p2.lifeTotal]
+                DataStore.setWithKey(configKey, value: settings)
+            }
+        }
     }
     
 private

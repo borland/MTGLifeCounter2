@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D36252A119CC3C0E00D60681 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D36252A019CC3C0E00D60681 /* Colors.swift */; };
 		D38B324219C1AF94009F8345 /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38B324119C1AF94009F8345 /* DataStore.swift */; };
 		D3B96E6419BDBC030065B8C4 /* TwoHeadedGiantViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3B96E6319BDBC030065B8C4 /* TwoHeadedGiantViewController.swift */; };
 		D3BC006C19BDBFBC00101198 /* ThreePlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3BC006B19BDBFBC00101198 /* ThreePlayerViewController.swift */; };
@@ -33,6 +34,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D36252A019CC3C0E00D60681 /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		D38B324119C1AF94009F8345 /* DataStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
 		D3B96E6319BDBC030065B8C4 /* TwoHeadedGiantViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwoHeadedGiantViewController.swift; sourceTree = "<group>"; };
 		D3BC006B19BDBFBC00101198 /* ThreePlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThreePlayerViewController.swift; sourceTree = "<group>"; };
@@ -92,6 +94,7 @@
 			isa = PBXGroup;
 			children = (
 				D3F5432B19B86F230053DA1A /* Utility.swift */,
+				D36252A019CC3C0E00D60681 /* Colors.swift */,
 				D3F5430C19B867AD0053DA1A /* AppDelegate.swift */,
 				D3F5432919B86CAA0053DA1A /* PlayerViewController.swift */,
 				D3F5430E19B867AD0053DA1A /* ViewController.swift */,
@@ -233,6 +236,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D3BC006C19BDBFBC00101198 /* ThreePlayerViewController.swift in Sources */,
+				D36252A119CC3C0E00D60681 /* Colors.swift in Sources */,
 				D3F9A57919BB0AA4008C3BF0 /* MainMenuViewController.swift in Sources */,
 				D3F5432E19B8734A0053DA1A /* DuelViewController.swift in Sources */,
 				D38B324219C1AF94009F8345 /* DataStore.swift in Sources */,

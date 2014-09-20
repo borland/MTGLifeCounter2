@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6206.9" systemVersion="14A343f" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="ydO-1x-fO3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="14A361c" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="ydO-1x-fO3">
     <dependencies>
         <deployment defaultVersion="1808" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7026.1"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
     </dependencies>
     <scenes>
         <!--MTG Life Counter-->
@@ -190,9 +190,9 @@
                                 <exclude reference="XMy-JT-IBG"/>
                             </mask>
                             <mask key="constraints">
+                                <exclude reference="28y-7u-IsS"/>
                                 <exclude reference="Xp7-wm-qCn"/>
                                 <exclude reference="ko1-Xk-Qro"/>
-                                <exclude reference="28y-7u-IsS"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
@@ -202,9 +202,9 @@
                                 <include reference="XMy-JT-IBG"/>
                             </mask>
                             <mask key="constraints">
+                                <include reference="28y-7u-IsS"/>
                                 <include reference="Xp7-wm-qCn"/>
                                 <include reference="ko1-Xk-Qro"/>
-                                <include reference="28y-7u-IsS"/>
                             </mask>
                         </variation>
                     </view>
@@ -307,9 +307,9 @@
                                 <exclude reference="nN3-lG-fbo"/>
                             </mask>
                             <mask key="constraints">
+                                <exclude reference="FRA-4w-bdy"/>
                                 <exclude reference="ETd-6X-D57"/>
                                 <exclude reference="eJK-i6-RmZ"/>
-                                <exclude reference="FRA-4w-bdy"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
@@ -320,9 +320,9 @@
                                 <include reference="nN3-lG-fbo"/>
                             </mask>
                             <mask key="constraints">
+                                <include reference="FRA-4w-bdy"/>
                                 <include reference="ETd-6X-D57"/>
                                 <include reference="eJK-i6-RmZ"/>
-                                <include reference="FRA-4w-bdy"/>
                             </mask>
                         </variation>
                     </view>
@@ -416,9 +416,9 @@
                                 <exclude reference="JE2-nl-vFk"/>
                             </mask>
                             <mask key="constraints">
+                                <exclude reference="jcX-vo-dnR"/>
                                 <exclude reference="3bo-47-3W2"/>
                                 <exclude reference="UX6-CI-9Xa"/>
-                                <exclude reference="jcX-vo-dnR"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
@@ -428,9 +428,9 @@
                                 <include reference="JE2-nl-vFk"/>
                             </mask>
                             <mask key="constraints">
+                                <include reference="jcX-vo-dnR"/>
                                 <include reference="3bo-47-3W2"/>
                                 <include reference="UX6-CI-9Xa"/>
-                                <include reference="jcX-vo-dnR"/>
                             </mask>
                         </variation>
                     </view>
@@ -483,7 +483,7 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6kK-Je-ogu">
+                            <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6kK-Je-ogu">
                                 <rect key="frame" x="190" y="28" width="30" height="72"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="50"/>
                                 <state key="normal" title="+">
@@ -494,7 +494,7 @@
                                     <action selector="plusButtonPressed:" destination="CaN-LE-yH2" eventType="touchUpInside" id="qIG-RG-RJ4"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F1p-Xe-vmS">
+                            <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F1p-Xe-vmS">
                                 <rect key="frame" x="20" y="34" width="30" height="72"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="50"/>
                                 <state key="normal" title="-">

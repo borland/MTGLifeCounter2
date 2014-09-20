@@ -54,7 +54,9 @@ class ThreePlayerViewController : UIViewController {
                     p1.lifeTotal = x.integerValue
                 }
                 if let x = (settings["player1color"] as? NSNumber) {
-                    p1.color = x.integerValue
+                    if let color = MtgColor.fromRaw(x.integerValue) {
+                        p1.color = color
+                    }
                 }
             }
             if let p2 = player2 {
@@ -62,7 +64,9 @@ class ThreePlayerViewController : UIViewController {
                     p2.lifeTotal = x.integerValue
                 }
                 if let x = (settings["player2color"] as? NSNumber) {
-                    p2.color = x.integerValue
+                    if let color = MtgColor.fromRaw(x.integerValue) {
+                        p2.color = color
+                    }
                 }
             }
             if let p3 = player3 {
@@ -70,7 +74,9 @@ class ThreePlayerViewController : UIViewController {
                     p3.lifeTotal = x.integerValue
                 }
                 if let x = (settings["player3color"] as? NSNumber) {
-                    p3.color = x.integerValue
+                    if let color = MtgColor.fromRaw(x.integerValue) {
+                        p3.color = color
+                    }
                 }
             }
         }
@@ -84,11 +90,11 @@ class ThreePlayerViewController : UIViewController {
                 if let p3 = player3 {
                     let settings = [
                         "player1": p1.lifeTotal,
-                        "player1color": p1.color,
+                        "player1color": p1.color.toRaw(),
                         "player2": p2.lifeTotal,
-                        "player2color": p2.color,
+                        "player2color": p2.color.toRaw(),
                         "player3": p3.lifeTotal,
-                        "player3color": p3.color,]
+                        "player3color": p3.color.toRaw(),]
                     
                     DataStore.setWithKey(configKey, value: settings)
                 }

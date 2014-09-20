@@ -39,13 +39,15 @@ class PlayerViewController : UIViewController {
         
         let horizontalPanDivisor:CGFloat = 20.0
         if translation.x < -horizontalPanDivisor || translation.x > horizontalPanDivisor { // horz pan greater than threshold
-            let newColor = color + Int(translation.x / horizontalPanDivisor)
-            if newColor < 0 { // wrap
-                color = 4
-            } else if newColor > 4 {
-                color = 0
+            let newColor = color.toRaw() + Int(translation.x / horizontalPanDivisor)
+            if newColor < MtgColor.First().toRaw() { // wrap
+                color = MtgColor.Last()
+            } else if newColor > MtgColor.Last().toRaw() {
+                color = MtgColor.First()
             } else {
-                color = newColor
+                if let x = MtgColor.fromRaw(newColor) {
+                    color = x
+                }
             }
             sender.setTranslation(CGPointMake(0,0), inView: view) // reset the recognizer
         }
@@ -71,16 +73,19 @@ class PlayerViewController : UIViewController {
         }
     }
     
-    var color:Int {
-        get{ return backgroundView.color }
+    var color:MtgColor {
+        get{ return _color }
         set(value) {
-            backgroundView.color = value
+            _color = value
+            backgroundView.setBackgroundToColors(value)
             
-            if(value == 0) {
-                textColor = UIColor.darkGrayColor()
+            if(value == MtgColor.White) {
+                textColor = UIColor(red: 0.2, green:0.2, blue:0.2, alpha:1.0)
             } else {
                 textColor = UIColor.whiteColor()
             }
+            
+            backgroundView.addLabel(value.displayName, isUpsideDown: isUpsideDown, textColor: textColor)
         }
     }
     
@@ -160,7 +165,9 @@ class PlayerViewController : UIViewController {
         propertyDidChange("playerName")
         propertyDidChange("lifeTotal")
         propertyDidChange("isUpsideDown")
-        color = Int(unbiasedRandom(5)) // likely to get overwritten by config load
+        if let x = MtgColor.fromRaw(Int(unbiasedRandom(5))) {
+            color = x  // likely to get overwritten by config load
+        }
     }
     
     override func willRotateToInterfaceOrientation(toInterfaceOrientation: UIInterfaceOrientation, duration: NSTimeInterval) {
@@ -201,57 +208,45 @@ class PlayerViewController : UIViewController {
     
 private
     var _playerName = ""
-    var _lifeTotal = 0 // do not access directly
-    var _isUpsideDown = false // do not access directly
+    var _lifeTotal = 0
+    var _isUpsideDown = false
+    var _color:MtgColor = MtgColor.White
 }
 
 class PlayerBackgroundView : UIView {
     var _color1:UIColor = UIColor.blueColor()
     var _color2:UIColor = UIColor.blueColor()
-    var _color:Int = 0 // white?
+    var _lastLabel:UILabel? = nil
     
-    var color:Int {
-        get{ return _color }
-        set(value) {
-            _color = value
-            setBackgroundToColor(value)
-        }
-    }
-    
-    class func lighterColor(c:UIColor) -> UIColor {
-        var h:CGFloat = 0,
-        s:CGFloat = 0,
-        b:CGFloat = 0,
-        a:CGFloat = 0;
-        
-        if c.getHue(&h, saturation: &s, brightness: &b, alpha: &a) {
-            return UIColor(hue: h, saturation: s, brightness: b, alpha: a)
-        }
-        return c
-    }
-    
-    func setBackgroundToColor(value:Int) {
-        switch(value) {
-        case 0: // WHITE - todo make the text black?
-            _color1 = UIColor(red: 0.7, green: 0.68, blue: 0.66, alpha: 1)
-            _color2 = UIColor(red: 0.8, green: 0.77, blue: 0.73, alpha: 1)
-        case 1: // BLUE
-            _color1 = UIColor(red: 0.0, green: 0.22, blue: 0.42, alpha: 1)
-            _color2 = UIColor(red: 0.3, green: 0.50, blue: 1.00, alpha: 1)
-        case 2: // BLACK
-            _color1 = UIColor(red: 0.12, green: 0.19, blue: 0.25, alpha: 1)
-            _color2 = UIColor(red: 0.05, green: 0.09, blue: 0.08, alpha: 1)
-        case 3: // RED
-            _color1 = UIColor(red: 0.34, green: 0.04, blue: 0.07, alpha: 1)
-            _color2 = UIColor(red: 0.78, green: 0.14, blue: 0.04, alpha: 1)
-        case 4: // GREEN
-            _color1 = UIColor(red: 0.15, green: 0.38, blue: 0.27, alpha: 1)
-            _color2 = UIColor(red: 0.19, green: 0.66, blue: 0.20, alpha: 1)
-        default:
-            break
-        }
+    func setBackgroundToColors(color:MtgColor) {
+        _color1 = color.lookup(true)
+        _color2 = color.lookup(false)
         
         self.setNeedsDisplay()
+    }
+    
+    func addLabel(text:String, isUpsideDown:Bool, textColor:UIColor) {
+        let labelHeight = CGFloat(20)
+        let labelBottomOffset = isUpsideDown ? CGFloat(20) : CGFloat(0)
+        let label = UILabel(frame:
+            CGRectMake(0, frame.height-labelHeight-labelBottomOffset, frame.width, labelHeight))
+        
+        label.font = UIFont.boldSystemFontOfSize(14.0)
+        label.textAlignment = .Center
+        label.text = text
+        label.textColor = textColor
+        
+        if let last = _lastLabel {
+            last.removeFromSuperview()
+        }
+        _lastLabel = label
+        
+        addSubview(label)
+        UIView.animateWithDuration(0.5,
+            delay:0,
+            options:UIViewAnimationOptions.CurveEaseInOut,
+            animations:{ label.alpha = 0 },
+            completion:{ _ in label.removeFromSuperview() })
     }
     
     override func drawRect(rect: CGRect) {
@@ -279,15 +274,19 @@ class PlayerBackgroundView : UIView {
         //Define Gradient Positions ---------------
         
         //Start point
-        let w = self.frame.size.width;
+        let sz = max(frame.size.width, frame.size.height) * 1.3
         
-        let startPoint = CGPoint(x: w * -0.33, y: w * -0.33)
+        let startCenter = CGPoint(x: 0, y: 0)
+        let startRadius = CGFloat(0)
         
         //End point
-        let endPoint = CGPoint(x: 0, y: 0)
+        let endCenter = startCenter // must be the same for a simple circle gradient
+        let endRadius = CGFloat(sz)
+        
+        let options = CGGradientDrawingOptions(0)
         
         //Generate the Image -----------------------
-        CGContextDrawRadialGradient(context, gradient, startPoint, 0, endPoint, w * 0.8, 0)
+        CGContextDrawRadialGradient(context, gradient, startCenter, startRadius, endCenter, endRadius, options)
         
         CGContextRestoreGState(context);
 

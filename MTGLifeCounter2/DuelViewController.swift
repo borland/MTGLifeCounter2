@@ -50,7 +50,9 @@ class DuelViewController : UIViewController {
                     p1.lifeTotal = x.integerValue
                 }
                 if let x = (settings["player1color"] as? NSNumber) {
-                    p1.color = x.integerValue
+                    if let color = MtgColor.fromRaw(x.integerValue) {
+                        p1.color = color
+                    }
                 }
             }
             if let p2 = player2 {
@@ -58,7 +60,9 @@ class DuelViewController : UIViewController {
                     p2.lifeTotal = x.integerValue
                 }
                 if let x = (settings["player2color"] as? NSNumber) {
-                    p2.color = x.integerValue
+                    if let color = MtgColor.fromRaw(x.integerValue) {
+                        p2.color = color
+                    }
                 }
             }
         }
@@ -71,9 +75,9 @@ class DuelViewController : UIViewController {
             if let p2 = player2 {
                 let settings = [
                     "player1": p1.lifeTotal,
-                    "player1color": p1.color,
+                    "player1color": p1.color.toRaw(),
                     "player2": p2.lifeTotal,
-                    "player2color": p2.color]
+                    "player2color": p2.color.toRaw()]
                 
                 DataStore.setWithKey(configKey, value: settings)
             }
@@ -135,7 +139,7 @@ private
         
         switch (orientation) {
         case .Portrait, .PortraitUpsideDown, .Unknown:
-            view.addConstraints("V:|[c1(==c2)][toolbar(34)][c2(==c1)]|", views: views);
+            view.addConstraints("V:|[c1(==c2)][toolbar(40)][c2(==c1)]|", views: views);
             view.addConstraints("|[c1]|", views: views);
             view.addConstraints("|[c2]|", views: views);
             

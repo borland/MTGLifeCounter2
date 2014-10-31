@@ -67,7 +67,7 @@ class DiceRollView : UIView {
     }
     
     func roll(#completion:(Bool -> Void)){
-        let n = unbiasedRandom(Int32(faceCount)) + 1
+        let n = arc4random_uniform(UInt32(faceCount)) + 1
         
         let attrs:[NSObject:AnyObject] = [NSUnderlineStyleAttributeName: NSNumber(int: 0x01)] // single underline
         label.attributedText = (n == 6 || n == 9) ?

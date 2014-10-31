@@ -50,7 +50,7 @@ class DuelViewController : UIViewController {
                     p1.lifeTotal = x.integerValue
                 }
                 if let x = (settings["player1color"] as? NSNumber) {
-                    if let color = MtgColor.fromRaw(x.integerValue) {
+                    if let color = MtgColor(rawValue: x.integerValue) {
                         p1.color = color
                     }
                 }
@@ -60,7 +60,7 @@ class DuelViewController : UIViewController {
                     p2.lifeTotal = x.integerValue
                 }
                 if let x = (settings["player2color"] as? NSNumber) {
-                    if let color = MtgColor.fromRaw(x.integerValue) {
+                    if let color = MtgColor(rawValue: x.integerValue) {
                         p2.color = color
                     }
                 }
@@ -75,50 +75,51 @@ class DuelViewController : UIViewController {
             if let p2 = player2 {
                 let settings = [
                     "player1": p1.lifeTotal,
-                    "player1color": p1.color.toRaw(),
+                    "player1color": p1.color.rawValue,
                     "player2": p2.lifeTotal,
-                    "player2color": p2.color.toRaw()]
+                    "player2color": p2.color.rawValue]
                 
                 DataStore.setWithKey(configKey, value: settings)
             }
         }
     }
     
-private
+    private
     var player1:PlayerViewController?
     var player2:PlayerViewController?
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        switch segue.identifier {
-        case "player1_embed":
-            if let viewController = segue.destinationViewController as? PlayerViewController {
-                player1 = viewController
-                viewController.playerName = "P1"
-                viewController.lifeTotal = initialLifeTotal
-                
-                switch (interfaceOrientation) {
-                case .Portrait, .PortraitUpsideDown:
-                    viewController.isUpsideDown = true
-                case .Unknown, .LandscapeLeft, .LandscapeRight:
-                    viewController.isUpsideDown = false
+        if let s = segue.identifier {
+            switch s {
+            case "player1_embed":
+                if let viewController = segue.destinationViewController as? PlayerViewController {
+                    player1 = viewController
+                    viewController.playerName = "P1"
+                    viewController.lifeTotal = initialLifeTotal
+                    
+                    switch (interfaceOrientation) {
+                    case .Portrait, .PortraitUpsideDown:
+                        viewController.isUpsideDown = true
+                    case .Unknown, .LandscapeLeft, .LandscapeRight:
+                        viewController.isUpsideDown = false
+                    }
                 }
+            case "player2_embed":
+                if let viewController = segue.destinationViewController as? PlayerViewController {
+                    player2 = viewController
+                    viewController.playerName = "P2"
+                    viewController.lifeTotal = initialLifeTotal
+                }
+            default: assertionFailure("unhandled segue")
             }
-        case "player2_embed":
-            if let viewController = segue.destinationViewController as? PlayerViewController {
-                player2 = viewController
-                viewController.playerName = "P2"
-                viewController.lifeTotal = initialLifeTotal
+            
+            if(player1 != nil && player2 != nil) {
+                setConstraintsFor(interfaceOrientation)
             }
-        default: assertionFailure("unhandled segue")
-        }
-        
-        if(player1 != nil && player2 != nil) {
-            setConstraintsFor(interfaceOrientation)
         }
     }
     
     override func willRotateToInterfaceOrientation(toInterfaceOrientation: UIInterfaceOrientation, duration: NSTimeInterval) {
-        setConstraintsFor(toInterfaceOrientation)
         
         if let p1 = player1 {
             switch toInterfaceOrientation {
@@ -128,11 +129,17 @@ private
                 p1.isUpsideDown = false
             }
         }
+        
+        setConstraintsFor(toInterfaceOrientation)
+    }
+    
+    func printConstraints(constraints:[NSLayoutConstraint]) {
+        for c in constraints {
+            println(c)
+        }
     }
     
     func setConstraintsFor(orientation:UIInterfaceOrientation) {
-        view.removeConstraints(view.constraints()) // remove ALL constraints
-    
         let views = ["c1":container1!, "c2":container2!, "toolbar":toolbar!]
         
         view.addConstraints("|[toolbar]|", views: views)
@@ -148,5 +155,6 @@ private
             view.addConstraints("V:|[c1][toolbar(34)]|", views: views);
             view.addConstraints("V:|[c2][toolbar(34)]|", views: views);
         }
+        view.layoutSubviews()
     }
 }

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="14A361c" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="ydO-1x-fO3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="ydO-1x-fO3">
     <dependencies>
-        <deployment defaultVersion="1808" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
     </dependencies>
     <scenes>
         <!--MTG Life Counter-->
@@ -10,7 +10,7 @@
             <objects>
                 <tableViewController id="bbe-oY-pr0" customClass="MainMenuViewController" customModule="MTGLifeCounter2" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="0Kk-gb-Kvn">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <sections>
@@ -23,17 +23,14 @@
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Duel" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="fOC-2f-OCy">
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
-                                                    <variation key="heightClass=regular-widthClass=compact">
-                                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    </variation>
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="s0V-jc-fQq" kind="show" id="ozi-77-Vds"/>
+                                            <segue destination="s0V-jc-fQq" kind="push" id="ozi-77-Vds"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="KEQ-Zc-Bai" style="IBUITableViewCellStyleDefault" id="bKy-HR-WNS">
@@ -43,17 +40,14 @@
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Two-headed Giant" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="KEQ-Zc-Bai">
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
-                                                    <variation key="heightClass=regular-widthClass=compact">
-                                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    </variation>
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="9bP-n6-3Qx" kind="show" id="lr1-xN-cih"/>
+                                            <segue destination="9bP-n6-3Qx" kind="push" id="lr1-xN-cih"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="prP-h5-PW4" style="IBUITableViewCellStyleDefault" id="1Iz-ap-1UE">
@@ -63,17 +57,14 @@
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="3-player" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="prP-h5-PW4">
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
-                                                    <variation key="heightClass=regular-widthClass=compact">
-                                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    </variation>
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="BV7-pq-13U" kind="show" id="10t-Hj-GiL"/>
+                                            <segue destination="BV7-pq-13U" kind="push" id="10t-Hj-GiL"/>
                                         </connections>
                                     </tableViewCell>
                                 </cells>
@@ -87,12 +78,9 @@
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Roll D20" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="cyt-kq-XY1">
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
-                                                    <variation key="heightClass=regular-widthClass=compact">
-                                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    </variation>
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
@@ -109,9 +97,9 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Uwp-q0-b5V" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="465" y="279"/>
+            <point key="canvasLocation" x="248" y="264.12"/>
         </scene>
-        <!--Two Headed Giant View Controller-->
+        <!--2HG-->
         <scene sceneID="aRv-cs-QTH">
             <objects>
                 <viewController id="9bP-n6-3Qx" customClass="TwoHeadedGiantViewController" customModule="MTGLifeCounter2" customModuleProvider="target" sceneMemberID="viewController">
@@ -120,11 +108,11 @@
                         <viewControllerLayoutGuide type="bottom" id="QRd-Rf-EwO"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="eh5-iN-f6a">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6dz-zM-xpR">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="524" width="320" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" placeholder="YES" id="GCg-Nt-YiW"/>
                                 </constraints>
@@ -147,31 +135,15 @@
                                         </connections>
                                     </barButtonItem>
                                 </items>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="GCg-Nt-YiW"/>
-                                    </mask>
-                                </variation>
-                                <variation key="heightClass=regular-widthClass=compact">
-                                    <mask key="constraints">
-                                        <include reference="GCg-Nt-YiW"/>
-                                    </mask>
-                                </variation>
                             </toolbar>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vy3-uw-She">
-                                <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
-                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
-                                    <rect key="frame" x="0.0" y="0.0" width="400" height="407"/>
-                                </variation>
+                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vy3-uw-She">
+                                <rect key="frame" x="0.0" y="0.0" width="400" height="407"/>
                                 <connections>
                                     <segue destination="CaN-LE-yH2" kind="embed" identifier="player1_embed" id="0Ia-tu-WX8"/>
                                 </connections>
                             </containerView>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XMy-JT-IBG">
-                                <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
-                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
-                                    <rect key="frame" x="0.0" y="408" width="418" height="348"/>
-                                </variation>
+                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XMy-JT-IBG">
+                                <rect key="frame" x="0.0" y="408" width="418" height="348"/>
                                 <connections>
                                     <segue destination="CaN-LE-yH2" kind="embed" identifier="player2_embed" id="8tz-nR-cNh"/>
                                 </connections>
@@ -183,31 +155,8 @@
                             <constraint firstAttribute="trailing" secondItem="6dz-zM-xpR" secondAttribute="trailing" id="Xp7-wm-qCn"/>
                             <constraint firstItem="6dz-zM-xpR" firstAttribute="leading" secondItem="eh5-iN-f6a" secondAttribute="leading" id="ko1-Xk-Qro"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="subviews">
-                                <exclude reference="6dz-zM-xpR"/>
-                                <exclude reference="Vy3-uw-She"/>
-                                <exclude reference="XMy-JT-IBG"/>
-                            </mask>
-                            <mask key="constraints">
-                                <exclude reference="28y-7u-IsS"/>
-                                <exclude reference="Xp7-wm-qCn"/>
-                                <exclude reference="ko1-Xk-Qro"/>
-                            </mask>
-                        </variation>
-                        <variation key="heightClass=regular-widthClass=compact">
-                            <mask key="subviews">
-                                <include reference="6dz-zM-xpR"/>
-                                <include reference="Vy3-uw-She"/>
-                                <include reference="XMy-JT-IBG"/>
-                            </mask>
-                            <mask key="constraints">
-                                <include reference="28y-7u-IsS"/>
-                                <include reference="Xp7-wm-qCn"/>
-                                <include reference="ko1-Xk-Qro"/>
-                            </mask>
-                        </variation>
                     </view>
+                    <navigationItem key="navigationItem" title="2HG" id="gsS-tO-1Cs"/>
                     <connections>
                         <outlet property="container1" destination="Vy3-uw-She" id="hc5-qH-B06"/>
                         <outlet property="container2" destination="XMy-JT-IBG" id="BWM-Ql-aQj"/>
@@ -216,9 +165,9 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="p3o-Fc-9YU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2113.5" y="489"/>
+            <point key="canvasLocation" x="1127.2" y="462.92000000000002"/>
         </scene>
-        <!--Three Player View Controller-->
+        <!--3 Player-->
         <scene sceneID="Gfy-6h-X6V">
             <objects>
                 <viewController id="BV7-pq-13U" customClass="ThreePlayerViewController" customModule="MTGLifeCounter2" customModuleProvider="target" sceneMemberID="viewController">
@@ -227,11 +176,11 @@
                         <viewControllerLayoutGuide type="bottom" id="KQg-Gd-uS5"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="B7S-B7-8Rg">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g4Q-43-osZ">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="524" width="320" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" placeholder="YES" id="Gvx-8N-Of3"/>
                                 </constraints>
@@ -254,40 +203,21 @@
                                         </connections>
                                     </barButtonItem>
                                 </items>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="Gvx-8N-Of3"/>
-                                    </mask>
-                                </variation>
-                                <variation key="heightClass=regular-widthClass=compact">
-                                    <mask key="constraints">
-                                        <include reference="Gvx-8N-Of3"/>
-                                    </mask>
-                                </variation>
                             </toolbar>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XgF-9h-bMD">
-                                <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
-                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
-                                    <rect key="frame" x="0.0" y="0.0" width="400" height="254"/>
-                                </variation>
+                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XgF-9h-bMD">
+                                <rect key="frame" x="0.0" y="0.0" width="400" height="254"/>
                                 <connections>
                                     <segue destination="CaN-LE-yH2" kind="embed" identifier="player1_embed" id="RAZ-QF-Iya"/>
                                 </connections>
                             </containerView>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nuh-Dy-O1l">
-                                <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
-                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
-                                    <rect key="frame" x="0.0" y="256" width="400" height="257"/>
-                                </variation>
+                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nuh-Dy-O1l">
+                                <rect key="frame" x="0.0" y="256" width="400" height="257"/>
                                 <connections>
                                     <segue destination="CaN-LE-yH2" kind="embed" identifier="player2_embed" id="sjg-Pg-UFQ"/>
                                 </connections>
                             </containerView>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nN3-lG-fbo">
-                                <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
-                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
-                                    <rect key="frame" x="0.0" y="515" width="400" height="241"/>
-                                </variation>
+                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nN3-lG-fbo">
+                                <rect key="frame" x="0.0" y="515" width="400" height="241"/>
                                 <connections>
                                     <segue destination="CaN-LE-yH2" kind="embed" identifier="player3_embed" id="pAh-ai-Mw9"/>
                                 </connections>
@@ -299,33 +229,8 @@
                             <constraint firstItem="KQg-Gd-uS5" firstAttribute="top" secondItem="g4Q-43-osZ" secondAttribute="bottom" id="FRA-4w-bdy"/>
                             <constraint firstItem="g4Q-43-osZ" firstAttribute="leading" secondItem="B7S-B7-8Rg" secondAttribute="leading" id="eJK-i6-RmZ"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="subviews">
-                                <exclude reference="g4Q-43-osZ"/>
-                                <exclude reference="XgF-9h-bMD"/>
-                                <exclude reference="nuh-Dy-O1l"/>
-                                <exclude reference="nN3-lG-fbo"/>
-                            </mask>
-                            <mask key="constraints">
-                                <exclude reference="FRA-4w-bdy"/>
-                                <exclude reference="ETd-6X-D57"/>
-                                <exclude reference="eJK-i6-RmZ"/>
-                            </mask>
-                        </variation>
-                        <variation key="heightClass=regular-widthClass=compact">
-                            <mask key="subviews">
-                                <include reference="g4Q-43-osZ"/>
-                                <include reference="XgF-9h-bMD"/>
-                                <include reference="nuh-Dy-O1l"/>
-                                <include reference="nN3-lG-fbo"/>
-                            </mask>
-                            <mask key="constraints">
-                                <include reference="FRA-4w-bdy"/>
-                                <include reference="ETd-6X-D57"/>
-                                <include reference="eJK-i6-RmZ"/>
-                            </mask>
-                        </variation>
                     </view>
+                    <navigationItem key="navigationItem" title="3 Player" id="KJ3-BW-U0V"/>
                     <connections>
                         <outlet property="container1" destination="XgF-9h-bMD" id="ttw-oP-nRA"/>
                         <outlet property="container2" destination="nuh-Dy-O1l" id="TMt-St-fy5"/>
@@ -335,9 +240,9 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7tY-Me-VqU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2853" y="492"/>
+            <point key="canvasLocation" x="1521.5999999999999" y="465.75999999999993"/>
         </scene>
-        <!--Duel View Controller-->
+        <!--Duel-->
         <scene sceneID="yLr-U6-49o">
             <objects>
                 <viewController id="s0V-jc-fQq" customClass="DuelViewController" customModule="MTGLifeCounter2" customModuleProvider="target" sceneMemberID="viewController">
@@ -345,12 +250,12 @@
                         <viewControllerLayoutGuide type="top" id="Vnd-m4-0Gt"/>
                         <viewControllerLayoutGuide type="bottom" id="HUz-Gq-3MK"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="Yz8-Az-Kj6">
-                        <rect key="frame" x="0.0" y="0.0" width="400" height="800"/>
+                    <view key="view" contentMode="scaleToFill" restorationIdentifier="outerView" id="Yz8-Az-Kj6">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="exV-rR-wHa">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" restorationIdentifier="toolbar" translatesAutoresizingMaskIntoConstraints="NO" id="exV-rR-wHa">
+                                <rect key="frame" x="0.0" y="524" width="320" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" placeholder="YES" id="f4s-WP-gzC"/>
                                 </constraints>
@@ -373,31 +278,15 @@
                                         </connections>
                                     </barButtonItem>
                                 </items>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="f4s-WP-gzC"/>
-                                    </mask>
-                                </variation>
-                                <variation key="heightClass=regular-widthClass=compact">
-                                    <mask key="constraints">
-                                        <include reference="f4s-WP-gzC"/>
-                                    </mask>
-                                </variation>
                             </toolbar>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="twt-k1-mFC">
-                                <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
-                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
-                                    <rect key="frame" x="0.0" y="0.0" width="400" height="407"/>
-                                </variation>
+                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" restorationIdentifier="container1" translatesAutoresizingMaskIntoConstraints="NO" id="twt-k1-mFC">
+                                <rect key="frame" x="0.0" y="60" width="320" height="227"/>
                                 <connections>
                                     <segue destination="CaN-LE-yH2" kind="embed" identifier="player1_embed" id="eDe-gw-Pia"/>
                                 </connections>
                             </containerView>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JE2-nl-vFk">
-                                <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
-                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
-                                    <rect key="frame" x="0.0" y="408" width="418" height="348"/>
-                                </variation>
+                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" restorationIdentifier="container2" translatesAutoresizingMaskIntoConstraints="NO" id="JE2-nl-vFk">
+                                <rect key="frame" x="0.0" y="300" width="320" height="200"/>
                                 <connections>
                                     <segue destination="CaN-LE-yH2" kind="embed" identifier="player2_embed" id="on7-Kh-9Qr"/>
                                 </connections>
@@ -409,34 +298,8 @@
                             <constraint firstAttribute="trailing" secondItem="exV-rR-wHa" secondAttribute="trailing" placeholder="YES" id="UX6-CI-9Xa"/>
                             <constraint firstItem="HUz-Gq-3MK" firstAttribute="top" secondItem="exV-rR-wHa" secondAttribute="bottom" placeholder="YES" id="jcX-vo-dnR"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="subviews">
-                                <exclude reference="exV-rR-wHa"/>
-                                <exclude reference="twt-k1-mFC"/>
-                                <exclude reference="JE2-nl-vFk"/>
-                            </mask>
-                            <mask key="constraints">
-                                <exclude reference="jcX-vo-dnR"/>
-                                <exclude reference="3bo-47-3W2"/>
-                                <exclude reference="UX6-CI-9Xa"/>
-                            </mask>
-                        </variation>
-                        <variation key="heightClass=regular-widthClass=compact">
-                            <mask key="subviews">
-                                <include reference="exV-rR-wHa"/>
-                                <include reference="twt-k1-mFC"/>
-                                <include reference="JE2-nl-vFk"/>
-                            </mask>
-                            <mask key="constraints">
-                                <include reference="jcX-vo-dnR"/>
-                                <include reference="3bo-47-3W2"/>
-                                <include reference="UX6-CI-9Xa"/>
-                            </mask>
-                        </variation>
                     </view>
-                    <navigationItem key="navigationItem" id="f3z-mA-Cik"/>
-                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <size key="freeformSize" width="400" height="800"/>
+                    <navigationItem key="navigationItem" title="Duel" id="f3z-mA-Cik"/>
                     <connections>
                         <outlet property="container1" destination="twt-k1-mFC" id="mjl-lb-X5G"/>
                         <outlet property="container2" destination="JE2-nl-vFk" id="MqT-eE-LN8"/>
@@ -445,7 +308,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8GD-YH-8Ec" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1321.5" y="506.25"/>
+            <point key="canvasLocation" x="704" y="479"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="DEG-dY-MFN">
@@ -462,7 +325,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Cus-pk-ZXB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-465" y="279"/>
+            <point key="canvasLocation" x="-248" y="264.12"/>
         </scene>
         <!--Player View Controller-->
         <scene sceneID="4Pu-1e-HhP">
@@ -473,18 +336,18 @@
                         <viewControllerLayoutGuide type="bottom" id="7Qw-g8-b0W"/>
                     </layoutGuides>
                     <view key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="ykH-2h-nWg" customClass="PlayerBackgroundView" customModule="MTGLifeCounter2" customModuleProvider="target">
-                        <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                        <rect key="frame" x="0.0" y="0.0" width="400" height="257"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="20" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0jV-SI-aPq">
-                                <rect key="frame" x="46" y="-14" width="148.5" height="156"/>
+                                <rect key="frame" x="126" y="50" width="148.5" height="156"/>
                                 <gestureRecognizers/>
                                 <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="120"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6kK-Je-ogu">
-                                <rect key="frame" x="190" y="28" width="30" height="72"/>
+                                <rect key="frame" x="350" y="92" width="30" height="72"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="50"/>
                                 <state key="normal" title="+">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -495,7 +358,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F1p-Xe-vmS">
-                                <rect key="frame" x="20" y="34" width="30" height="72"/>
+                                <rect key="frame" x="20" y="98" width="30" height="72"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="50"/>
                                 <state key="normal" title="-">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -552,9 +415,14 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="2127" y="-139.5"/>
+            <point key="canvasLocation" x="1134.4000000000001" y="-132.06"/>
         </scene>
     </scenes>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="sjg-Pg-UFQ"/>
     </inferredMetricsTieBreakers>

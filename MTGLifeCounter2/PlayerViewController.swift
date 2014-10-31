@@ -39,13 +39,13 @@ class PlayerViewController : UIViewController {
         
         let horizontalPanDivisor:CGFloat = 20.0
         if translation.x < -horizontalPanDivisor || translation.x > horizontalPanDivisor { // horz pan greater than threshold
-            let newColor = color.toRaw() + Int(translation.x / horizontalPanDivisor)
-            if newColor < MtgColor.First().toRaw() { // wrap
+            let newColor = color.rawValue + Int(translation.x / horizontalPanDivisor)
+            if newColor < MtgColor.First().rawValue { // wrap
                 color = MtgColor.Last()
-            } else if newColor > MtgColor.Last().toRaw() {
+            } else if newColor > MtgColor.Last().rawValue {
                 color = MtgColor.First()
             } else {
-                if let x = MtgColor.fromRaw(newColor) {
+                if let x = MtgColor(rawValue: newColor) {
                     color = x
                 }
             }
@@ -165,7 +165,9 @@ class PlayerViewController : UIViewController {
         propertyDidChange("playerName")
         propertyDidChange("lifeTotal")
         propertyDidChange("isUpsideDown")
-        if let x = MtgColor.fromRaw(Int(unbiasedRandom(5))) {
+        
+        let maxColorNum = UInt32(MtgColor.Last().rawValue)
+        if let x = MtgColor(rawValue: Int(arc4random_uniform(maxColorNum))) {
             color = x  // likely to get overwritten by config load
         }
     }

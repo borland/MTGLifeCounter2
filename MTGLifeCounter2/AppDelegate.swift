@@ -16,7 +16,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
-        srandomdev()
         // Override point for customization after application launch.
         return true
     }
@@ -46,3 +45,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 }
 
+extension UIView {
+    func nsli_description() -> NSString {
+        return restorationIdentifier ?? "\(self.self) \(self)"
+    }
+    
+    func nsli_descriptionIncludesPointer() -> Bool {
+        return restorationIdentifier == nil
+    }
+    
+    func sg_description() -> NSString {
+        // Evil!
+//        NSString *string = [self performSelector:@selector(nsli_description)];
+        let string = nsli_description()
+        
+        if (self.restorationIdentifier != nil) {
+            return string.stringByAppendingFormat(" (%@)", restorationIdentifier!)
+        }
+        
+        return string;
+    }
+}

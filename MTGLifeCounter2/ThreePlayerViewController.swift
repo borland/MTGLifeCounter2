@@ -54,7 +54,7 @@ class ThreePlayerViewController : UIViewController {
                     p1.lifeTotal = x.integerValue
                 }
                 if let x = (settings["player1color"] as? NSNumber) {
-                    if let color = MtgColor.fromRaw(x.integerValue) {
+                    if let color = MtgColor(rawValue: x.integerValue) {
                         p1.color = color
                     }
                 }
@@ -64,7 +64,7 @@ class ThreePlayerViewController : UIViewController {
                     p2.lifeTotal = x.integerValue
                 }
                 if let x = (settings["player2color"] as? NSNumber) {
-                    if let color = MtgColor.fromRaw(x.integerValue) {
+                    if let color = MtgColor(rawValue: x.integerValue) {
                         p2.color = color
                     }
                 }
@@ -74,7 +74,7 @@ class ThreePlayerViewController : UIViewController {
                     p3.lifeTotal = x.integerValue
                 }
                 if let x = (settings["player3color"] as? NSNumber) {
-                    if let color = MtgColor.fromRaw(x.integerValue) {
+                    if let color = MtgColor(rawValue: x.integerValue) {
                         p3.color = color
                     }
                 }
@@ -90,11 +90,11 @@ class ThreePlayerViewController : UIViewController {
                 if let p3 = player3 {
                     let settings = [
                         "player1": p1.lifeTotal,
-                        "player1color": p1.color.toRaw(),
+                        "player1color": p1.color.rawValue,
                         "player2": p2.lifeTotal,
-                        "player2color": p2.color.toRaw(),
+                        "player2color": p2.color.rawValue,
                         "player3": p3.lifeTotal,
-                        "player3color": p3.color.toRaw(),]
+                        "player3color": p3.color.rawValue,]
                     
                     DataStore.setWithKey(configKey, value: settings)
                 }
@@ -108,27 +108,29 @@ private
     var player3:PlayerViewController?
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        switch segue.identifier {
-        case "player1_embed":
-            if let viewController = segue.destinationViewController as? PlayerViewController {
-                player1 = viewController
-                viewController.playerName = "P1"
-                viewController.lifeTotal = initialLifeTotal
+        if let s = segue.identifier {
+            switch s {
+            case "player1_embed":
+                if let viewController = segue.destinationViewController as? PlayerViewController {
+                    player1 = viewController
+                    viewController.playerName = "P1"
+                    viewController.lifeTotal = initialLifeTotal
+                }
+                
+            case "player2_embed":
+                if let viewController = segue.destinationViewController as? PlayerViewController {
+                    player2 = viewController
+                    viewController.playerName = "P2"
+                    viewController.lifeTotal = initialLifeTotal
+                }
+            case "player3_embed":
+                if let viewController = segue.destinationViewController as? PlayerViewController {
+                    player3 = viewController
+                    viewController.playerName = "P3"
+                    viewController.lifeTotal = initialLifeTotal
+                }
+            default: assertionFailure("unhandled segue")
             }
-            
-        case "player2_embed":
-            if let viewController = segue.destinationViewController as? PlayerViewController {
-                player2 = viewController
-                viewController.playerName = "P2"
-                viewController.lifeTotal = initialLifeTotal
-            }
-        case "player3_embed":
-            if let viewController = segue.destinationViewController as? PlayerViewController {
-                player3 = viewController
-                viewController.playerName = "P3"
-                viewController.lifeTotal = initialLifeTotal
-            }
-        default: assertionFailure("unhandled segue")
         }
         
         if(player1 != nil && player2 != nil && player3 != nil) {

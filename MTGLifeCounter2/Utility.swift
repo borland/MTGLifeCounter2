@@ -20,3 +20,19 @@ extension UIView {
         self.addConstraints(constraints)
     }
 }
+
+func constraints(ca:[NSLayoutConstraint], #affectingView:UIView) -> [NSLayoutConstraint] {
+    return ca.filter {
+        if let first = $0.firstItem as? UIView {
+            if first == affectingView {
+                return true
+            }
+        }
+        if let second = $0.secondItem as? UIView {
+            if second == affectingView {
+                return true
+            }
+        }
+        return false
+    }
+}

@@ -143,7 +143,12 @@ private
     }
     
     func setConstraintsFor(orientation:UIInterfaceOrientation) {
-        view.removeConstraints(view.constraints()) // remove ALL constraints
+        let cx = view.constraints() as [NSLayoutConstraint]
+        view.removeConstraints(
+            constraints(cx, affectingView:container1!) +
+            constraints(cx, affectingView:container2!) +
+            constraints(cx, affectingView:container3!) +
+            constraints(cx, affectingView:toolbar))
         
         let views = ["c1":container1!, "c2":container2!, "c3":container3!, "toolbar":toolbar!]
         

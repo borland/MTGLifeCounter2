@@ -55,8 +55,6 @@ extension UIView {
     }
     
     func sg_description() -> NSString {
-        // Evil!
-//        NSString *string = [self performSelector:@selector(nsli_description)];
         let string = nsli_description()
         
         if (self.restorationIdentifier != nil) {

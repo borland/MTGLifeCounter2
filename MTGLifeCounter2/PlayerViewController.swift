@@ -178,7 +178,12 @@ class PlayerViewController : UIViewController {
     }
     
     func setConstraintsFor(orientation:UIInterfaceOrientation) {
-        view.removeConstraints(view.constraints())
+        let cx = view.constraints() as [NSLayoutConstraint]
+        view.removeConstraints(
+            constraints(cx, affectingView:plusButton) +
+            constraints(cx, affectingView:minusButton) +
+            constraints(cx, affectingView:lifeTotalLabel) +
+            constraints(cx, affectingView:playerNameButton))
         
         let views = ["view":view, "plus":plusButton, "minus":minusButton, "lifeTotal":lifeTotalLabel, "playerName":playerNameButton]
         

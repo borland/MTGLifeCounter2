@@ -279,14 +279,17 @@
                                     </barButtonItem>
                                 </items>
                             </toolbar>
-                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" restorationIdentifier="container1" translatesAutoresizingMaskIntoConstraints="NO" id="twt-k1-mFC">
+                            <containerView opaque="NO" contentMode="scaleToFill" restorationIdentifier="container1" translatesAutoresizingMaskIntoConstraints="NO" id="twt-k1-mFC">
                                 <rect key="frame" x="0.0" y="60" width="320" height="227"/>
                                 <connections>
                                     <segue destination="CaN-LE-yH2" kind="embed" identifier="player1_embed" id="eDe-gw-Pia"/>
                                 </connections>
                             </containerView>
-                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" restorationIdentifier="container2" translatesAutoresizingMaskIntoConstraints="NO" id="JE2-nl-vFk">
+                            <containerView opaque="NO" contentMode="scaleToFill" restorationIdentifier="container2" translatesAutoresizingMaskIntoConstraints="NO" id="JE2-nl-vFk">
                                 <rect key="frame" x="0.0" y="300" width="320" height="200"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="200" placeholder="YES" id="G7O-20-L5N"/>
+                                </constraints>
                                 <connections>
                                     <segue destination="CaN-LE-yH2" kind="embed" identifier="player2_embed" id="on7-Kh-9Qr"/>
                                 </connections>
@@ -294,9 +297,17 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="exV-rR-wHa" firstAttribute="top" secondItem="JE2-nl-vFk" secondAttribute="bottom" constant="24" placeholder="YES" id="15J-IN-N9w"/>
                             <constraint firstItem="exV-rR-wHa" firstAttribute="leading" secondItem="Yz8-Az-Kj6" secondAttribute="leading" placeholder="YES" id="3bo-47-3W2"/>
+                            <constraint firstItem="JE2-nl-vFk" firstAttribute="top" secondItem="twt-k1-mFC" secondAttribute="bottom" constant="13" placeholder="YES" id="4rS-Gh-qpL"/>
+                            <constraint firstAttribute="trailing" secondItem="twt-k1-mFC" secondAttribute="trailing" placeholder="YES" id="GC3-Ry-89o"/>
+                            <constraint firstItem="twt-k1-mFC" firstAttribute="leading" secondItem="Yz8-Az-Kj6" secondAttribute="leading" placeholder="YES" id="KGb-gG-Bbi"/>
                             <constraint firstAttribute="trailing" secondItem="exV-rR-wHa" secondAttribute="trailing" placeholder="YES" id="UX6-CI-9Xa"/>
+                            <constraint firstItem="JE2-nl-vFk" firstAttribute="top" secondItem="twt-k1-mFC" secondAttribute="bottom" constant="13" placeholder="YES" id="YCF-Cd-pqi"/>
+                            <constraint firstItem="twt-k1-mFC" firstAttribute="top" secondItem="Yz8-Az-Kj6" secondAttribute="top" constant="60" placeholder="YES" id="d4s-jS-Yrq"/>
+                            <constraint firstAttribute="trailing" secondItem="JE2-nl-vFk" secondAttribute="trailing" placeholder="YES" id="ieb-Wo-m4y"/>
                             <constraint firstItem="HUz-Gq-3MK" firstAttribute="top" secondItem="exV-rR-wHa" secondAttribute="bottom" placeholder="YES" id="jcX-vo-dnR"/>
+                            <constraint firstItem="JE2-nl-vFk" firstAttribute="leading" secondItem="Yz8-Az-Kj6" secondAttribute="leading" placeholder="YES" id="wOS-fw-DYP"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Duel" id="f3z-mA-Cik"/>
@@ -336,18 +347,18 @@
                         <viewControllerLayoutGuide type="bottom" id="7Qw-g8-b0W"/>
                     </layoutGuides>
                     <view key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="ykH-2h-nWg" customClass="PlayerBackgroundView" customModule="MTGLifeCounter2" customModuleProvider="target">
-                        <rect key="frame" x="0.0" y="0.0" width="400" height="257"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="200"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="20" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0jV-SI-aPq">
-                                <rect key="frame" x="126" y="50" width="148.5" height="156"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="20" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0jV-SI-aPq">
+                                <rect key="frame" x="86" y="21" width="148.5" height="156"/>
                                 <gestureRecognizers/>
                                 <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="120"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6kK-Je-ogu">
-                                <rect key="frame" x="350" y="92" width="30" height="72"/>
+                            <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6kK-Je-ogu">
+                                <rect key="frame" x="270" y="63" width="30" height="72"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="50"/>
                                 <state key="normal" title="+">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -357,8 +368,8 @@
                                     <action selector="plusButtonPressed:" destination="CaN-LE-yH2" eventType="touchUpInside" id="qIG-RG-RJ4"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F1p-Xe-vmS">
-                                <rect key="frame" x="20" y="98" width="30" height="72"/>
+                            <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F1p-Xe-vmS">
+                                <rect key="frame" x="20" y="69" width="30" height="72"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="50"/>
                                 <state key="normal" title="-">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -424,7 +435,7 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="sjg-Pg-UFQ"/>
+        <segue reference="on7-Kh-9Qr"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.30196078431372547" green="0.10196078431372549" blue="0.70196078431372544" alpha="1" colorSpace="calibratedRGB"/>
 </document>

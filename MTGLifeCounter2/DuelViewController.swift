@@ -133,13 +133,13 @@ class DuelViewController : UIViewController {
         setConstraintsFor(toInterfaceOrientation)
     }
     
-    func printConstraints(constraints:[NSLayoutConstraint]) {
-        for c in constraints {
-            println(c)
-        }
-    }
-    
     func setConstraintsFor(orientation:UIInterfaceOrientation) {
+        let cx = view.constraints() as [NSLayoutConstraint]
+        view.removeConstraints(
+            constraints(cx, affectingView:container1!) +
+            constraints(cx, affectingView:container2!) +
+            constraints(cx, affectingView:toolbar))
+        
         let views = ["c1":container1!, "c2":container2!, "toolbar":toolbar!]
         
         view.addConstraints("|[toolbar]|", views: views)

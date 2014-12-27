@@ -11,12 +11,19 @@ import UIKit
 
 class MainMenuViewController : UITableViewController {
     
+    override func viewDidLoad() {
+        self.navigationController?.navigationBar.barStyle = .Black // white text
+    }
+    
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if indexPath.section == 1 && indexPath.row == 0 { // Roll D20
             let diceRollView = DiceRollView(frame: view.frame, faceCount: 20)
             view.addSubview(diceRollView)
             
             diceRollView.roll(completion: { _ in diceRollView.removeFromSuperview() })
+            
+            tableView.deselectRowAtIndexPath(indexPath, animated: true)
         }
     }
+
 }

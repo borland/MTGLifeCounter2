@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D330FDCB1A4E9E0500D731B2 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = D330FDCA1A4E9E0500D731B2 /* LaunchScreen.xib */; };
 		D36252A119CC3C0E00D60681 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D36252A019CC3C0E00D60681 /* Colors.swift */; };
 		D38B324219C1AF94009F8345 /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38B324119C1AF94009F8345 /* DataStore.swift */; };
 		D3B96E6419BDBC030065B8C4 /* TwoHeadedGiantViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3B96E6319BDBC030065B8C4 /* TwoHeadedGiantViewController.swift */; };
@@ -37,6 +38,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D330FDCA1A4E9E0500D731B2 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
 		D36252A019CC3C0E00D60681 /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		D38B324119C1AF94009F8345 /* DataStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
 		D3B96E6319BDBC030065B8C4 /* TwoHeadedGiantViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwoHeadedGiantViewController.swift; sourceTree = "<group>"; };
@@ -102,6 +104,8 @@
 		D3F5430919B867AD0053DA1A /* MTGLifeCounter2 */ = {
 			isa = PBXGroup;
 			children = (
+				D3F5431019B867AD0053DA1A /* Main.storyboard */,
+				D330FDCA1A4E9E0500D731B2 /* LaunchScreen.xib */,
 				D3F5432B19B86F230053DA1A /* Utility.swift */,
 				D36252A019CC3C0E00D60681 /* Colors.swift */,
 				D3F5430C19B867AD0053DA1A /* AppDelegate.swift */,
@@ -110,7 +114,6 @@
 				D3F5432D19B8734A0053DA1A /* DuelViewController.swift */,
 				D3B96E6319BDBC030065B8C4 /* TwoHeadedGiantViewController.swift */,
 				D3BC006B19BDBFBC00101198 /* ThreePlayerViewController.swift */,
-				D3F5431019B867AD0053DA1A /* Main.storyboard */,
 				D3F9A57819BB0AA4008C3BF0 /* MainMenuViewController.swift */,
 				D3F9A57A19BB0CCE008C3BF0 /* DiceRollView.swift */,
 				D38B324119C1AF94009F8345 /* DataStore.swift */,
@@ -194,6 +197,7 @@
 				TargetAttributes = {
 					D3F5430619B867AD0053DA1A = {
 						CreatedOnToolsVersion = 6.0;
+						DevelopmentTeam = BSE77454YY;
 					};
 					D3F5431819B867AD0053DA1A = {
 						CreatedOnToolsVersion = 6.0;
@@ -229,6 +233,7 @@
 				D3C6F6EC19D18427007232E9 /* LICENSE.txt in Resources */,
 				D3F5431219B867AD0053DA1A /* Main.storyboard in Resources */,
 				D3F5431419B867AD0053DA1A /* Images.xcassets in Resources */,
+				D330FDCB1A4E9E0500D731B2 /* LaunchScreen.xib in Resources */,
 				D3C6F6EF19D18487007232E9 /* README.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -373,10 +378,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = MTGLifeCounter2/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -385,10 +393,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = MTGLifeCounter2/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

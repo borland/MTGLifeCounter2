@@ -26,10 +26,21 @@ class DuelViewController : UIViewController {
     }
     
     @IBAction func d20ButtonPressed(sender: UIBarButtonItem) {
-        let diceRollView = DiceRollView(frame: view.frame, faceCount: 20)
-        view.addSubview(diceRollView)
-        
-        diceRollView.roll(completion: { _ in diceRollView.removeFromSuperview() })
+        for c in [container1, container2] {
+            let diceRollView = DiceRollView(frame: c.frame, faceCount: 20)
+            view.addSubview(diceRollView)
+            
+            if c == container1 {
+                switch (interfaceOrientation) {
+                case .Portrait, .PortraitUpsideDown:
+                    diceRollView.isUpsideDown = true
+                case .Unknown, .LandscapeLeft, .LandscapeRight:
+                    diceRollView.isUpsideDown = false
+                }
+            }
+            
+            diceRollView.roll(duration:2.5, completion: { _ in diceRollView.removeFromSuperview() })
+        }
     }
     
     @IBAction func refreshButtonPressed(sender: UIBarButtonItem) {

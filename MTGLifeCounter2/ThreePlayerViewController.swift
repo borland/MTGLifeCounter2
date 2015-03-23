@@ -39,10 +39,11 @@ class ThreePlayerViewController : UIViewController {
     }
     
     @IBAction func d20ButtonPressed(sender: AnyObject) {
-        let diceRollView = DiceRollView(frame: view.frame, faceCount: 20)
-        view.addSubview(diceRollView)
-        
-        diceRollView.roll(completion: { _ in diceRollView.removeFromSuperview() })
+        for c in [container1, container2, container3] {
+            let diceRollView = DiceRollView(frame: c.frame, faceCount: 20)
+            view.addSubview(diceRollView)
+            diceRollView.roll(duration:2.5, completion: { _ in diceRollView.removeFromSuperview() })
+        }
     }
     
     override func viewWillAppear(animated: Bool) {

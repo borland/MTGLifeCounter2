@@ -18,14 +18,15 @@ extension UIViewAutoresizing {
 }
 
 class DiceRollView : UIView {
-    let label:UILabel
-    let faceCount:UInt
+    private var _isUpsideDown:Bool = false
+    private let _label:UILabel
+    private let _faceCount:UInt
     
     required init(frame:CGRect, faceCount:UInt = 20) {
-        self.faceCount = faceCount
+        _faceCount = faceCount
         
-        let labelHeight = 160.0
-        let labelWidth = 160.0
+        let labelHeight = 180.0
+        let labelWidth = 180.0
         
         let centerX = Double(frame.size.width / 2.0)
         let centerY = Double(frame.size.height / 2.0)
@@ -37,47 +38,69 @@ class DiceRollView : UIView {
             CGFloat(labelWidth),
             CGFloat(labelHeight))
         
-        label = UILabel(frame: rect)
+        _label = UILabel(frame: rect)
         
         super.init(frame:frame)
         
         backgroundColor = UIColor.clearColor()
         autoresizingMask = .FlexibleHeight | .FlexibleWidth
         
-        label.backgroundColor = UIColor(red:0.3, green:0.1, blue:0.7, alpha:1)
-        label.alpha = 1.0
-        label.textColor = UIColor.whiteColor()
-        label.text = nil
-        label.font = UIFont(name:"Futura", size:100)
-        label.textAlignment = .Center
-        label.autoresizingMask = .FlexibleMargins
-        label.layer.cornerRadius = 20
-        label.clipsToBounds = true
-        label.userInteractionEnabled = false
+        _label.backgroundColor = UIColor(red:0.3, green:0.1, blue:0.7, alpha:1)
+        _label.alpha = 1.0
+        _label.textColor = UIColor.whiteColor()
+        _label.text = nil
+        _label.font = UIFont(name:"Futura", size:120)
+        _label.textAlignment = .Center
+        _label.autoresizingMask = .FlexibleMargins
+        _label.layer.cornerRadius = 20
+        _label.clipsToBounds = true
+        _label.userInteractionEnabled = false
         
-        self.addSubview(label)
+        self.addSubview(_label)
         self.userInteractionEnabled = false
     }
     
     // not needed but compiler makes us add it
     required init(coder aDecoder: NSCoder) {
-        self.label = UILabel()
-        self.faceCount = 0
+        _label = UILabel()
+        _faceCount = 0
         super.init(coder: aDecoder)
     }
     
-    func roll(#completion:(Bool -> Void)){
-        let n = arc4random_uniform(UInt32(faceCount)) + 1
+    var isUpsideDown:Bool {
+        get{ return _isUpsideDown }
+        set(value) {
+            _isUpsideDown = value
+            propertyDidChange("isUpsideDown")
+        }
+    }
+    
+    func propertyDidChange(propertyName:String) {
+        switch(propertyName) {
+        case "isUpsideDown":
+            if _isUpsideDown {
+                _label.transform = CGAffineTransformRotate(CGAffineTransformIdentity, CGFloat(M_PI));
+            } else {
+                _label.transform = CGAffineTransformIdentity;
+            }
+            
+        default:
+            assertionFailure("unhandled property")
+        }
+    }
+    
+    func roll(#duration:Double, completion:(Bool -> Void)){
+        let n = arc4random_uniform(UInt32(_faceCount)) + 1
         
         let attrs:[NSObject:AnyObject] = [NSUnderlineStyleAttributeName: NSNumber(int: 0x01)] // single underline
-        label.attributedText = (n == 6 || n == 9) ?
+        _label.attributedText = (n == 6 || n == 9) ?
             NSAttributedString(string: "\(n)", attributes: attrs) :
             NSAttributedString(string: "\(n)")
         
-        UIView.animateWithDuration(1.7,
-            delay:0,
+        UIView.animateWithDuration(duration / 2,
+            delay:duration / 2,
             options:.CurveEaseInOut,
-            animations:{ self.label.alpha = 0 },
+            animations:{ self._label.alpha = 0 },
             completion: completion)
     }
 }

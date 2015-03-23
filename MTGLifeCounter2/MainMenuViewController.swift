@@ -20,7 +20,7 @@ class MainMenuViewController : UITableViewController {
             let diceRollView = DiceRollView(frame: view.frame, faceCount: 20)
             view.addSubview(diceRollView)
             
-            diceRollView.roll(completion: { _ in diceRollView.removeFromSuperview() })
+            diceRollView.roll(duration:2.0, completion: { _ in diceRollView.removeFromSuperview() })
             
             tableView.deselectRowAtIndexPath(indexPath, animated: true)
         }

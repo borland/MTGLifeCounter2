@@ -234,9 +234,9 @@ class PlayerBackgroundView : UIView {
     
     func addLabel(text:String, isUpsideDown:Bool, textColor:UIColor) {
         let labelHeight = CGFloat(20)
-        let labelBottomOffset = isUpsideDown ? CGFloat(20) : CGFloat(0)
+        let labelTopOffset = CGFloat(20)
         let label = UILabel(frame:
-            CGRectMake(0, frame.height-labelHeight-labelBottomOffset, frame.width, labelHeight))
+            CGRectMake(0, labelTopOffset, frame.width, labelHeight))
         
         label.font = UIFont.boldSystemFontOfSize(14.0)
         label.textAlignment = .Center

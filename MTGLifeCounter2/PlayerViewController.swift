@@ -44,10 +44,8 @@ class PlayerViewController : UIViewController {
                 color = MtgColor.Last()
             } else if newColor > MtgColor.Last().rawValue {
                 color = MtgColor.First()
-            } else {
-                if let x = MtgColor(rawValue: newColor) {
-                    color = x
-                }
+            } else if let x = MtgColor(rawValue: newColor) {
+                color = x
             }
             sender.setTranslation(CGPointMake(0,0), inView: view) // reset the recognizer
         }
@@ -97,17 +95,11 @@ class PlayerViewController : UIViewController {
             return UIColor.whiteColor()
         }
         set(color) {
-            if let x = lifeTotalLabel {
-                x.textColor = color
-            }
-            if let x = plusButton {
-                x.setTitleColor(color, forState: .Normal)
-            }
-            if let x = minusButton {
-                x.setTitleColor(color, forState: .Normal)
-            }
-            if let x = playerNameButton {
-                x.setTitleColor(color, forState: .Normal)
+            if let l = lifeTotalLabel, plus = plusButton, minus = minusButton, name = playerNameButton {
+                l.textColor = color
+                plus.setTitleColor(color, forState: .Normal)
+                minus.setTitleColor(color, forState: .Normal)
+                name.setTitleColor(color, forState: .Normal)
             }
         }
     }
@@ -178,14 +170,14 @@ class PlayerViewController : UIViewController {
     }
     
     func setConstraintsFor(orientation:UIInterfaceOrientation) {
-        let cx = view.constraints() as [NSLayoutConstraint]
+        let cx = view.constraints() as! [NSLayoutConstraint]
         view.removeConstraints(
             constraints(cx, affectingView:plusButton) +
             constraints(cx, affectingView:minusButton) +
             constraints(cx, affectingView:lifeTotalLabel) +
             constraints(cx, affectingView:playerNameButton))
         
-        let views = ["view":view, "plus":plusButton, "minus":minusButton, "lifeTotal":lifeTotalLabel, "playerName":playerNameButton]
+        let views = ["view":view!, "plus":plusButton!, "minus":minusButton!, "lifeTotal":lifeTotalLabel!, "playerName":playerNameButton!]
         
         view.addConstraints("H:[view]-(<=1)-[lifeTotal]", views: views, options: .AlignAllCenterY)
         view.addConstraints("V:[view]-(<=1)-[lifeTotal]", views: views, options: .AlignAllCenterX)
@@ -270,13 +262,12 @@ class PlayerBackgroundView : UIView {
         //Define the gradient ----------------------
         let locations:[CGFloat] = [0.0, 1.0];
         
-        let components:[CGFloat] = [
-            c1.memory, (c1+1).memory,(c1+2).memory,(c1+3).memory,
+        let components:[CGFloat] = [c1.memory, (c1+1).memory,(c1+2).memory,(c1+3).memory,
             c2.memory, (c2+1).memory,(c2+2).memory,(c2+3).memory ]
 
         let colorSpace = CGColorSpaceCreateDeviceRGB();
-        
-        let gradient = CGGradientCreateWithColorComponents (colorSpace, components, locations, UInt(locations.count));
+
+        let gradient = CGGradientCreateWithColorComponents(colorSpace, components, locations, locations.count);
         
         //Define Gradient Positions ---------------
         
@@ -294,7 +285,7 @@ class PlayerBackgroundView : UIView {
         
         //Generate the Image -----------------------
         CGContextDrawRadialGradient(context, gradient, startCenter, startRadius, endCenter, endRadius, options)
-        
+
         CGContextRestoreGState(context);
 
     }

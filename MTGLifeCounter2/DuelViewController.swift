@@ -17,6 +17,9 @@ class DuelViewController : UIViewController {
     @IBOutlet weak var container2: UIView!
     @IBOutlet weak var toolbar: UIToolbar!
     
+    private var _player1:PlayerViewController?
+    private var _player2:PlayerViewController?
+    
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return UIStatusBarStyle.LightContent
     }
@@ -44,67 +47,44 @@ class DuelViewController : UIViewController {
     }
     
     @IBAction func refreshButtonPressed(sender: UIBarButtonItem) {
-        if let vc = player1 {
-            vc.lifeTotal = initialLifeTotal
-        }
-        if let vc = player2 {
-            vc.lifeTotal = initialLifeTotal
+        if let p1 = _player1, let p2 = _player2 {
+            p1.lifeTotal = initialLifeTotal
+            p2.lifeTotal = initialLifeTotal
         }
     }
     
     override func viewWillAppear(animated: Bool) {
         navigationController!.navigationBarHidden = true
         
-        if let settings = DataStore.getWithKey(configKey) {
-            if let p1 = player1 {
-                if let x = (settings["player1"] as? NSNumber) {
-                    p1.lifeTotal = x.integerValue
-                }
-                if let x = (settings["player1color"] as? NSNumber) {
-                    if let color = MtgColor(rawValue: x.integerValue) {
-                        p1.color = color
-                    }
-                }
-            }
-            if let p2 = player2 {
-                if let x = (settings["player2"] as? NSNumber) {
-                    p2.lifeTotal = x.integerValue
-                }
-                if let x = (settings["player2color"] as? NSNumber) {
-                    if let color = MtgColor(rawValue: x.integerValue) {
-                        p2.color = color
-                    }
-                }
-            }
+        if let settings = DataStore.getWithKey(configKey), let p1 = _player1, let p2 = _player2 {
+            updatePlayerViewController(p1,
+                withLifeTotal:settings["player1"] as? NSNumber,
+                color:settings["player1color"] as? NSNumber)
+
+            updatePlayerViewController(p2,
+                withLifeTotal:settings["player2"] as? NSNumber,
+                color:settings["player2color"] as? NSNumber)
         }
     }
     
     override func viewWillDisappear(animated: Bool) {
         navigationController!.navigationBarHidden = false
         
-        if let p1 = player1 {
-            if let p2 = player2 {
-                let settings = [
-                    "player1": p1.lifeTotal,
-                    "player1color": p1.color.rawValue,
-                    "player2": p2.lifeTotal,
-                    "player2color": p2.color.rawValue]
-                
-                DataStore.setWithKey(configKey, value: settings)
-            }
+        if let p1 = _player1, let p2 = _player2 {
+            DataStore.setWithKey(configKey, value: [
+                "player1": p1.lifeTotal,
+                "player1color": p1.color.rawValue,
+                "player2": p2.lifeTotal,
+                "player2color": p2.color.rawValue])
         }
     }
-    
-    private
-    var player1:PlayerViewController?
-    var player2:PlayerViewController?
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if let s = segue.identifier {
             switch s {
             case "player1_embed":
                 if let viewController = segue.destinationViewController as? PlayerViewController {
-                    player1 = viewController
+                    _player1 = viewController
                     viewController.playerName = "P1"
                     viewController.lifeTotal = initialLifeTotal
                     
@@ -117,14 +97,14 @@ class DuelViewController : UIViewController {
                 }
             case "player2_embed":
                 if let viewController = segue.destinationViewController as? PlayerViewController {
-                    player2 = viewController
+                    _player2 = viewController
                     viewController.playerName = "P2"
                     viewController.lifeTotal = initialLifeTotal
                 }
             default: assertionFailure("unhandled segue")
             }
             
-            if(player1 != nil && player2 != nil) {
+            if(_player1 != nil && _player2 != nil) {
                 setConstraintsFor(interfaceOrientation)
             }
         }
@@ -132,7 +112,7 @@ class DuelViewController : UIViewController {
     
     override func willRotateToInterfaceOrientation(toInterfaceOrientation: UIInterfaceOrientation, duration: NSTimeInterval) {
         
-        if let p1 = player1 {
+        if let p1 = _player1 {
             switch toInterfaceOrientation {
             case .Unknown, .Portrait, .PortraitUpsideDown:
                 p1.isUpsideDown = true
@@ -144,12 +124,12 @@ class DuelViewController : UIViewController {
         setConstraintsFor(toInterfaceOrientation)
     }
     
-    func setConstraintsFor(orientation:UIInterfaceOrientation) {
-        let cx = view.constraints() as [NSLayoutConstraint]
+    private func setConstraintsFor(orientation:UIInterfaceOrientation) {
+        let cx = view.constraints() as! [NSLayoutConstraint]
         view.removeConstraints(
             constraints(cx, affectingView:container1!) +
-            constraints(cx, affectingView:container2!) +
-            constraints(cx, affectingView:toolbar))
+                constraints(cx, affectingView:container2!) +
+                constraints(cx, affectingView:toolbar))
         
         let views = ["c1":container1!, "c2":container2!, "toolbar":toolbar!]
         

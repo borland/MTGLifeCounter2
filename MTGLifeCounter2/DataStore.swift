@@ -19,10 +19,9 @@ class DataStore {
             return nil
         }
         
-        let data = fileManager.contentsAtPath(path)
-        if let x = data {
+        if let data = fileManager.contentsAtPath(path) {
             var error: NSErrorPointer = nil
-            let jsonObject = NSJSONSerialization.JSONObjectWithData(x, options: NSJSONReadingOptions.AllowFragments, error: error) as? NSDictionary
+            let jsonObject = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments, error: error) as? NSDictionary
             
             if error != nil {
                 println("json read error \(error)")
@@ -58,7 +57,9 @@ class DataStore {
     
 private
     class func filePathForKey(key:String) -> String {
-        let rootPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as NSString
-        return rootPath.stringByAppendingPathComponent(key)
+        if let rootPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as? NSString {
+            return rootPath.stringByAppendingPathComponent(key)
+        }
+        return ""
     }
 }

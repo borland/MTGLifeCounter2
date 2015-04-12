@@ -18,6 +18,10 @@ class ThreePlayerViewController : UIViewController {
     @IBOutlet weak var container3: UIView!
     @IBOutlet weak var toolbar: UIToolbar!
     
+    private var _player1:PlayerViewController?
+    private var _player2:PlayerViewController?
+    private var _player3:PlayerViewController?
+    
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return UIStatusBarStyle.LightContent
     }
@@ -27,14 +31,10 @@ class ThreePlayerViewController : UIViewController {
     }
     
     @IBAction func refreshButtonPressed(sender: AnyObject) {
-        if let vc = player1 {
-            vc.lifeTotal = initialLifeTotal
-        }
-        if let vc = player2 {
-            vc.lifeTotal = initialLifeTotal
-        }
-        if let vc = player3 {
-            vc.lifeTotal = initialLifeTotal
+        if let p1 = _player1, let p2 = _player2, let p3 = _player3 {
+            p1.lifeTotal = initialLifeTotal
+            p2.lifeTotal = initialLifeTotal
+            p3.lifeTotal = initialLifeTotal
         }
     }
     
@@ -49,84 +49,54 @@ class ThreePlayerViewController : UIViewController {
     override func viewWillAppear(animated: Bool) {
         navigationController!.navigationBarHidden = true
         
-        if let settings = DataStore.getWithKey(configKey) {
-            if let p1 = player1 {
-                if let x = (settings["player1"] as? NSNumber) {
-                    p1.lifeTotal = x.integerValue
-                }
-                if let x = (settings["player1color"] as? NSNumber) {
-                    if let color = MtgColor(rawValue: x.integerValue) {
-                        p1.color = color
-                    }
-                }
-            }
-            if let p2 = player2 {
-                if let x = (settings["player2"] as? NSNumber) {
-                    p2.lifeTotal = x.integerValue
-                }
-                if let x = (settings["player2color"] as? NSNumber) {
-                    if let color = MtgColor(rawValue: x.integerValue) {
-                        p2.color = color
-                    }
-                }
-            }
-            if let p3 = player3 {
-                if let x = (settings["player3"] as? NSNumber) {
-                    p3.lifeTotal = x.integerValue
-                }
-                if let x = (settings["player3color"] as? NSNumber) {
-                    if let color = MtgColor(rawValue: x.integerValue) {
-                        p3.color = color
-                    }
-                }
-            }
+        if let settings = DataStore.getWithKey(configKey), let p1 = _player1, let p2 = _player2, let p3 = _player3 {
+            updatePlayerViewController(p1,
+                withLifeTotal:settings["player1"] as? NSNumber,
+                color:settings["player1color"] as? NSNumber)
+            
+            updatePlayerViewController(p2,
+                withLifeTotal:settings["player2"] as? NSNumber,
+                color:settings["player2color"] as? NSNumber)
+            
+            updatePlayerViewController(p3,
+                withLifeTotal:settings["player3"] as? NSNumber,
+                color:settings["player3color"] as? NSNumber)
         }
     }
     
     override func viewWillDisappear(animated: Bool) {
         navigationController!.navigationBarHidden = false
         
-        if let p1 = player1 {
-            if let p2 = player2 {
-                if let p3 = player3 {
-                    let settings = [
-                        "player1": p1.lifeTotal,
-                        "player1color": p1.color.rawValue,
-                        "player2": p2.lifeTotal,
-                        "player2color": p2.color.rawValue,
-                        "player3": p3.lifeTotal,
-                        "player3color": p3.color.rawValue,]
-                    
-                    DataStore.setWithKey(configKey, value: settings)
-                }
-            }
+        if let p1 = _player1, let p2 = _player2, let p3 = _player3 {
+            DataStore.setWithKey(configKey, value: [
+                "player1": p1.lifeTotal,
+                "player1color": p1.color.rawValue,
+                "player2": p2.lifeTotal,
+                "player2color": p2.color.rawValue,
+                "player3": p3.lifeTotal,
+                "player3color": p3.color.rawValue])
         }
     }
-    
-private
-    var player1:PlayerViewController?
-    var player2:PlayerViewController?
-    var player3:PlayerViewController?
-    
+
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if let s = segue.identifier {
             switch s {
             case "player1_embed":
                 if let viewController = segue.destinationViewController as? PlayerViewController {
-                    player1 = viewController
+                    _player1 = viewController
                     viewController.playerName = "P1"
                     viewController.lifeTotal = initialLifeTotal
                 }
                 
             case "player2_embed":
                 if let viewController = segue.destinationViewController as? PlayerViewController {
-                    player2 = viewController
+                    _player2 = viewController
                     viewController.playerName = "P2"
                     viewController.lifeTotal = initialLifeTotal
                 }
             case "player3_embed":
                 if let viewController = segue.destinationViewController as? PlayerViewController {
-                    player3 = viewController
+                    _player3 = viewController
                     viewController.playerName = "P3"
                     viewController.lifeTotal = initialLifeTotal
                 }
@@ -134,7 +104,7 @@ private
             }
         }
         
-        if(player1 != nil && player2 != nil && player3 != nil) {
+        if(_player1 != nil && _player2 != nil && _player3 != nil) {
             setConstraintsFor(interfaceOrientation)
         }
     }
@@ -143,8 +113,8 @@ private
         setConstraintsFor(toInterfaceOrientation)
     }
     
-    func setConstraintsFor(orientation:UIInterfaceOrientation) {
-        let cx = view.constraints() as [NSLayoutConstraint]
+    private func setConstraintsFor(orientation:UIInterfaceOrientation) {
+        let cx = view.constraints() as! [NSLayoutConstraint]
         view.removeConstraints(
             constraints(cx, affectingView:container1!) +
             constraints(cx, affectingView:container2!) +

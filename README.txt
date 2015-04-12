@@ -17,8 +17,8 @@ I can't submit it to the App Store as I don't have my own apple developer accoun
 
 Technical Notes:
 -------------------------------------------------------------
-This app is written entirely in Swift, so it requires Xcode 6 or newer to compile.
-I've tested it against iOS 7 and 8.
+This app is written entirely in Swift 1.2, so it requires Xcode 6.3 or newer to compile.
+I've tested it against 8.
 
 I originally wrote this app in Objective-C, then ported it to swift as a learning excercise. Since porting, I've made numerous enhancements and fixes.
 The original Objective-C app was a "my first app" and was also a learning excercise. Both apps were developed under tight time constraints and for my own personal use only.

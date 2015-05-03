@@ -17,10 +17,8 @@ class MainMenuViewController : UITableViewController {
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if indexPath.section == 1 && indexPath.row == 0 { // Roll D20
-            let diceRollView = DiceRollView(frame: view.frame, faceCount: 20)
-            view.addSubview(diceRollView)
-            
-            diceRollView.roll(duration:2.0, completion: { _ in diceRollView.removeFromSuperview() })
+            let diceRollView = DiceRollView.create(UInt(arc4random_uniform(20) + 1))
+            diceRollView.showInView(view, duration:2.0)
             
             tableView.deselectRowAtIndexPath(indexPath, animated: true)
         }

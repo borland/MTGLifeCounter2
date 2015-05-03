@@ -30,8 +30,7 @@ class DuelViewController : UIViewController {
     
     @IBAction func d20ButtonPressed(sender: UIBarButtonItem) {
         for c in [container1, container2] {
-            let diceRollView = DiceRollView(frame: c.frame, faceCount: 20)
-            view.addSubview(diceRollView)
+            let diceRollView = DiceRollView.create(UInt(arc4random_uniform(20) + 1))
             
             if c == container1 {
                 switch (interfaceOrientation) {
@@ -42,7 +41,7 @@ class DuelViewController : UIViewController {
                 }
             }
             
-            diceRollView.roll(duration:2.5, completion: { _ in diceRollView.removeFromSuperview() })
+            diceRollView.showInView(c, duration:2.5)
         }
     }
     

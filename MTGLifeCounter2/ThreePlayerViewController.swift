@@ -40,9 +40,9 @@ class ThreePlayerViewController : UIViewController {
     
     @IBAction func d20ButtonPressed(sender: AnyObject) {
         for c in [container1, container2, container3] {
-            let diceRollView = DiceRollView(frame: c.frame, faceCount: 20)
-            view.addSubview(diceRollView)
-            diceRollView.roll(duration:2.5, completion: { _ in diceRollView.removeFromSuperview() })
+            let diceRollView = DiceRollView.create(UInt(arc4random_uniform(20) + 1))
+            
+            diceRollView.showInView(c, duration:2.5)
         }
     }
     

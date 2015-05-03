@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D315A0F81AD1B8350055129F /* FloatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D315A0F71AD1B8350055129F /* FloatingView.swift */; };
 		D330FDCB1A4E9E0500D731B2 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = D330FDCA1A4E9E0500D731B2 /* LaunchScreen.xib */; };
 		D36252A119CC3C0E00D60681 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D36252A019CC3C0E00D60681 /* Colors.swift */; };
 		D38B324219C1AF94009F8345 /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38B324119C1AF94009F8345 /* DataStore.swift */; };
@@ -38,6 +39,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D315A0F71AD1B8350055129F /* FloatingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloatingView.swift; sourceTree = "<group>"; };
 		D330FDCA1A4E9E0500D731B2 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
 		D36252A019CC3C0E00D60681 /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		D38B324119C1AF94009F8345 /* DataStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
@@ -116,6 +118,7 @@
 				D3BC006B19BDBFBC00101198 /* ThreePlayerViewController.swift */,
 				D3F9A57819BB0AA4008C3BF0 /* MainMenuViewController.swift */,
 				D3F9A57A19BB0CCE008C3BF0 /* DiceRollView.swift */,
+				D315A0F71AD1B8350055129F /* FloatingView.swift */,
 				D38B324119C1AF94009F8345 /* DataStore.swift */,
 				D3F5431319B867AD0053DA1A /* Images.xcassets */,
 				D3F5430A19B867AD0053DA1A /* Supporting Files */,
@@ -256,6 +259,7 @@
 				D36252A119CC3C0E00D60681 /* Colors.swift in Sources */,
 				D3F9A57919BB0AA4008C3BF0 /* MainMenuViewController.swift in Sources */,
 				D3F5432E19B8734A0053DA1A /* DuelViewController.swift in Sources */,
+				D315A0F81AD1B8350055129F /* FloatingView.swift in Sources */,
 				D38B324219C1AF94009F8345 /* DataStore.swift in Sources */,
 				D3F5432C19B86F230053DA1A /* Utility.swift in Sources */,
 				D3F9A57B19BB0CCE008C3BF0 /* DiceRollView.swift in Sources */,
@@ -385,7 +389,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -401,7 +405,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

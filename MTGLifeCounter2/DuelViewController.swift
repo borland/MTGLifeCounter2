@@ -33,10 +33,10 @@ class DuelViewController : UIViewController {
             let diceRollView = DiceRollView.create(UInt(arc4random_uniform(20) + 1))
             
             if c == container1 {
-                switch (interfaceOrientation) {
-                case .Portrait, .PortraitUpsideDown:
+                switch (traitCollection.horizontalSizeClass, traitCollection.verticalSizeClass) {
+                case (.Compact, .Regular): // phone in portrait
                     diceRollView.isUpsideDown = true
-                case .Unknown, .LandscapeLeft, .LandscapeRight:
+                default:
                     diceRollView.isUpsideDown = false
                 }
             }
@@ -87,10 +87,10 @@ class DuelViewController : UIViewController {
                     viewController.playerName = "P1"
                     viewController.lifeTotal = initialLifeTotal
                     
-                    switch (interfaceOrientation) {
-                    case .Portrait, .PortraitUpsideDown:
+                    switch (traitCollection.horizontalSizeClass, traitCollection.verticalSizeClass) {
+                    case (.Compact, .Regular): // phone in portrait
                         viewController.isUpsideDown = true
-                    case .Unknown, .LandscapeLeft, .LandscapeRight:
+                    default:
                         viewController.isUpsideDown = false
                     }
                 }
@@ -104,26 +104,26 @@ class DuelViewController : UIViewController {
             }
             
             if(_player1 != nil && _player2 != nil) {
-                setConstraintsFor(interfaceOrientation)
+                setConstraintsFor(traitCollection)
             }
         }
     }
     
-    override func willRotateToInterfaceOrientation(toInterfaceOrientation: UIInterfaceOrientation, duration: NSTimeInterval) {
-        
+    override func traitCollectionDidChange(previousTraitCollection: UITraitCollection?) {
         if let p1 = _player1 {
-            switch toInterfaceOrientation {
-            case .Unknown, .Portrait, .PortraitUpsideDown:
+            switch (traitCollection.horizontalSizeClass, traitCollection.verticalSizeClass) {
+            case (.Compact, .Regular): // phone in portrait
                 p1.isUpsideDown = true
-            case .LandscapeLeft, .LandscapeRight:
+            default:
                 p1.isUpsideDown = false
             }
         }
         
-        setConstraintsFor(toInterfaceOrientation)
+        setConstraintsFor(traitCollection)
     }
     
-    private func setConstraintsFor(orientation:UIInterfaceOrientation) {
+    private func setConstraintsFor(traitCollection:UITraitCollection) {
+        
         let cx = view.constraints() as! [NSLayoutConstraint]
         view.removeConstraints(
             constraints(cx, affectingView:container1!) +
@@ -134,13 +134,13 @@ class DuelViewController : UIViewController {
         
         view.addConstraints("|[toolbar]|", views: views)
         
-        switch (orientation) {
-        case .Portrait, .PortraitUpsideDown, .Unknown:
+        switch (traitCollection.horizontalSizeClass, traitCollection.verticalSizeClass) {
+        case (.Compact, .Regular):
             view.addConstraints("V:|[c1(==c2)][toolbar(40)][c2(==c1)]|", views: views);
             view.addConstraints("|[c1]|", views: views);
             view.addConstraints("|[c2]|", views: views);
             
-        case .LandscapeLeft, .LandscapeRight:
+        default:
             view.addConstraints("|[c1(==c2)][c2(==c1)]|", views: views);
             view.addConstraints("V:|[c1][toolbar(34)]|", views: views);
             view.addConstraints("V:|[c2][toolbar(34)]|", views: views);

@@ -105,15 +105,15 @@ class ThreePlayerViewController : UIViewController {
         }
         
         if(_player1 != nil && _player2 != nil && _player3 != nil) {
-            setConstraintsFor(interfaceOrientation)
+            setConstraintsFor(traitCollection)
         }
     }
     
-    override func willRotateToInterfaceOrientation(toInterfaceOrientation: UIInterfaceOrientation, duration: NSTimeInterval) {
-        setConstraintsFor(toInterfaceOrientation)
+    override func traitCollectionDidChange(previousTraitCollection: UITraitCollection?) {
+        setConstraintsFor(traitCollection)
     }
     
-    private func setConstraintsFor(orientation:UIInterfaceOrientation) {
+    private func setConstraintsFor(traitCollection:UITraitCollection) {
         let cx = view.constraints() as! [NSLayoutConstraint]
         view.removeConstraints(
             constraints(cx, affectingView:container1!) +
@@ -125,14 +125,14 @@ class ThreePlayerViewController : UIViewController {
         
         view.addConstraints("|[toolbar]|", views: views)
         
-        switch (orientation) {
-        case .Portrait, .PortraitUpsideDown, .Unknown:
+        switch (traitCollection.horizontalSizeClass, traitCollection.verticalSizeClass) {
+        case (.Compact, .Regular): // phone in portrait
             view.addConstraints("V:|[c1(==c2)][c2(==c3)][c3(==c1)][toolbar(34)]|", views: views)
             view.addConstraints("|[c1]|", views: views)
             view.addConstraints("|[c2]|", views: views)
             view.addConstraints("|[c3]|", views: views)
             
-        case .LandscapeLeft, .LandscapeRight:
+        default:
             view.addConstraints("|[c1(==c2)][c2(==c3)][c3(==c1)]|", views: views)
             view.addConstraints("V:|[c1][toolbar(34)]|", views: views)
             view.addConstraints("V:|[c2][toolbar(34)]|", views: views)

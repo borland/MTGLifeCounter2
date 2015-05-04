@@ -56,11 +56,11 @@ class PlayerViewController : UIViewController {
         let reference = view.frame
         
         var up = true;
-        switch interfaceOrientation {
-        case .Unknown, .Portrait, .PortraitUpsideDown:
+        switch (traitCollection.horizontalSizeClass, traitCollection.verticalSizeClass) {
+        case (.Compact, .Regular): // phone in portrait
             up = location.x > (reference.size.width / 2)
             
-        case .LandscapeLeft, .LandscapeRight:
+        default:
             up = location.y < (reference.size.height / 2)
         }
         
@@ -152,7 +152,7 @@ class PlayerViewController : UIViewController {
     }
     
     override func viewDidLoad() {
-        setConstraintsFor(interfaceOrientation)
+        setConstraintsFor(traitCollection)
         
         propertyDidChange("playerName")
         propertyDidChange("lifeTotal")
@@ -164,12 +164,11 @@ class PlayerViewController : UIViewController {
         }
     }
     
-    override func willRotateToInterfaceOrientation(toInterfaceOrientation: UIInterfaceOrientation, duration: NSTimeInterval) {
-        setConstraintsFor(toInterfaceOrientation)
-        view.setNeedsDisplay()
+    override func traitCollectionDidChange(previousTraitCollection: UITraitCollection?) {
+        setConstraintsFor(traitCollection)
     }
     
-    func setConstraintsFor(orientation:UIInterfaceOrientation) {
+    func setConstraintsFor(traitCollection:UITraitCollection) {
         let cx = view.constraints() as! [NSLayoutConstraint]
         view.removeConstraints(
             constraints(cx, affectingView:plusButton) +
@@ -181,10 +180,9 @@ class PlayerViewController : UIViewController {
         
         view.addConstraints("H:[view]-(<=1)-[lifeTotal]", views: views, options: .AlignAllCenterY)
         view.addConstraints("V:[view]-(<=1)-[lifeTotal]", views: views, options: .AlignAllCenterX)
-
         
-        switch (orientation) {
-        case .Unknown, .Portrait, .PortraitUpsideDown: // +/- on the sides
+        switch (traitCollection.horizontalSizeClass, traitCollection.verticalSizeClass) {
+        case (.Compact, .Regular): // +/- on the sides
             view.addConstraints("H:|-6-[playerName]", views: views)
             view.addConstraints("V:|-10-[playerName]", views: views)
             
@@ -194,7 +192,7 @@ class PlayerViewController : UIViewController {
             view.addConstraints("H:|-[minus(44)]", views: views)
             view.addConstraint(NSLayoutConstraint(item: minusButton, attribute: .CenterY, relatedBy: .Equal, toItem: view, attribute: .CenterY, multiplier: 1, constant: 0))
             
-        case .LandscapeLeft, .LandscapeRight: // +/- on the top/bottom
+        default: // +/- on the top/bottom
             view.addConstraints("H:|-6-[playerName]", views: views)
             view.addConstraints("V:|-30-[playerName]", views: views)
             
@@ -203,6 +201,8 @@ class PlayerViewController : UIViewController {
             view.addConstraints("V:[minus(44)]-40-|", views: views)
             view.addConstraint(NSLayoutConstraint(item: minusButton, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0))
         }
+        
+        view.setNeedsDisplay()
     }
     
 private

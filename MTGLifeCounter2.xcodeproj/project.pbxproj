@@ -25,7 +25,6 @@
 		D3F5432C19B86F230053DA1A /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F5432B19B86F230053DA1A /* Utility.swift */; };
 		D3F5432E19B8734A0053DA1A /* DuelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F5432D19B8734A0053DA1A /* DuelViewController.swift */; };
 		D3F9A57919BB0AA4008C3BF0 /* MainMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F9A57819BB0AA4008C3BF0 /* MainMenuViewController.swift */; };
-		D3F9A57B19BB0CCE008C3BF0 /* DiceRollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F9A57A19BB0CCE008C3BF0 /* DiceRollView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,7 +60,6 @@
 		D3F5432B19B86F230053DA1A /* Utility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
 		D3F5432D19B8734A0053DA1A /* DuelViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DuelViewController.swift; sourceTree = "<group>"; };
 		D3F9A57819BB0AA4008C3BF0 /* MainMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainMenuViewController.swift; sourceTree = "<group>"; };
-		D3F9A57A19BB0CCE008C3BF0 /* DiceRollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiceRollView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,7 +115,6 @@
 				D3B96E6319BDBC030065B8C4 /* TwoHeadedGiantViewController.swift */,
 				D3BC006B19BDBFBC00101198 /* ThreePlayerViewController.swift */,
 				D3F9A57819BB0AA4008C3BF0 /* MainMenuViewController.swift */,
-				D3F9A57A19BB0CCE008C3BF0 /* DiceRollView.swift */,
 				D315A0F71AD1B8350055129F /* FloatingView.swift */,
 				D38B324119C1AF94009F8345 /* DataStore.swift */,
 				D3F5431319B867AD0053DA1A /* Images.xcassets */,
@@ -262,7 +259,6 @@
 				D315A0F81AD1B8350055129F /* FloatingView.swift in Sources */,
 				D38B324219C1AF94009F8345 /* DataStore.swift in Sources */,
 				D3F5432C19B86F230053DA1A /* Utility.swift in Sources */,
-				D3F9A57B19BB0CCE008C3BF0 /* DiceRollView.swift in Sources */,
 				D3B96E6419BDBC030065B8C4 /* TwoHeadedGiantViewController.swift in Sources */,
 				D3F5430F19B867AD0053DA1A /* ViewController.swift in Sources */,
 				D3F5430D19B867AD0053DA1A /* AppDelegate.swift in Sources */,

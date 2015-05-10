@@ -9,7 +9,98 @@
 import Foundation
 import UIKit
 
+class LifeTotalDeltaTracker {
+    private var _baseline = 0 // we show +/- x relative to this.
+    private var _history = [(NSDate, Int)]()
+    private var _floatingView:FloatingView?
+    private let _label = UILabel()
+    private var _cancelPreviousDelay:(()->())?
+    
+    init () {
+        let fontSize = CGFloat(40)
+        _label.font = UIFont(name:"Futura", size:fontSize)
+        _label.textColor = UIColor.whiteColor()
+        _label.setTranslatesAutoresizingMaskIntoConstraints(false)
+    }
+    
+    var parent:UIView?
+    
+    func update(lifeTotal:Int) {
+        if let (when, lt) = _history.last {
+            if lt == lifeTotal {
+                return // no point recording a duplicate
+            }
+        }
+        _history.append((NSDate(), lifeTotal))
+        updateUi(lifeTotal)
+    }
+    
+    func reset(lifeTotal:Int) {
+        _history.removeAll(keepCapacity: true)
+        _baseline = lifeTotal
+        updateUi(lifeTotal)
+    }
+    
+    func updateUi(lifeTotal:Int) {
+        let symbol = (lifeTotal - _baseline >= 0) ? "+" : "-"
+        _label.text = "\(symbol)\(lifeTotal - _baseline)"
+        _label.sizeToFit()
+        showOrExtendView()
+    }
+    
+    func showOrExtendView() {
+        if let p = parent where _floatingView == nil && _history.count > 1 {
+            let fv = FloatingView(innerView:self._label, cornerRadius:6)
+            
+            fv.showInView(p) { floatingView in
+                p.addConstraints([
+                    NSLayoutConstraint(item: floatingView, attribute: .Left, relatedBy: .Equal, toItem: p, attribute: .Left, multiplier: 1.0, constant: 5.0),
+                    NSLayoutConstraint(item: floatingView, attribute: .Top, relatedBy: .Equal, toItem: p, attribute: .Top, multiplier: 1.0, constant: 5.0)])
+            }
+            
+            _floatingView = fv
+        }
+        
+        if let c = _cancelPreviousDelay {
+            c()
+        }
+        _cancelPreviousDelay = delay(2) {
+            if let fv = self._floatingView {
+                UIView.animateWithDuration(0.2,
+                    animations: { fv.alpha = 0.0 },
+                    completion: { _ in fv.removeFromSuperview() })
+                
+                if let (when, lifeTotal) = self._history.last {
+                    self._baseline = lifeTotal
+                }
+                self._history.removeAll(keepCapacity: true)
+                self._floatingView = nil
+            }
+        }
+    }
+    
+    func delay(seconds: Double, block: dispatch_block_t) -> () -> () {
+        var canceled = false // volatile? lock?
+        let dt = dispatch_time(DISPATCH_TIME_NOW, Int64(seconds * Double(NSEC_PER_SEC)))
+        dispatch_after(dt, dispatch_get_main_queue()) {
+            if !canceled {
+                block()
+            }
+        }
+        
+        return {
+            canceled = true
+        }
+    }
+}
+
 class PlayerViewController : UIViewController {
+    private let _tracker = LifeTotalDeltaTracker()
+    
+    private var _playerName = ""
+    private var _lifeTotal = 0
+    private var _isUpsideDown = false
+    private var _color:MtgColor = MtgColor.White
     
     @IBOutlet var backgroundView: PlayerBackgroundView!
     @IBOutlet weak var lifeTotalLabel: UILabel!
@@ -116,8 +207,15 @@ class PlayerViewController : UIViewController {
         get { return _lifeTotal }
         set(value) {
             _lifeTotal = value
+            _tracker.update(_lifeTotal)
             propertyDidChange("lifeTotal")
         }
+    }
+    
+    func resetLifeTotal(lifeTotal:Int) {
+        _lifeTotal = lifeTotal
+        _tracker.reset(lifeTotal)
+        propertyDidChange("lifeTotal")
     }
     
     var isUpsideDown:Bool {
@@ -162,6 +260,8 @@ class PlayerViewController : UIViewController {
         if let x = MtgColor(rawValue: Int(arc4random_uniform(maxColorNum))) {
             color = x  // likely to get overwritten by config load
         }
+
+        _tracker.parent = view // now the tracker can use the parent
     }
     
     override func traitCollectionDidChange(previousTraitCollection: UITraitCollection?) {
@@ -204,18 +304,12 @@ class PlayerViewController : UIViewController {
         
         view.setNeedsDisplay()
     }
-    
-private
-    var _playerName = ""
-    var _lifeTotal = 0
-    var _isUpsideDown = false
-    var _color:MtgColor = MtgColor.White
 }
 
 class PlayerBackgroundView : UIView {
-    var _color1:UIColor = UIColor.blueColor()
-    var _color2:UIColor = UIColor.blueColor()
-    var _lastLabel:UILabel? = nil
+    private var _color1:UIColor = UIColor.blueColor()
+    private var _color2:UIColor = UIColor.blueColor()
+    private var _lastLabel:UILabel? = nil
     
     func setBackgroundToColors(color:MtgColor) {
         _color1 = color.lookup(true)

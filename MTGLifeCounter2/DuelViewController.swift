@@ -47,8 +47,8 @@ class DuelViewController : UIViewController {
     
     @IBAction func refreshButtonPressed(sender: UIBarButtonItem) {
         if let p1 = _player1, let p2 = _player2 {
-            p1.lifeTotal = initialLifeTotal
-            p2.lifeTotal = initialLifeTotal
+            p1.resetLifeTotal(initialLifeTotal)
+            p2.resetLifeTotal(initialLifeTotal)
         }
     }
     
@@ -56,11 +56,11 @@ class DuelViewController : UIViewController {
         navigationController!.navigationBarHidden = true
         
         if let settings = DataStore.getWithKey(configKey), let p1 = _player1, let p2 = _player2 {
-            updatePlayerViewController(p1,
+            resetPlayerViewController(p1,
                 withLifeTotal:settings["player1"] as? NSNumber,
                 color:settings["player1color"] as? NSNumber)
 
-            updatePlayerViewController(p2,
+            resetPlayerViewController(p2,
                 withLifeTotal:settings["player2"] as? NSNumber,
                 color:settings["player2color"] as? NSNumber)
         }
@@ -85,7 +85,7 @@ class DuelViewController : UIViewController {
                 if let viewController = segue.destinationViewController as? PlayerViewController {
                     _player1 = viewController
                     viewController.playerName = "P1"
-                    viewController.lifeTotal = initialLifeTotal
+                    viewController.resetLifeTotal(initialLifeTotal)
                     
                     switch (traitCollection.horizontalSizeClass, traitCollection.verticalSizeClass) {
                     case (.Compact, .Regular): // phone in portrait
@@ -98,7 +98,7 @@ class DuelViewController : UIViewController {
                 if let viewController = segue.destinationViewController as? PlayerViewController {
                     _player2 = viewController
                     viewController.playerName = "P2"
-                    viewController.lifeTotal = initialLifeTotal
+                    viewController.resetLifeTotal(initialLifeTotal)
                 }
             default: assertionFailure("unhandled segue")
             }

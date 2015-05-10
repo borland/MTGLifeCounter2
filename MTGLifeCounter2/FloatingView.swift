@@ -17,9 +17,20 @@ extension UIViewAutoresizing {
     }
 }
 
+class DiceRollView {
+    
+    class func create(num:UInt) -> FloatingView {
+        let attrs:[NSObject:AnyObject] = [NSUnderlineStyleAttributeName: NSNumber(int: 0x01)] // single underline
+        let attributedText = (num == 6 || num == 9) ?
+            NSAttributedString(string: "\(num)", attributes: attrs) :
+            NSAttributedString(string: "\(num)")
+        
+        return FloatingView(text:attributedText, fontSize:120)
+    }
+}
+
 class FloatingView : UIView {
     private var _isUpsideDown:Bool = false
-    private let _wrapper:UIView
     private let _inner:UIView
 
     // will create a uiLabel for text/fontSize, then wrap it in a rounded-rect border with 10px padding and center it in the frame
@@ -37,33 +48,30 @@ class FloatingView : UIView {
     
     // will wrap innerView in a rounded-rect border with 10px padding and center it in the frame
     // the overall size will be determined by innerView's intrinsic size
-    required init(innerView:UIView) {
-        _wrapper = UIView()
+    required init(innerView:UIView, cornerRadius:Float = 20) {
         _inner = innerView
         
         super.init(frame: CGRectMake(0,0,0,0))
     
         backgroundColor = UIColor.blueColor()
         
-        _wrapper.setTranslatesAutoresizingMaskIntoConstraints(false)
-        _wrapper.addSubview(innerView)
-        _wrapper.addConstraints("H:|-[inner]-|", views: ["inner":innerView], options: .AlignAllBaseline)
-        _wrapper.addConstraints("V:|-[inner]-|", views: ["inner":innerView], options: .AlignAllBaseline)
-        _wrapper.sizeToFit()
+        setTranslatesAutoresizingMaskIntoConstraints(false)
+        addSubview(innerView)
+        addConstraints("H:|-[inner]-|", views: ["inner":innerView], options: .AlignAllBaseline)
+        addConstraints("V:|-[inner]-|", views: ["inner":innerView], options: .AlignAllBaseline)
+        sizeToFit()
 
-        _wrapper.backgroundColor = UIColor(red:0.3, green:0.1, blue:0.7, alpha:1)
-        _wrapper.alpha = 0.0
-        _wrapper.layer.cornerRadius = 20
-        _wrapper.clipsToBounds = true
-        _wrapper.userInteractionEnabled = false
+        backgroundColor = UIColor(red:0.3, green:0.1, blue:0.7, alpha:1)
+        alpha = 0.0
+        layer.cornerRadius = CGFloat(cornerRadius)
+        clipsToBounds = true
+        userInteractionEnabled = false
 
-        addSubview(_wrapper)
         userInteractionEnabled = false
     }
     
     // not needed but compiler makes us add it
     required init(coder aDecoder: NSCoder) {
-        _wrapper = UIView()
         _inner = UIView()
         super.init(coder: aDecoder)
     }
@@ -80,9 +88,9 @@ class FloatingView : UIView {
         switch(propertyName) {
         case "isUpsideDown":
             if _isUpsideDown {
-                _wrapper.transform = CGAffineTransformRotate(CGAffineTransformIdentity, CGFloat(M_PI));
+                transform = CGAffineTransformRotate(CGAffineTransformIdentity, CGFloat(M_PI));
             } else {
-                _wrapper.transform = CGAffineTransformIdentity;
+                transform = CGAffineTransformIdentity;
             }
             
         default:
@@ -90,24 +98,28 @@ class FloatingView : UIView {
         }
     }
     
-    func showInView(parent: UIView, duration:Double){
-        _wrapper.alpha = 1.0
+    func showInView(parent: UIView, setup: UIView -> ()) {
+        alpha = 1.0
         
-        parent.addSubview(_wrapper)
+        parent.addSubview(self)
         
-        let views = ["parent":parent, "v":_wrapper]
-        
-        // Center
-        parent.addConstraints([
-            NSLayoutConstraint(item: _wrapper, attribute: .CenterX, relatedBy: .Equal, toItem: parent, attribute: .CenterX, multiplier: 1.0, constant: 0.0),
-            NSLayoutConstraint(item: _wrapper, attribute: .CenterY, relatedBy: .Equal, toItem: parent, attribute: .CenterY, multiplier: 1.0, constant: 0.0)])
-
-        UIView.animateWithDuration(duration / 2,
-            delay: duration / 2,
-            options: .CurveEaseInOut,
-            animations: { self._wrapper.alpha = 0 },
-            completion: { (b:Bool) in
-                self._wrapper.removeFromSuperview()
+        setup(self)
+    }
+    
+    func showInView(parent: UIView, duration:Double) {
+        showInView(parent) { floatingView in
+            // Center
+            parent.addConstraints([
+                NSLayoutConstraint(item: floatingView, attribute: .CenterX, relatedBy: .Equal, toItem: parent, attribute: .CenterX, multiplier: 1.0, constant: 0.0),
+                NSLayoutConstraint(item: floatingView, attribute: .CenterY, relatedBy: .Equal, toItem: parent, attribute: .CenterY, multiplier: 1.0, constant: 0.0)])
+            
+            UIView.animateWithDuration(duration / 2,
+                delay: duration / 2,
+                options: .CurveEaseInOut,
+                animations: { floatingView.alpha = 0 },
+                completion: { (b:Bool) in
+                    floatingView.removeFromSuperview()
             })
+        }
     }
 }

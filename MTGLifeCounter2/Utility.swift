@@ -37,12 +37,12 @@ func constraints(ca:[NSLayoutConstraint], #affectingView:UIView) -> [NSLayoutCon
     }
 }
 
-func updatePlayerViewController(playerViewController:PlayerViewController, withLifeTotal lifeTotal:NSNumber?, #color:NSNumber?) {
+func resetPlayerViewController(playerViewController:PlayerViewController, withLifeTotal lifeTotal:NSNumber?, #color:NSNumber?) {
     if let lt = lifeTotal,
         let x = color,
         let col = MtgColor(rawValue: x.integerValue)
     {
-        playerViewController.lifeTotal = lt.integerValue
+        playerViewController.resetLifeTotal(lt.integerValue)
         playerViewController.color = col
     }
 }

@@ -55,7 +55,7 @@ class LifeTotalDeltaTracker {
             fv.showInView(p) { floatingView in
                 p.addConstraints([
                     NSLayoutConstraint(item: floatingView, attribute: .Left, relatedBy: .Equal, toItem: p, attribute: .Left, multiplier: 1.0, constant: 5.0),
-                    NSLayoutConstraint(item: floatingView, attribute: .Top, relatedBy: .Equal, toItem: p, attribute: .Top, multiplier: 1.0, constant: 5.0)])
+                    NSLayoutConstraint(item: floatingView, attribute: .Top, relatedBy: .Equal, toItem: p, attribute: .Top, multiplier: 1.0, constant: 20.0)])
             }
             
             _floatingView = fv
@@ -64,16 +64,17 @@ class LifeTotalDeltaTracker {
         if let c = _cancelPreviousDelay {
             c()
         }
-        _cancelPreviousDelay = delay(2) {
+        _cancelPreviousDelay = delay(1.5) {
+            if let (when, lifeTotal) = self._history.last {
+                self._baseline = lifeTotal
+            }
+            self._history.removeAll(keepCapacity: true)
+            
             if let fv = self._floatingView {
                 UIView.animateWithDuration(0.2,
                     animations: { fv.alpha = 0.0 },
                     completion: { _ in fv.removeFromSuperview() })
-                
-                if let (when, lifeTotal) = self._history.last {
-                    self._baseline = lifeTotal
-                }
-                self._history.removeAll(keepCapacity: true)
+            
                 self._floatingView = nil
             }
         }

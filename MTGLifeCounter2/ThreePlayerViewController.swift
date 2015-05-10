@@ -39,9 +39,8 @@ class ThreePlayerViewController : UIViewController {
     }
     
     @IBAction func d20ButtonPressed(sender: AnyObject) {
-        for c in [container1, container2, container3] {
-            let diceRollView = DiceRollView.create(UInt(arc4random_uniform(20) + 1))
-            
+        for (c, r) in zip([container1, container2, container3], randomUntiedDiceRolls(3, UInt(20))) {
+            let diceRollView = DiceRollView.create(r)
             diceRollView.showInView(c, duration:2.5)
         }
     }
@@ -111,6 +110,10 @@ class ThreePlayerViewController : UIViewController {
     
     override func traitCollectionDidChange(previousTraitCollection: UITraitCollection?) {
         setConstraintsFor(traitCollection)
+    }
+    
+    override func prefersStatusBarHidden() -> Bool {
+        return false
     }
     
     private func setConstraintsFor(traitCollection:UITraitCollection) {

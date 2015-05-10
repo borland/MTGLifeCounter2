@@ -29,8 +29,8 @@ class DuelViewController : UIViewController {
     }
     
     @IBAction func d20ButtonPressed(sender: UIBarButtonItem) {
-        for c in [container1, container2] {
-            let diceRollView = DiceRollView.create(UInt(arc4random_uniform(20) + 1))
+        for (c, r) in zip([container1, container2], randomUntiedDiceRolls(2, UInt(20))) {
+            let diceRollView = DiceRollView.create(r)
             
             if c == container1 {
                 switch (traitCollection.horizontalSizeClass, traitCollection.verticalSizeClass) {
@@ -120,6 +120,10 @@ class DuelViewController : UIViewController {
         }
         
         setConstraintsFor(traitCollection)
+    }
+    
+    override func prefersStatusBarHidden() -> Bool {
+        return false
     }
     
     private func setConstraintsFor(traitCollection:UITraitCollection) {

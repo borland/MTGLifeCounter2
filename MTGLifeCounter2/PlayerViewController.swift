@@ -10,6 +10,10 @@ import Foundation
 import UIKit
 
 class LifeTotalDeltaTracker {
+    let floatingViewFontSize = 44
+    let floatingViewTimeout = 1.7
+    let floatingViewHideTime = 0.25
+    
     private var _baseline = 0 // we show +/- x relative to this.
     private var _history = [(NSDate, Int)]()
     private var _floatingView:FloatingView?
@@ -17,8 +21,7 @@ class LifeTotalDeltaTracker {
     private var _cancelPreviousDelay:(()->())?
     
     init () {
-        let fontSize = CGFloat(40)
-        _label.font = UIFont(name:"Futura", size:fontSize)
+        _label.font = UIFont(name:"Futura", size:CGFloat(floatingViewFontSize))
         _label.textColor = UIColor.whiteColor()
         _label.setTranslatesAutoresizingMaskIntoConstraints(false)
     }
@@ -50,7 +53,7 @@ class LifeTotalDeltaTracker {
     
     func showOrExtendView() {
         if let p = parent where _floatingView == nil && _history.count > 1 {
-            let fv = FloatingView(innerView:self._label, cornerRadius:6)
+            let fv = FloatingView(innerView:self._label, cornerRadius:Float(floatingViewFontSize) / 5)
             
             fv.showInView(p) { floatingView in
                 p.addConstraints([
@@ -64,14 +67,14 @@ class LifeTotalDeltaTracker {
         if let c = _cancelPreviousDelay {
             c()
         }
-        _cancelPreviousDelay = delay(1.5) {
+        _cancelPreviousDelay = delay(floatingViewTimeout) {
             if let (when, lifeTotal) = self._history.last {
                 self._baseline = lifeTotal
             }
             self._history.removeAll(keepCapacity: true)
             
             if let fv = self._floatingView {
-                UIView.animateWithDuration(0.2,
+                UIView.animateWithDuration(self.floatingViewHideTime,
                     animations: { fv.alpha = 0.0 },
                     completion: { _ in fv.removeFromSuperview() })
             

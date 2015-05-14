@@ -41,7 +41,7 @@ class DuelViewController : UIViewController {
                 }
             }
             
-            diceRollView.showInView(c, duration:2.5)
+            diceRollView.showInView(c)
         }
     }
     

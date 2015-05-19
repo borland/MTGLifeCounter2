@@ -19,7 +19,7 @@ extension UIViewAutoresizing {
 
 class DiceRollView {
     
-    class func create(num:UInt) -> FloatingView {
+    class func create(num:UInt, winner:Bool) -> FloatingView {
         let singleUnderline:[NSObject:AnyObject] = [NSUnderlineStyleAttributeName: NSNumber(int: 1)]
         
         let generator = { (x:Int) -> NSAttributedString in
@@ -33,13 +33,35 @@ class DiceRollView {
         }
         
         let numberView = NumberWheelView(fontSize: 110, textColor: UIColor.whiteColor(), numCells:30, generator: generator)
-        numberView.addConstraints([
-            NSLayoutConstraint(item: numberView, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1.0, constant: 135),
-            NSLayoutConstraint(item: numberView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1.0, constant: 125)
-            ])
+        let widthConstraint = NSLayoutConstraint(item: numberView, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1.0, constant: 135)
+        let heightConstraint = NSLayoutConstraint(item: numberView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1.0, constant: 125)
+
+        numberView.addConstraints([widthConstraint, heightConstraint])
 
         let fv = FloatingView(innerView: numberView, cornerRadius: 120 / 5)
         fv.beforeShow = { numberView.spinWithDuration($0 - 0.25) }
+        fv.beforePause = {
+            if winner {
+                // gold
+                fv.backgroundColor = UIColor(red:0.988, green:0.761, blue:0, alpha:1.0)
+                let duration = 0.08
+
+                UIView.animateWithDuration(duration, delay: 0, options: .Autoreverse,
+                    animations: {
+                        fv.transform = CGAffineTransformMakeScale(1.2, 1.2)
+                    }, completion: { _ in
+                        fv.transform = CGAffineTransformIdentity
+                        // this is how we "repeat" one time
+                        UIView.animateWithDuration(duration, delay: 0, options: .Autoreverse,
+                            animations: {
+                                fv.transform = CGAffineTransformMakeScale(1.2, 1.2)
+                            }, completion: { _ in
+                                fv.transform = CGAffineTransformIdentity
+                        })
+
+                })
+            }
+        }
         return fv
     }
 }
@@ -90,7 +112,7 @@ class FloatingView : UIView {
     }
     
     var beforeShow:(Double -> Void)?
-    var afterShow:(Void -> Void)?
+    var beforePause:(Void -> Void)?
     
     var isUpsideDown:Bool {
         get{ return _isUpsideDown }
@@ -132,14 +154,16 @@ class FloatingView : UIView {
             if let callback = self.beforeShow {
                 callback(callbackDuration)
             }
+            if let callback = self.beforePause {
+                let cancel = delay(callbackDuration) {
+                    callback()
+                }
+            }
             UIView.animateWithDuration(fadeDuration,
                 delay: callbackDuration + pauseDuration,
                 options: .CurveEaseInOut,
                 animations: { floatingView.alpha = 0 },
                 completion: { (b:Bool) in
-                    if let callback = self.afterShow {
-                        callback()
-                    }
                     floatingView.removeFromSuperview()
             })
         }

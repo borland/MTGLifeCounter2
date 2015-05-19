@@ -82,20 +82,6 @@ class LifeTotalDeltaTracker {
             }
         }
     }
-    
-    func delay(seconds: Double, block: dispatch_block_t) -> () -> () {
-        var canceled = false // volatile? lock?
-        let dt = dispatch_time(DISPATCH_TIME_NOW, Int64(seconds * Double(NSEC_PER_SEC)))
-        dispatch_after(dt, dispatch_get_main_queue()) {
-            if !canceled {
-                block()
-            }
-        }
-        
-        return {
-            canceled = true
-        }
-    }
 }
 
 class PlayerViewController : UIViewController {

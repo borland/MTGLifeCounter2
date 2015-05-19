@@ -29,8 +29,8 @@ class DuelViewController : UIViewController {
     }
     
     @IBAction func d20ButtonPressed(sender: UIBarButtonItem) {
-        for (c, r) in zip([container1, container2], randomUntiedDiceRolls(2, UInt(20))) {
-            let diceRollView = DiceRollView.create(r)
+        for (c, (num, winner)) in zip([container1, container2], randomUntiedDiceRolls(2, UInt(20))) {
+            let diceRollView = DiceRollView.create(num, winner:winner)
             
             if c == container1 {
                 switch (traitCollection.horizontalSizeClass, traitCollection.verticalSizeClass) {

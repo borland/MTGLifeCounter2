@@ -39,8 +39,8 @@ class ThreePlayerViewController : UIViewController {
     }
     
     @IBAction func d20ButtonPressed(sender: AnyObject) {
-        for (c, r) in zip([container1, container2, container3], randomUntiedDiceRolls(3, UInt(20))) {
-            let diceRollView = DiceRollView.create(r)
+        for (c, (num, winner)) in zip([container1, container2, container3], randomUntiedDiceRolls(3, UInt(20))) {
+            let diceRollView = DiceRollView.create(num, winner:winner)
             diceRollView.showInView(c)
         }
     }

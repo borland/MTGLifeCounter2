@@ -44,19 +44,20 @@ class DiceRollView {
             if winner {
                 // gold
                 fv.backgroundColor = UIColor(red:0.988, green:0.761, blue:0, alpha:1.0)
-                let duration = 0.08
+                let duration = 0.1
+                let initialTransform = fv.transform
 
                 UIView.animateWithDuration(duration, delay: 0, options: .Autoreverse,
                     animations: {
-                        fv.transform = CGAffineTransformMakeScale(1.2, 1.2)
+                        fv.transform = CGAffineTransformConcat(initialTransform, CGAffineTransformMakeScale(1.2, 1.2))
                     }, completion: { _ in
-                        fv.transform = CGAffineTransformIdentity
+                        fv.transform = initialTransform
                         // this is how we "repeat" one time
                         UIView.animateWithDuration(duration, delay: 0, options: .Autoreverse,
                             animations: {
-                                fv.transform = CGAffineTransformMakeScale(1.2, 1.2)
+                                fv.transform = CGAffineTransformConcat(initialTransform, CGAffineTransformMakeScale(1.2, 1.2))
                             }, completion: { _ in
-                                fv.transform = CGAffineTransformIdentity
+                                fv.transform = initialTransform
                         })
 
                 })

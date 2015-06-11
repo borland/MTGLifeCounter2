@@ -72,8 +72,6 @@ enum MtgColor : Int {
             case Green, RedGreen, BlackGreen:
                 return UIColor(red: 0.19, green: 0.66, blue: 0.20, alpha: 1)
             }
-        default:
-            fatalError("Bool was not true or false. what?")
         }
     }
 }

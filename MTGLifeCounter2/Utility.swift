@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 extension UIView {
-    func addConstraints(format:String, views:[String:UIView], options:NSLayoutFormatOptions=NSLayoutFormatOptions(0)) {
+    func addConstraints(format:String, views:[String:UIView], options:NSLayoutFormatOptions=NSLayoutFormatOptions(rawValue: 0)) {
         let constraints = NSLayoutConstraint.constraintsWithVisualFormat(
             format,
             options: options,
@@ -21,7 +21,7 @@ extension UIView {
     }
 }
 
-func constraints(ca:[NSLayoutConstraint], #affectingView:UIView) -> [NSLayoutConstraint] {
+func constraints(ca:[NSLayoutConstraint], affectingView:UIView) -> [NSLayoutConstraint] {
     return ca.filter {
         if let first = $0.firstItem as? UIView {
             if first == affectingView {
@@ -37,7 +37,7 @@ func constraints(ca:[NSLayoutConstraint], #affectingView:UIView) -> [NSLayoutCon
     }
 }
 
-func resetPlayerViewController(playerViewController:PlayerViewController, withLifeTotal lifeTotal:NSNumber?, #color:NSNumber?) {
+func resetPlayerViewController(playerViewController:PlayerViewController, withLifeTotal lifeTotal:NSNumber?, color:NSNumber?) {
     if let lt = lifeTotal,
         let x = color,
         let col = MtgColor(rawValue: x.integerValue)
@@ -53,8 +53,8 @@ func randomUntiedDiceRolls(numDice:Int, diceFaceCount:UInt) -> [(UInt, Bool)] {
 
     // find the indexes of values that have the highest value, and replace those values with randoms. Repeat until no ties
     while true {
-        var maxVal = maxElement(values) // we only care if the highest dice rolls are tied (e.g. if there are 3 people and the dice go 7,2,2 that's fine)
-        var tiedValueIndexes = findIndexes(values, maxVal)
+        let maxVal = values.maxElement()! // we only care if the highest dice rolls are tied (e.g. if there are 3 people and the dice go 7,2,2 that's fine)
+        let tiedValueIndexes = findIndexes(values, value: maxVal)
         if tiedValueIndexes.count < 2 {
             break
         }
@@ -63,7 +63,7 @@ func randomUntiedDiceRolls(numDice:Int, diceFaceCount:UInt) -> [(UInt, Bool)] {
             values[ix] = UInt(arc4random_uniform(UInt32(diceFaceCount)) + 1)
         }
     }
-    let maxVal = maxElement(values)
+    let maxVal = values.maxElement()!
     return values.map{ x in (x, x == maxVal) }
 }
 

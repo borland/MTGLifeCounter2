@@ -43,11 +43,11 @@ class NumberWheelView : UIView {
     }
     
     func configureView() {
-        setTranslatesAutoresizingMaskIntoConstraints(false) // it's up to the parent to set layout constraints
+        translatesAutoresizingMaskIntoConstraints = false // it's up to the parent to set layout constraints
         
         for var x = -1; x < _numCells+2; x++ {
             let lbl = UILabel()
-            lbl.setTranslatesAutoresizingMaskIntoConstraints(false)
+            lbl.translatesAutoresizingMaskIntoConstraints = false
             lbl.font = UIFont(name: "Futura", size: CGFloat(_lineHeight))
             lbl.textColor = _textColor
             lbl.attributedText = _generator(_numCells - x)
@@ -71,7 +71,7 @@ class NumberWheelView : UIView {
         let animOvershoot = _totalLineHeight / 4
         
         let heightOffset = _totalLineHeight * CGFloat(_numCells) + CGFloat(animOvershoot)
-        for (lbl, constraint) in _labels {
+        for (_, constraint) in _labels {
             constraint.constant -= heightOffset
         }
         
@@ -83,7 +83,7 @@ class NumberWheelView : UIView {
             }, completion:{ _ in
                 var validIndexes = [Int]()
                 
-                for (idx, (lbl, constraint)) in enumerate(self._labels) {
+                for (idx, (lbl, constraint)) in self._labels.enumerate() {
                     // remove all but the ones on screen
                     let c = constraint.constant
                     if !(c > thresholdNegative && c < thresholdPositive) {
@@ -94,7 +94,7 @@ class NumberWheelView : UIView {
                 }
                 
                 for idx in validIndexes {
-                    let (lbl, constraint) = self._labels[idx]
+                    let (_, constraint) = self._labels[idx]
                     constraint.constant += CGFloat(animOvershoot) // fix the overshoot
                     
                     UIView.animateWithDuration(0.2, delay: 0, options: UIViewAnimationOptions.CurveEaseInOut, animations: {

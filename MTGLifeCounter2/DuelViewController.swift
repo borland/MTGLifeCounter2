@@ -29,7 +29,7 @@ class DuelViewController : UIViewController {
     }
     
     @IBAction func d20ButtonPressed(sender: UIBarButtonItem) {
-        for (c, (num, winner)) in zip([container1, container2], randomUntiedDiceRolls(2, UInt(20))) {
+        for (c, (num, winner)) in zip([container1, container2], randomUntiedDiceRolls(2, diceFaceCount: UInt(20))) {
             let diceRollView = DiceRollView.create(num, winner:winner)
             
             if c == container1 {
@@ -128,7 +128,7 @@ class DuelViewController : UIViewController {
     
     private func setConstraintsFor(traitCollection:UITraitCollection) {
         
-        let cx = view.constraints() as! [NSLayoutConstraint]
+        let cx = view.constraints as [NSLayoutConstraint]
         view.removeConstraints(
             constraints(cx, affectingView:container1!) +
                 constraints(cx, affectingView:container2!) +

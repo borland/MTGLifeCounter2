@@ -23,18 +23,19 @@ class LifeTotalDeltaTracker {
     init () {
         _label.font = UIFont(name:"Futura", size:CGFloat(floatingViewFontSize))
         _label.textColor = UIColor.whiteColor()
-        _label.setTranslatesAutoresizingMaskIntoConstraints(false)
+        _label.translatesAutoresizingMaskIntoConstraints = false
     }
     
     var parent:UIView?
     
     func update(lifeTotal:Int) {
-        if let (when, lt) = _history.last {
+        if let (_, lt) = _history.last {
             if lt == lifeTotal {
                 return // no point recording a duplicate
             }
         }
-        _history.append((NSDate(), lifeTotal))
+        let tuple = (NSDate(), lifeTotal)
+        _history.append(tuple)
         updateUi(lifeTotal)
     }
     
@@ -68,7 +69,7 @@ class LifeTotalDeltaTracker {
             c()
         }
         _cancelPreviousDelay = delay(floatingViewTimeout) {
-            if let (when, lifeTotal) = self._history.last {
+            if let (_, lifeTotal) = self._history.last {
                 self._baseline = lifeTotal
             }
             self._history.removeAll(keepCapacity: true)
@@ -259,7 +260,7 @@ class PlayerViewController : UIViewController {
     }
     
     func setConstraintsFor(traitCollection:UITraitCollection) {
-        let cx = view.constraints() as! [NSLayoutConstraint]
+        let cx = view.constraints as [NSLayoutConstraint]
         view.removeConstraints(
             constraints(cx, affectingView:plusButton) +
             constraints(cx, affectingView:minusButton) +

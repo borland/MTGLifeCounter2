@@ -12,7 +12,7 @@ import UIKit
 extension UIViewAutoresizing {
     static var FlexibleMargins: UIViewAutoresizing {
         get {
-            return .FlexibleLeftMargin | .FlexibleTopMargin | .FlexibleRightMargin | .FlexibleBottomMargin
+            return [.FlexibleLeftMargin, .FlexibleTopMargin, .FlexibleRightMargin, .FlexibleBottomMargin]
         }
     }
 }
@@ -20,13 +20,15 @@ extension UIViewAutoresizing {
 class DiceRollView {
     
     class func create(num:UInt, winner:Bool) -> FloatingView {
-        let singleUnderline:[NSObject:AnyObject] = [NSUnderlineStyleAttributeName: NSNumber(int: 1)]
+        let singleUnderline:[String:AnyObject] = [NSUnderlineStyleAttributeName: NSNumber(int: 1)]
         
         let generator = { (x:Int) -> NSAttributedString in
             if x == 0 {
-                return (num == 6 || num == 9) ?
-                    NSAttributedString(string: "\(num)", attributes: singleUnderline) :
-                    NSAttributedString(string: "\(num)")
+                if (num == 6 || num == 9) {
+                    return NSAttributedString(string: "\(num)", attributes: singleUnderline)
+                } else {
+                    return NSAttributedString(string: "\(num)")
+                }
             }
             
             return NSAttributedString(string: "\(arc4random_uniform(20) + 1)") // don't underline values that aren't the result, it looks bad
@@ -74,7 +76,7 @@ class FloatingView : UIView {
     // will create a uiLabel for text/fontSize, then wrap it in a rounded-rect border with 10px padding and center it in the frame
     convenience init(text:NSAttributedString, fontSize:CGFloat) {
         let label = UILabel()
-        label.setTranslatesAutoresizingMaskIntoConstraints(false)
+        label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = UIColor.whiteColor()
         label.attributedText = text
         label.font = UIFont(name:"Futura", size:fontSize)
@@ -93,7 +95,7 @@ class FloatingView : UIView {
     
         backgroundColor = UIColor.blueColor()
         
-        setTranslatesAutoresizingMaskIntoConstraints(false)
+        translatesAutoresizingMaskIntoConstraints = false
         addSubview(innerView)
         addConstraints("H:|-[inner]-|", views: ["inner":innerView], options: .AlignAllBaseline)
         addConstraints("V:|-[inner]-|", views: ["inner":innerView], options: .AlignAllBaseline)
@@ -156,7 +158,7 @@ class FloatingView : UIView {
                 callback(callbackDuration)
             }
             if let callback = self.beforePause {
-                let cancel = delay(callbackDuration) {
+                _ = delay(callbackDuration) {
                     callback()
                 }
             }

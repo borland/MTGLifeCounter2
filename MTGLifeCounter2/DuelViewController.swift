@@ -54,8 +54,13 @@ class DuelViewController : UIViewController {
     
     override func viewWillAppear(animated: Bool) {
         navigationController!.navigationBarHidden = true
+        guard let p1 = _player1, let p2 = _player2 else {
+            return
+        }
         
-        if let settings = DataStore.getWithKey(configKey), let p1 = _player1, let p2 = _player2 {
+        do {
+            let settings = try DataStore.getWithKey(configKey)
+            
             resetPlayerViewController(p1,
                 withLifeTotal:settings["player1"] as? NSNumber,
                 color:settings["player1color"] as? NSNumber)
@@ -63,60 +68,62 @@ class DuelViewController : UIViewController {
             resetPlayerViewController(p2,
                 withLifeTotal:settings["player2"] as? NSNumber,
                 color:settings["player2color"] as? NSNumber)
-        }
+        } catch { }
     }
     
     override func viewWillDisappear(animated: Bool) {
         navigationController!.navigationBarHidden = false
+        guard let p1 = _player1, let p2 = _player2 else {
+            return
+        }
         
-        if let p1 = _player1, let p2 = _player2 {
-            DataStore.setWithKey(configKey, value: [
+        do {
+            try DataStore.setWithKey(configKey, value: [
                 "player1": p1.lifeTotal,
                 "player1color": p1.color.rawValue,
                 "player2": p2.lifeTotal,
                 "player2color": p2.color.rawValue])
-        }
+        } catch {}
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if let s = segue.identifier {
-            switch s {
-            case "player1_embed":
-                if let viewController = segue.destinationViewController as? PlayerViewController {
-                    _player1 = viewController
-                    viewController.playerName = "P1"
-                    viewController.resetLifeTotal(initialLifeTotal)
-                    
-                    switch (traitCollection.horizontalSizeClass, traitCollection.verticalSizeClass) {
-                    case (.Compact, .Regular): // phone in portrait
-                        viewController.isUpsideDown = true
-                    default:
-                        viewController.isUpsideDown = false
-                    }
-                }
-            case "player2_embed":
-                if let viewController = segue.destinationViewController as? PlayerViewController {
-                    _player2 = viewController
-                    viewController.playerName = "P2"
-                    viewController.resetLifeTotal(initialLifeTotal)
-                }
-            default: assertionFailure("unhandled segue")
-            }
+        guard let s = segue.identifier else { fatalError("segue identifier not set") }
+        
+        switch s {
+        case "player1_embed":
+            guard let viewController = segue.destinationViewController as? PlayerViewController else { return }
+            _player1 = viewController
+            viewController.playerName = "P1"
+            viewController.resetLifeTotal(initialLifeTotal)
             
-            if(_player1 != nil && _player2 != nil) {
-                setConstraintsFor(traitCollection)
+            switch (traitCollection.horizontalSizeClass, traitCollection.verticalSizeClass) {
+            case (.Compact, .Regular): // phone in portrait
+                viewController.isUpsideDown = true
+            default:
+                viewController.isUpsideDown = false
             }
+
+        case "player2_embed":
+            guard let viewController = segue.destinationViewController as? PlayerViewController else { return }
+            _player2 = viewController
+            viewController.playerName = "P2"
+            viewController.resetLifeTotal(initialLifeTotal)
+        default: assertionFailure("unhandled segue")
+        }
+        
+        if(_player1 != nil && _player2 != nil) {
+            setConstraintsFor(traitCollection)
         }
     }
     
     override func traitCollectionDidChange(previousTraitCollection: UITraitCollection?) {
-        if let p1 = _player1 {
-            switch (traitCollection.horizontalSizeClass, traitCollection.verticalSizeClass) {
-            case (.Compact, .Regular): // phone in portrait
-                p1.isUpsideDown = true
-            default:
-                p1.isUpsideDown = false
-            }
+        guard let p1 = _player1 else { return }
+        
+        switch (traitCollection.horizontalSizeClass, traitCollection.verticalSizeClass) {
+        case (.Compact, .Regular): // phone in portrait
+            p1.isUpsideDown = true
+        default:
+            p1.isUpsideDown = false
         }
         
         setConstraintsFor(traitCollection)

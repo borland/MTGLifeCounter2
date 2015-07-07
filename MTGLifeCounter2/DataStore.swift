@@ -9,46 +9,41 @@
 import Foundation
 import UIKit
 
+enum DataStoreError : ErrorType {
+    case FileNotFound(String)
+    case FileInvalidContents
+    case CannotSerializeDictiory
+}
+
 class DataStore {
     
-    class func getWithKey(key:String) -> NSDictionary? {
+    // throws DataStoreError or a JSON parsing error2
+    class func getWithKey(key:String) throws -> NSDictionary {
         let path = filePathForKey(key)
         
         let fileManager = NSFileManager.defaultManager()
         if !fileManager.fileExistsAtPath(path) {
-            return nil
+            throw DataStoreError.FileNotFound(path)
         }
         
-        if let data = fileManager.contentsAtPath(path) {
-            do {
-                return try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments) as? NSDictionary
-            } catch let error {
-                print("json read error \(error)")
-                return nil
-            }
+        guard let data = fileManager.contentsAtPath(path) else {
+            throw DataStoreError.FileInvalidContents
         }
-        return nil
+        
+        guard let dict = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments) as? NSDictionary else {
+            throw DataStoreError.FileInvalidContents
+        }
+        
+        return dict
     }
 
-    class func setWithKey(key:String, value:NSDictionary) {
-        let path = filePathForKey(key)
-        
-        let data: NSData?
-        do {
-            data = try NSJSONSerialization.dataWithJSONObject(value, options: NSJSONWritingOptions(rawValue: 0))
-        } catch let error {
-            print("json write error \(error)")
-            return
-        }
+    class func setWithKey(key:String, value:NSDictionary) throws {
+        let data = try NSJSONSerialization.dataWithJSONObject(value, options: NSJSONWritingOptions(rawValue: 0))
         
         let fileManager = NSFileManager.defaultManager()
+        let path = filePathForKey(key)
         if fileManager.fileExistsAtPath(path) {
-            do {
-                try fileManager.removeItemAtPath(path)
-            } catch let error {
-                print("cannot delete existing file at path \(path); error \(error)")
-                return
-            }
+            try fileManager.removeItemAtPath(path)
         }
         
         fileManager.createFileAtPath(path, contents: data, attributes: nil)

@@ -177,12 +177,11 @@ class PlayerViewController : UIViewController {
             return UIColor.whiteColor()
         }
         set(color) {
-            if let l = lifeTotalLabel, plus = plusButton, minus = minusButton, name = playerNameButton {
-                l.textColor = color
-                plus.setTitleColor(color, forState: .Normal)
-                minus.setTitleColor(color, forState: .Normal)
-                name.setTitleColor(color, forState: .Normal)
-            }
+            guard let l = lifeTotalLabel, plus = plusButton, minus = minusButton, name = playerNameButton else { return }
+            l.textColor = color
+            plus.setTitleColor(color, forState: .Normal)
+            minus.setTitleColor(color, forState: .Normal)
+            name.setTitleColor(color, forState: .Normal)
         }
     }
     

@@ -365,7 +365,7 @@ class PlayerBackgroundView : UIView {
         let endCenter = startCenter // must be the same for a simple circle gradient
         let endRadius = CGFloat(sz)
         
-        let options = CGGradientDrawingOptions(0)
+        let options = CGGradientDrawingOptions(rawValue: 0)
         
         //Generate the Image -----------------------
         CGContextDrawRadialGradient(context, gradient, startCenter, startRadius, endCenter, endRadius, options)

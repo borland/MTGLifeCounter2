@@ -20,7 +20,7 @@ class NumberWheelView : UIView {
     private let _lineGap:CGFloat = 6
     private let _totalLineHeight:CGFloat
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         _lineHeight = 20
         _numCells = 20
         _generator = { _ in NSAttributedString(string: "-") }

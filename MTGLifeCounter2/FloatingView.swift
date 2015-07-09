@@ -109,7 +109,7 @@ class FloatingView : UIView {
     }
     
     // not needed but compiler makes us add it
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         _inner = UIView()
         super.init(coder: aDecoder)
     }

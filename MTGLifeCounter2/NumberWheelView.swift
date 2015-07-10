@@ -78,9 +78,8 @@ class NumberWheelView : UIView {
         UIView.animateWithDuration(duration,
             delay: 0,
             options: UIViewAnimationOptions.CurveEaseOut,
-            animations: {
-                self.layoutIfNeeded()
-            }, completion:{ _ in
+            animations:{ self.layoutIfNeeded() },
+            completion:{ _ in
                 var validIndexes = [Int]()
                 
                 for (idx, (lbl, constraint)) in self._labels.enumerate() {

@@ -21,17 +21,13 @@ extension UIView {
     }
 }
 
-func constraints(ca:[NSLayoutConstraint], affectingView:UIView) -> [NSLayoutConstraint] {
-    return ca.filter {
-        if let first = $0.firstItem as? UIView {
-            if first == affectingView {
-                return true
-            }
+func constraints(constraints:[NSLayoutConstraint], affectingView:UIView) -> [NSLayoutConstraint] {
+    return constraints.filter {
+        if let first = $0.firstItem as? UIView where first == affectingView {
+            return true
         }
-        if let second = $0.secondItem as? UIView {
-            if second == affectingView {
-                return true
-            }
+        if let second = $0.secondItem as? UIView where second == affectingView {
+            return true
         }
         return false
     }
@@ -82,11 +78,8 @@ func delay(seconds: NSTimeInterval, block: dispatch_block_t) -> () -> () {
 }
 
 func findIndexes<T : Equatable>(domain:[T], value:T) -> [Int] {
-    var indexes = [Int]()
-    for var ix = 0; ix < domain.count; ++ix {
-        if domain[ix] == value {
-            indexes.append(ix)
-        }
-    }
-    return indexes
+    return domain
+        .enumerate()
+        .filter{ (ix, obj) in obj == value }
+        .map{ (ix, obj) in ix }
 }

@@ -18,7 +18,6 @@
 		D3C6F6ED19D18427007232E9 /* TemplateIcon2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D3C6F6EB19D18427007232E9 /* TemplateIcon2x.png */; };
 		D3C6F6EF19D18487007232E9 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = D3C6F6EE19D18487007232E9 /* README.txt */; };
 		D3F5430D19B867AD0053DA1A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F5430C19B867AD0053DA1A /* AppDelegate.swift */; };
-		D3F5430F19B867AD0053DA1A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F5430E19B867AD0053DA1A /* ViewController.swift */; };
 		D3F5431219B867AD0053DA1A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D3F5431019B867AD0053DA1A /* Main.storyboard */; };
 		D3F5431419B867AD0053DA1A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D3F5431319B867AD0053DA1A /* Images.xcassets */; };
 		D3F5432019B867AD0053DA1A /* MTGLifeCounter2Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F5431F19B867AD0053DA1A /* MTGLifeCounter2Tests.swift */; };
@@ -52,7 +51,6 @@
 		D3F5430719B867AD0053DA1A /* MTGLifeCounter2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MTGLifeCounter2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3F5430B19B867AD0053DA1A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D3F5430C19B867AD0053DA1A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		D3F5430E19B867AD0053DA1A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		D3F5431119B867AD0053DA1A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D3F5431319B867AD0053DA1A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		D3F5431919B867AD0053DA1A /* MTGLifeCounter2Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MTGLifeCounter2Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -113,7 +111,6 @@
 				D3F5430C19B867AD0053DA1A /* AppDelegate.swift */,
 				D3F5432919B86CAA0053DA1A /* PlayerViewController.swift */,
 				D3734CE61B03D54800B85628 /* NumberWheelView.swift */,
-				D3F5430E19B867AD0053DA1A /* ViewController.swift */,
 				D3F5432D19B8734A0053DA1A /* DuelViewController.swift */,
 				D3B96E6319BDBC030065B8C4 /* TwoHeadedGiantViewController.swift */,
 				D3BC006B19BDBFBC00101198 /* ThreePlayerViewController.swift */,
@@ -201,10 +198,11 @@
 				TargetAttributes = {
 					D3F5430619B867AD0053DA1A = {
 						CreatedOnToolsVersion = 6.0;
-						DevelopmentTeam = 27PRAM6SD4;
+						DevelopmentTeam = 9VMGNN2JRJ;
 					};
 					D3F5431819B867AD0053DA1A = {
 						CreatedOnToolsVersion = 6.0;
+						DevelopmentTeam = BSE77454YY;
 						TestTargetID = D3F5430619B867AD0053DA1A;
 					};
 				};
@@ -265,7 +263,6 @@
 				D38B324219C1AF94009F8345 /* DataStore.swift in Sources */,
 				D3F5432C19B86F230053DA1A /* Utility.swift in Sources */,
 				D3B96E6419BDBC030065B8C4 /* TwoHeadedGiantViewController.swift in Sources */,
-				D3F5430F19B867AD0053DA1A /* ViewController.swift in Sources */,
 				D3F5430D19B867AD0053DA1A /* AppDelegate.swift in Sources */,
 				D3F5432A19B86CAA0053DA1A /* PlayerViewController.swift in Sources */,
 			);
@@ -389,7 +386,7 @@
 				INFOPLIST_FILE = MTGLifeCounter2/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.orionedwards.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.orionedwards.MTGLifeCounter2x;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -406,7 +403,7 @@
 				INFOPLIST_FILE = MTGLifeCounter2/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.orionedwards.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.orionedwards.MTGLifeCounter2x;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;

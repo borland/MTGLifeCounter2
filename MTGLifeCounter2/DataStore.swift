@@ -53,7 +53,9 @@ private
     class func filePathForKey(key:String) -> String {
         let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
         if paths.count == 1 {
-            return paths[0].stringByAppendingPathComponent(key)
+            if let url = NSURL(string: paths[0]) {
+                return url.URLByAppendingPathComponent(key).absoluteString
+            }
         }
         return ""
     }

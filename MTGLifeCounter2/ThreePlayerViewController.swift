@@ -45,6 +45,7 @@ class ThreePlayerViewController : UIViewController {
     }
     
     override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         navigationController!.navigationBarHidden = true
         guard let p1 = _player1, let p2 = _player2, let p3 = _player3 else {
             return
@@ -66,9 +67,11 @@ class ThreePlayerViewController : UIViewController {
                 color:settings["player3color"] as? NSNumber)
                 
         } catch { } // perhaps we could show the user an error message or something?
+        UIApplication.sharedApplication().idleTimerDisabled = true
     }
     
     override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
         navigationController!.navigationBarHidden = false
         guard let p1 = _player1, let p2 = _player2, let p3 = _player3 else {
             return
@@ -83,6 +86,7 @@ class ThreePlayerViewController : UIViewController {
                 "player3": p3.lifeTotal,
                 "player3color": p3.color.rawValue])
         } catch { } // perhaps we could show the user an error message or something?
+        UIApplication.sharedApplication().idleTimerDisabled = false
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -113,6 +117,7 @@ class ThreePlayerViewController : UIViewController {
     }
     
     override func traitCollectionDidChange(previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
         setConstraintsFor(traitCollection)
     }
     

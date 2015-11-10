@@ -53,6 +53,7 @@ class DuelViewController : UIViewController {
     }
     
     override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         navigationController!.navigationBarHidden = true
         guard let p1 = _player1, let p2 = _player2 else {
             return
@@ -69,9 +70,12 @@ class DuelViewController : UIViewController {
                 withLifeTotal:settings["player2"] as? NSNumber,
                 color:settings["player2color"] as? NSNumber)
         } catch { }
+        
+        UIApplication.sharedApplication().idleTimerDisabled = true
     }
     
     override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
         navigationController!.navigationBarHidden = false
         guard let p1 = _player1, let p2 = _player2 else {
             return
@@ -84,6 +88,7 @@ class DuelViewController : UIViewController {
                 "player2": p2.lifeTotal,
                 "player2color": p2.color.rawValue])
         } catch {}
+        UIApplication.sharedApplication().idleTimerDisabled = false
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -117,6 +122,7 @@ class DuelViewController : UIViewController {
     }
     
     override func traitCollectionDidChange(previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
         guard let p1 = _player1 else { return }
         
         switch (traitCollection.horizontalSizeClass, traitCollection.verticalSizeClass) {

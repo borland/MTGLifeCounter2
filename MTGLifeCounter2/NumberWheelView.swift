@@ -45,7 +45,7 @@ class NumberWheelView : UIView {
     func configureView() {
         translatesAutoresizingMaskIntoConstraints = false // it's up to the parent to set layout constraints
         
-        for var x = -1; x < _numCells+2; x++ {
+        for x in -1 ..< _numCells+2 {
             let lbl = UILabel()
             lbl.translatesAutoresizingMaskIntoConstraints = false
             lbl.font = UIFont(name: "Futura", size: CGFloat(_lineHeight))

@@ -88,11 +88,6 @@ class LifeTotalDeltaTracker {
 class PlayerViewController : UIViewController {
     private let _tracker = LifeTotalDeltaTracker()
     
-    private var _playerName = ""
-    private var _lifeTotal = 0
-    private var _isUpsideDown = false
-    private var _color:MtgColor = MtgColor.White
-    
     @IBOutlet var backgroundView: PlayerBackgroundView!
     @IBOutlet weak var lifeTotalLabel: UILabel!
     @IBOutlet weak var plusButton: UIButton!
@@ -153,19 +148,24 @@ class PlayerViewController : UIViewController {
         }
     }
     
-    var color:MtgColor {
-        get{ return _color }
-        set(value) {
-            _color = value
-            backgroundView.setBackgroundToColors(value)
+    @IBAction func viewWasLongPressed(sender: UILongPressGestureRecognizer) {
+        let alert = UIAlertController(title: "Hello", message: "LongPress", preferredStyle: .ActionSheet)
+        alert.addAction(UIAlertAction(title: "Button1", style: .Default) { _ in
+            alert.dismissViewControllerAnimated(true, completion: nil)
+        })
+    }
+    
+    var color = MtgColor.White {
+        didSet {
+            backgroundView.setBackgroundToColors(color)
             
-            if(value == MtgColor.White) {
+            if(color == MtgColor.White) {
                 textColor = UIColor(red: 0.2, green:0.2, blue:0.2, alpha:1.0)
             } else {
                 textColor = UIColor.whiteColor()
             }
             
-            backgroundView.addLabel(value.displayName, isUpsideDown: isUpsideDown, textColor: textColor)
+            backgroundView.addLabel(color.displayName, isUpsideDown: isUpsideDown, textColor: textColor)
         }
     }
     
@@ -185,33 +185,27 @@ class PlayerViewController : UIViewController {
         }
     }
     
-    var playerName:String {
-        get{ return _playerName }
-        set(value) {
-            _playerName = value
+    var playerName = "" {
+        didSet {
             propertyDidChange("playerName")
         }
     }
     
-    var lifeTotal:Int {
-        get { return _lifeTotal }
-        set(value) {
-            _lifeTotal = value
-            _tracker.update(_lifeTotal)
+    var lifeTotal = 0 {
+        didSet {
+            _tracker.update(lifeTotal)
             propertyDidChange("lifeTotal")
         }
     }
     
     func resetLifeTotal(lifeTotal:Int) {
-        _lifeTotal = lifeTotal
+        self.lifeTotal = lifeTotal
         _tracker.reset(lifeTotal)
         propertyDidChange("lifeTotal")
     }
     
-    var isUpsideDown:Bool {
-        get{ return _isUpsideDown }
-        set(value) {
-            _isUpsideDown = value
+    var isUpsideDown = false {
+        didSet {
             propertyDidChange("isUpsideDown")
         }
     }

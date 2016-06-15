@@ -12,11 +12,10 @@ import UIKit
 class TestViewController : UIViewController {
     
     override func viewDidLoad() {
-        let menu = RadialColorPicker(radius: 250)
         
+        let frame = CGRect(x: 50, y: 50, width: 300, height: 300)
+        
+        let menu = RadialColorPicker(frame: frame) { c in print("got \(c)") }
         view.addSubview(menu)
-        
-        menu.topAnchor.constraintEqualToAnchor(view.topAnchor, constant: 50).active = true
-        menu.leftAnchor.constraintEqualToAnchor(view.leftAnchor, constant: 50).active = true
     }
 }

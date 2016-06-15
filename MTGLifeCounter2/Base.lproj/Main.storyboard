@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Kjy-XB-DVZ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="ydO-1x-fO3">
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <scenes>
@@ -459,7 +458,7 @@
                         <action selector="lifeTotalWasTapped:" destination="CaN-LE-yH2" id="kId-A8-vNz"/>
                     </connections>
                 </tapGestureRecognizer>
-                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="KMV-kn-KqU">
+                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.29999999999999999" id="KMV-kn-KqU">
                     <connections>
                         <action selector="viewWasLongPressed:" destination="CaN-LE-yH2" id="WWr-gw-6LC"/>
                     </connections>

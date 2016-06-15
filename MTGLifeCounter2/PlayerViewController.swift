@@ -148,11 +148,37 @@ class PlayerViewController : UIViewController {
         }
     }
     
+    private var _currentColorPicker:RadialColorPicker?
+    
     @IBAction func viewWasLongPressed(sender: UILongPressGestureRecognizer) {
-        let alert = UIAlertController(title: "Hello", message: "LongPress", preferredStyle: .ActionSheet)
-        alert.addAction(UIAlertAction(title: "Button1", style: .Default) { _ in
-            alert.dismissViewControllerAnimated(true, completion: nil)
-        })
+        if _currentColorPicker != nil {
+            return
+        }
+        
+        let topView = self.view.window! // MUST be on screen or crash means a bug
+        let size = CGFloat(275)
+        let half = size/2
+        
+        let location = sender.locationInView(topView)
+        let rect = CGRectMake(location.x - half, location.y - half, size, size)
+        
+        let picker = RadialColorPicker(frame: rect) { picker, color in
+            if let c = color { self.color = c }
+            self._currentColorPicker = nil
+        
+            UIView.animateWithDuration(
+                0.25,
+                animations: { picker.alpha = 0.0 },
+                completion: { _ in picker.removeFromSuperview()
+            })
+            
+        }
+        
+        picker.alpha = 0.0
+        topView.addSubview(picker)
+        _currentColorPicker = picker
+        
+        UIView.animateWithDuration(0.25) { picker.alpha = 1.0 }
     }
     
     var color = MtgColor.White {

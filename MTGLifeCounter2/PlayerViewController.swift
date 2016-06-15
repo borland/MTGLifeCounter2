@@ -156,7 +156,7 @@ class PlayerViewController : UIViewController {
         }
         
         let topView = self.view.window! // MUST be on screen or crash means a bug
-        let size = CGFloat(275)
+        let size = CGFloat(300)
         let half = size/2
         
         let location = sender.locationInView(topView)
@@ -167,7 +167,7 @@ class PlayerViewController : UIViewController {
             self._currentColorPicker = nil
         
             UIView.animateWithDuration(
-                0.25,
+                0.2,
                 animations: { picker.alpha = 0.0 },
                 completion: { _ in picker.removeFromSuperview()
             })
@@ -178,7 +178,7 @@ class PlayerViewController : UIViewController {
         topView.addSubview(picker)
         _currentColorPicker = picker
         
-        UIView.animateWithDuration(0.25) { picker.alpha = 1.0 }
+        UIView.animateWithDuration(0.2) { picker.alpha = 1.0 }
     }
     
     var color = MtgColor.White {

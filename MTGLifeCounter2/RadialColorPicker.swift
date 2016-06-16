@@ -69,7 +69,7 @@ class RadialColorPicker : UIView {
         if _boxes.isEmpty {
             _boxes = innerBoxes
             for (k,v) in outerBoxes {
-                _boxes[k] = v
+                _boxes[k] = CGRectInset(v, 3, 3) // because they're non rectangular, pull them in a bit
             }
         }
     }

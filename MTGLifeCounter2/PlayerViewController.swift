@@ -159,26 +159,42 @@ class PlayerViewController : UIViewController {
         let size = CGFloat(300)
         let half = size/2
         
+        let lightboxBackground = UIView(frame: topView.frame)
+        lightboxBackground.backgroundColor = UIColor(white: 0, alpha: 1)
+        
         let location = sender.locationInView(topView)
-        let rect = CGRectMake(location.x - half, location.y - half, size, size)
+        let x = min(topView.frame.width - size, max(0, location.x - half))
+        let y = min(topView.frame.height - size, max(20, location.y - half))
         
-        let picker = RadialColorPicker(frame: rect) { picker, color in
-            if let c = color { self.color = c }
+        let closePicker:(RadialColorPicker -> Void) = { picker in
             self._currentColorPicker = nil
-        
             UIView.animateWithDuration(
                 0.2,
-                animations: { picker.alpha = 0.0 },
-                completion: { _ in picker.removeFromSuperview()
+                animations: {
+                    lightboxBackground.alpha = 0.0
+                    picker.alpha = 0.0
+                },
+                completion: { _ in
+                    picker.removeFromSuperview()
+                    lightboxBackground.removeFromSuperview()
             })
-            
         }
         
-        picker.alpha = 0.0
-        topView.addSubview(picker)
+        let picker = RadialColorPicker(frame: CGRectMake(x, y, size, size)) { picker, color in
+            if let c = color { self.color = c }
+            closePicker(picker)
+        }
         _currentColorPicker = picker
         
-        UIView.animateWithDuration(0.2) { picker.alpha = 1.0 }
+        lightboxBackground.alpha = 0.0
+        picker.alpha = 0.0
+        topView.addSubview(lightboxBackground)
+        topView.addSubview(picker)
+        
+        UIView.animateWithDuration(0.2) {
+            lightboxBackground.alpha = 0.3
+            picker.alpha = 1.0
+        }
     }
     
     var color = MtgColor.White {

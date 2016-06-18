@@ -11,35 +11,66 @@ import UIKit
 
 class RadialColorPicker : UIView {
     private let _tapCallback:(RadialColorPicker, MtgColor?) -> Void
-    private var _boxes:[MtgColor:CGRect] = [:]
+    private var _hitTestRects:[MtgColor:CGRect] = [:]
+    
+    private var _drawPercentage = 0.0 // between 0 and 1
+    private let _drawPercentageEachTick = 0.1 // 10 ticks, then we stop
+    private var _drawTimer:NSTimer?
     
     required init(frame: CGRect, tapCallback:((RadialColorPicker, MtgColor?) -> Void)) {
         _tapCallback = tapCallback
         assert(frame.width == frame.height)
         super.init(frame: frame)
         
+        _drawTimer = NSTimer.scheduledTimerWithTimeInterval(0.03, target: self, selector: #selector(timerDidFire(_:)), userInfo: nil, repeats: true)
+        _drawTimer!.tolerance = 0 // no concern for battery on an animation that only lasts 100ms
+        
         self.translatesAutoresizingMaskIntoConstraints = false
         
         let radius = frame.width
-
         layer.cornerRadius = radius / 2
         clipsToBounds = true
-        backgroundColor = UIColor.grayColor()
+        backgroundColor = UIColor.clearColor()
         
-        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(wasTapped(_:))))
+        multipleTouchEnabled = true
+        
+//        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(wasTapped(_:))))
     }
     
-    func wasTapped(sender: UITapGestureRecognizer) {
-        _tapCallback(self, hitTestForColor(sender.locationInView(self)))
+    func timerDidFire(timer:NSTimer) {
+        _drawPercentage += _drawPercentageEachTick
+        setNeedsDisplay()
+        if let timer = _drawTimer where _drawPercentage >= 1 {
+            timer.invalidate()
+            _drawTimer = nil
+        }
     }
     
     private func hitTestForColor(point:CGPoint) -> MtgColor? {
-        for (color, rect) in _boxes {
+        for (color, rect) in _hitTestRects {
             if rect.contains(point) { // TODO experiment - we might need to inset the boxes
                 return color
             }
         }
         return nil
+    }
+    
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        print("touches began")
+    }
+    
+    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        print("touches moved")
+    }
+    
+    override func touchesEstimatedPropertiesUpdated(touches: Set<NSObject>) {
+        print("touches cancelled")
+    }
+    
+    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        print("touches ended")
+        guard let touch = touches.first else { return }
+        _tapCallback(self, hitTestForColor(touch.locationInView(self)))
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -52,7 +83,7 @@ class RadialColorPicker : UIView {
         defer{ CGContextRestoreGState(gc) }
         
         let coreColors:[MtgColor] = [.White, .Blue, .Black, .Red, .Green] // WUBRG
-        let paired:[MtgColor] = [.WhiteBlack,
+        let pairedColors:[MtgColor] = [.WhiteBlack,
             .WhiteBlue,
             .BlueRed,
             .BlueBlack,
@@ -63,24 +94,31 @@ class RadialColorPicker : UIView {
             .GreenBlue,
             .GreenWhite]
         
-        let innerBoxes = gc.drawSegments(rect, colors: paired, offset: rect.midX * 0.8, width: rect.midX * 0.4)
-        let outerBoxes = gc.drawSegments(rect, colors: coreColors, offset: rect.midX * 0.4, width: rect.midX * 0.4)
+        let thresholdPaired = 1.0 / Double(pairedColors.count)
+        let howManyPaired = Int(_drawPercentage / thresholdPaired)
+        let pairedRects = gc.drawSegments(rect, colors: pairedColors, howMany:  howManyPaired, offset: rect.midX * 0.8, width: rect.midX * 0.4)
         
-        if _boxes.isEmpty {
-            _boxes = innerBoxes
-            for (k,v) in outerBoxes {
-                _boxes[k] = CGRectInset(v, 3, 3) // because they're non rectangular, pull them in a bit
+        let thresholdCore = 1.0 / Double(coreColors.count)
+        let howManyCore = Int(_drawPercentage / thresholdCore)
+        let coreRects = gc.drawSegments(rect, colors: coreColors, howMany:howManyCore, offset: rect.midX * 0.4, width: rect.midX * 0.4)
+        
+        if _drawPercentage >= 1.0 && _hitTestRects.isEmpty {
+            backgroundColor = UIColor.grayColor()
+            
+            _hitTestRects = pairedRects
+            for (k,v) in coreRects {
+                _hitTestRects[k] = CGRectInset(v, 3, 3) // because they're non rectangular, pull them in a bit
             }
         }
     }
 }
 
 private extension CGContext {
-    func drawSegments(rect: CGRect, colors:[MtgColor], offset: CGFloat, width: CGFloat) -> [MtgColor:CGRect] {
+    func drawSegments(rect: CGRect, colors:[MtgColor], howMany:Int, offset: CGFloat, width: CGFloat) -> [MtgColor:CGRect] {
         var boxes:[MtgColor:CGRect] = [:]
         
         let num = colors.count
-        for i in 0..<num {
+        for i in 0..<howMany {
             let mtgColor = colors[i]
             
             let startPct = Double(i) / Double(num)
@@ -133,10 +171,10 @@ private extension CGContext {
             CGContextRestoreGState(self)
             
             // borders
-            CGContextAddPath(self, strokedArc)
-            CGContextSetStrokeColorWithColor(self, UIColor.grayColor().CGColor)
-            CGContextSetLineWidth(self, 2)
-            CGContextDrawPath(self, CGPathDrawingMode.Stroke)
+//            CGContextAddPath(self, strokedArc)
+//            CGContextSetStrokeColorWithColor(self, UIColor.grayColor().CGColor)
+//            CGContextSetLineWidth(self, 2)
+//            CGContextDrawPath(self, CGPathDrawingMode.Stroke)
         }
         return boundingBox
     }

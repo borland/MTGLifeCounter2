@@ -190,6 +190,7 @@ class PlayerViewController : UIViewController {
         picker.alpha = 0.0
         topView.addSubview(lightboxBackground)
         topView.addSubview(picker)
+        picker.becomeFirstResponder()
         
         UIView.animateWithDuration(0.2) {
             lightboxBackground.alpha = 0.3

@@ -327,10 +327,10 @@
             </objects>
             <point key="canvasLocation" x="1315.5" y="-298.5"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--InitialNavController-->
         <scene sceneID="DEG-dY-MFN">
             <objects>
-                <navigationController id="ydO-1x-fO3" sceneMemberID="viewController">
+                <navigationController id="ydO-1x-fO3" userLabel="InitialNavController" sceneMemberID="viewController">
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="QRb-e2-7T5">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>

@@ -55,15 +55,15 @@ class ThreePlayerViewController : UIViewController {
             let settings = try DataStore.getWithKey(configKey)
             
             resetPlayerViewController(p1,
-                withLifeTotal:settings["player1"] as? NSNumber,
+                lifeTotal:settings["player1"] as? NSNumber,
                 color:settings["player1color"] as? NSNumber)
             
             resetPlayerViewController(p2,
-                withLifeTotal:settings["player2"] as? NSNumber,
+                lifeTotal:settings["player2"] as? NSNumber,
                 color:settings["player2color"] as? NSNumber)
             
             resetPlayerViewController(p3,
-                withLifeTotal:settings["player3"] as? NSNumber,
+                lifeTotal:settings["player3"] as? NSNumber,
                 color:settings["player3color"] as? NSNumber)
                 
         } catch { } // perhaps we could show the user an error message or something?
@@ -127,11 +127,12 @@ class ThreePlayerViewController : UIViewController {
     
     private func setConstraintsFor(traitCollection:UITraitCollection) {
         let cx = view.constraints as [NSLayoutConstraint]
-        view.removeConstraints(
-            constraints(cx, affectingView:container1!) +
-            constraints(cx, affectingView:container2!) +
-            constraints(cx, affectingView:container3!) +
-            constraints(cx, affectingView:toolbar))
+        view.removeConstraints(concat(
+            constraints(cx, affectingView:container1!),
+            constraints(cx, affectingView:container2!),
+            constraints(cx, affectingView:container3!),
+            constraints(cx, affectingView:toolbar)
+        ))
         
         let views = ["c1":container1!, "c2":container2!, "c3":container3!, "toolbar":toolbar!]
         

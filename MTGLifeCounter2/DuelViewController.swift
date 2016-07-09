@@ -63,11 +63,11 @@ class DuelViewController : UIViewController {
             let settings = try DataStore.getWithKey(configKey)
             
             resetPlayerViewController(p1,
-                withLifeTotal:settings["player1"] as? NSNumber,
+                lifeTotal:settings["player1"] as? NSNumber,
                 color:settings["player1color"] as? NSNumber)
 
             resetPlayerViewController(p2,
-                withLifeTotal:settings["player2"] as? NSNumber,
+                lifeTotal:settings["player2"] as? NSNumber,
                 color:settings["player2color"] as? NSNumber)
         } catch { }
         

@@ -11,6 +11,7 @@
 		D319CFDC1D108DFD001B5A0F /* RadialColorPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = D319CFDB1D108DFD001B5A0F /* RadialColorPicker.swift */; };
 		D330FDCB1A4E9E0500D731B2 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = D330FDCA1A4E9E0500D731B2 /* LaunchScreen.xib */; };
 		D36252A119CC3C0E00D60681 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D36252A019CC3C0E00D60681 /* Colors.swift */; };
+		D3666A501D3176A50051233B /* StarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3666A4F1D3176A50051233B /* StarViewController.swift */; };
 		D3734CE71B03D54800B85628 /* NumberWheelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3734CE61B03D54800B85628 /* NumberWheelView.swift */; };
 		D38B324219C1AF94009F8345 /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38B324119C1AF94009F8345 /* DataStore.swift */; };
 		D3B96E6419BDBC030065B8C4 /* TwoHeadedGiantViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3B96E6319BDBC030065B8C4 /* TwoHeadedGiantViewController.swift */; };
@@ -57,6 +58,7 @@
 		D319CFDB1D108DFD001B5A0F /* RadialColorPicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RadialColorPicker.swift; sourceTree = "<group>"; };
 		D330FDCA1A4E9E0500D731B2 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
 		D36252A019CC3C0E00D60681 /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		D3666A4F1D3176A50051233B /* StarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StarViewController.swift; sourceTree = "<group>"; };
 		D3734CE61B03D54800B85628 /* NumberWheelView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumberWheelView.swift; sourceTree = "<group>"; };
 		D38B324119C1AF94009F8345 /* DataStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
 		D3B96E6319BDBC030065B8C4 /* TwoHeadedGiantViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwoHeadedGiantViewController.swift; sourceTree = "<group>"; };
@@ -121,23 +123,24 @@
 		D3F5430919B867AD0053DA1A /* MTGLifeCounter2 */ = {
 			isa = PBXGroup;
 			children = (
-				D3F5431019B867AD0053DA1A /* Main.storyboard */,
-				D330FDCA1A4E9E0500D731B2 /* LaunchScreen.xib */,
-				D3F5432B19B86F230053DA1A /* Utility.swift */,
-				D36252A019CC3C0E00D60681 /* Colors.swift */,
 				D3F5430C19B867AD0053DA1A /* AppDelegate.swift */,
-				D3F5432919B86CAA0053DA1A /* PlayerViewController.swift */,
-				D3734CE61B03D54800B85628 /* NumberWheelView.swift */,
-				D3F5432D19B8734A0053DA1A /* DuelViewController.swift */,
-				D3B96E6319BDBC030065B8C4 /* TwoHeadedGiantViewController.swift */,
-				D3BC006B19BDBFBC00101198 /* ThreePlayerViewController.swift */,
-				D3F9A57819BB0AA4008C3BF0 /* MainMenuViewController.swift */,
-				D315A0F71AD1B8350055129F /* FloatingView.swift */,
+				D36252A019CC3C0E00D60681 /* Colors.swift */,
 				D38B324119C1AF94009F8345 /* DataStore.swift */,
-				D3DEE32D1D106FDC0099BE1E /* TestViewController.swift */,
-				D319CFDB1D108DFD001B5A0F /* RadialColorPicker.swift */,
+				D3F5432D19B8734A0053DA1A /* DuelViewController.swift */,
+				D315A0F71AD1B8350055129F /* FloatingView.swift */,
 				D3F5431319B867AD0053DA1A /* Images.xcassets */,
+				D330FDCA1A4E9E0500D731B2 /* LaunchScreen.xib */,
+				D3F5431019B867AD0053DA1A /* Main.storyboard */,
+				D3F9A57819BB0AA4008C3BF0 /* MainMenuViewController.swift */,
+				D3734CE61B03D54800B85628 /* NumberWheelView.swift */,
+				D3F5432919B86CAA0053DA1A /* PlayerViewController.swift */,
+				D319CFDB1D108DFD001B5A0F /* RadialColorPicker.swift */,
+				D3666A4F1D3176A50051233B /* StarViewController.swift */,
 				D3F5430A19B867AD0053DA1A /* Supporting Files */,
+				D3DEE32D1D106FDC0099BE1E /* TestViewController.swift */,
+				D3BC006B19BDBFBC00101198 /* ThreePlayerViewController.swift */,
+				D3B96E6319BDBC030065B8C4 /* TwoHeadedGiantViewController.swift */,
+				D3F5432B19B86F230053DA1A /* Utility.swift */,
 			);
 			path = MTGLifeCounter2;
 			sourceTree = "<group>";
@@ -286,6 +289,7 @@
 				D3F5430D19B867AD0053DA1A /* AppDelegate.swift in Sources */,
 				D319CFDC1D108DFD001B5A0F /* RadialColorPicker.swift in Sources */,
 				D3DEE32E1D106FDC0099BE1E /* TestViewController.swift in Sources */,
+				D3666A501D3176A50051233B /* StarViewController.swift in Sources */,
 				D3F5432A19B86CAA0053DA1A /* PlayerViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

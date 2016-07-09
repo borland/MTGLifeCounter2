@@ -85,6 +85,14 @@ class LifeTotalDeltaTracker {
     }
 }
 
+enum DisplaySize {
+    case Small, Normal
+}
+
+enum ButtonOrientation {
+    case Auto, Horizontal, Vertical
+}
+
 class PlayerViewController : UIViewController {
     private let _tracker = LifeTotalDeltaTracker()
     
@@ -133,8 +141,8 @@ class PlayerViewController : UIViewController {
         let reference = view.frame
         
         var up = true;
-        switch (traitCollection.horizontalSizeClass, traitCollection.verticalSizeClass) {
-        case (.Compact, .Regular): // phone in portrait
+        switch buttonOrientation {
+        case .Horizontal: // buttons on sides
             up = location.x > (reference.size.width / 2)
             
         default:
@@ -198,6 +206,8 @@ class PlayerViewController : UIViewController {
         }
     }
     
+    var buttonOrientation = ButtonOrientation.Auto
+    
     var color = MtgColor.White {
         didSet {
             backgroundView.setBackgroundToColors(color)
@@ -230,58 +240,53 @@ class PlayerViewController : UIViewController {
     
     var playerName = "" {
         didSet {
-            propertyDidChange("playerName")
+            if let x = playerNameButton {
+                x.setTitle(playerName, forState: .Normal)
+            }
         }
     }
     
     var lifeTotal = 0 {
         didSet {
             _tracker.update(lifeTotal)
-            propertyDidChange("lifeTotal")
+            
+            if let x = lifeTotalLabel {
+                x.text = "\(lifeTotal)"
+            }
         }
     }
     
     func resetLifeTotal(lifeTotal:Int) {
         self.lifeTotal = lifeTotal
         _tracker.reset(lifeTotal)
-        propertyDidChange("lifeTotal")
+    }
+    
+    var displaySize: DisplaySize = .Normal {
+        didSet {
+            if let x = lifeTotalLabel {
+                x.font = x.font.fontWithSize(displaySize == .Normal ? 120 : 80)
+            }
+        }
     }
     
     var isUpsideDown = false {
         didSet {
-            propertyDidChange("isUpsideDown")
-        }
-    }
-    
-    func propertyDidChange(propertyName:String) {
-        switch(propertyName) {
-        case "lifeTotal":
-            if let x = lifeTotalLabel {
-                x.text = "\(lifeTotal)"
-            }
-        case "playerName":
-            if let x = playerNameButton {
-                x.setTitle(playerName, forState: .Normal)
-            }
-            
-        case "isUpsideDown":
             if isUpsideDown {
                 view.transform = CGAffineTransformRotate(CGAffineTransformIdentity, CGFloat(M_PI));
             } else {
                 view.transform = CGAffineTransformIdentity;
             }
-
-        default:
-            assertionFailure("unhandled property")
         }
     }
     
     override func viewDidLoad() {
         setConstraintsFor(traitCollection)
         
-        propertyDidChange("playerName")
-        propertyDidChange("lifeTotal")
-        propertyDidChange("isUpsideDown")
+        // trigger all the property change callbacks
+        playerName = self.playerName + ""
+        lifeTotal = self.lifeTotal + 0
+        isUpsideDown = !(!self.isUpsideDown)
+        displaySize = self.displaySize == .Normal ? .Normal : .Small
         
         let maxColorNum = UInt32(MtgColor.Last().rawValue)
         if let x = MtgColor(rawValue: Int(arc4random_uniform(maxColorNum))) {
@@ -298,19 +303,23 @@ class PlayerViewController : UIViewController {
     
     func setConstraintsFor(traitCollection:UITraitCollection) {
         let cx = view.constraints as [NSLayoutConstraint]
-        view.removeConstraints(
-            constraints(cx, affectingView:plusButton) +
-            constraints(cx, affectingView:minusButton) +
-            constraints(cx, affectingView:lifeTotalLabel) +
-            constraints(cx, affectingView:playerNameButton))
+        view.removeConstraints(concat(
+            constraints(cx, affectingView:plusButton),
+            constraints(cx, affectingView:minusButton),
+            constraints(cx, affectingView:lifeTotalLabel),
+            constraints(cx, affectingView:playerNameButton)
+        ))
         
         let views = ["view":view!, "plus":plusButton!, "minus":minusButton!, "lifeTotal":lifeTotalLabel!, "playerName":playerNameButton!]
         
         view.addConstraints("H:[view]-(<=1)-[lifeTotal]", views: views, options: .AlignAllCenterY)
         view.addConstraints("V:[view]-(<=1)-[lifeTotal]", views: views, options: .AlignAllCenterX)
         
-        switch (traitCollection.horizontalSizeClass, traitCollection.verticalSizeClass) {
-        case (.Compact, .Regular): // +/- on the sides
+        let btnOrientation = resolveButtonOrientation()
+        assert(btnOrientation != .Auto)
+        
+        switch btnOrientation {
+        case .Horizontal: // +/- on the sides
             view.addConstraints("H:|-6-[playerName]", views: views)
             view.addConstraints("V:|-10-[playerName]", views: views)
             
@@ -331,6 +340,22 @@ class PlayerViewController : UIViewController {
         }
         
         view.setNeedsDisplay()
+    }
+    
+    func resolveButtonOrientation() -> ButtonOrientation {
+        switch buttonOrientation {
+        case .Vertical:
+            return .Vertical // explicitly set
+        case .Horizontal:
+            return .Horizontal // explicitly set
+        case .Auto:
+            switch (traitCollection.horizontalSizeClass, traitCollection.verticalSizeClass) {
+            case (.Compact, .Regular): // +/- on the sides
+                return .Horizontal;
+            default: // +/- on the top/bottom
+                return .Vertical;
+            }
+        }
     }
 }
 

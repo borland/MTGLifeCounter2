@@ -33,7 +33,7 @@ func constraints(constraints:[NSLayoutConstraint], affectingView:UIView) -> [NSL
     }
 }
 
-func resetPlayerViewController(playerViewController:PlayerViewController, withLifeTotal lifeTotal:NSNumber?, color:NSNumber?) {
+func resetPlayerViewController(playerViewController:PlayerViewController, lifeTotal:NSNumber?, color:NSNumber?) {
     if let lt = lifeTotal,
         let x = color,
         let col = MtgColor(rawValue: x.integerValue)

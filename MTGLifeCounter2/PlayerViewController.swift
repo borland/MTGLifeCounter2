@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 class LifeTotalDeltaTracker {
-    let floatingViewFontSize = 44
+    
     let floatingViewTimeout = 1.7
     let floatingViewHideTime = 0.25
     
@@ -20,10 +20,18 @@ class LifeTotalDeltaTracker {
     private let _label = UILabel()
     private var _cancelPreviousDelay:(()->())?
     
-    init () {
-        _label.font = UIFont(name:"Futura", size:CGFloat(floatingViewFontSize))
+    init(fontSize: CGFloat = 44) {
+        _label.font = UIFont(name:"Futura", size: 1)
         _label.textColor = UIColor.whiteColor()
         _label.translatesAutoresizingMaskIntoConstraints = false
+        
+        floatingViewFontSize = fontSize
+    }
+    
+    var floatingViewFontSize: CGFloat {
+        didSet {
+            _label.font = _label.font.fontWithSize(floatingViewFontSize)
+        }
     }
     
     var parent:UIView?
@@ -54,7 +62,7 @@ class LifeTotalDeltaTracker {
     
     func showOrExtendView() {
         if let p = parent where _floatingView == nil && _history.count > 1 {
-            let fv = FloatingView(innerView:self._label, cornerRadius:Float(floatingViewFontSize) / 5)
+            let fv = FloatingView(innerView:self._label, cornerRadius: Float(floatingViewFontSize) / 5)
             
             fv.showInView(p) { floatingView in
                 p.addConstraints([
@@ -278,6 +286,7 @@ class PlayerViewController : UIViewController {
             if let x = lifeTotalLabel {
                 x.font = x.font.fontWithSize(displaySize == .Normal ? 120 : 80)
             }
+            _tracker.floatingViewFontSize = displaySize == .Normal ? 44 : 30
         }
     }
     
@@ -343,7 +352,7 @@ class PlayerViewController : UIViewController {
             let vGap:CGFloat = -8
             let metrics = ["vGap": vGap]
             
-            view.addConstraints("V:[minus(44)]-(vGap)-[lifeTotal]-(vGap)-[plus(44)]", views: views, metrics: metrics)
+            view.addConstraints("V:[plus(44)]-(vGap)-[lifeTotal]-(vGap)-[minus(44)]", views: views, metrics: metrics)
             view.addConstraints([
                 NSLayoutConstraint(item: plusButton, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0),
                 NSLayoutConstraint(item: minusButton, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0)

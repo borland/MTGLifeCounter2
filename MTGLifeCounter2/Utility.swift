@@ -11,7 +11,6 @@ import UIKit
 
 public let GlobalTintColor = UIColor(red: 0.302, green: 0.102, blue: 0.702, alpha: 1)
 
-
 // swift 2.2 compiler +'ing more than 3 arrays together takes minutes to COMPILE, so we don't + them
 func concat<T>(arrays: [[T]]) -> [T] {
     var result = [T]()

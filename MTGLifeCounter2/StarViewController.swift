@@ -12,8 +12,11 @@ import UIKit
 class StarViewController : AbstractGameViewController {
     override var initialLifeTotal:Int { return 20 }
     override var configKey:String { return "star" }
+    override var containers: [UIView] { return [c1, c2, c3, c4, c5] }
     
     @IBOutlet weak var backButton: UIButton!
+    @IBOutlet weak var d20Button: UIButton!
+    @IBOutlet weak var refreshButton: UIButton!
     
     @IBOutlet weak var c1: UIView!
     @IBOutlet weak var c2: UIView!
@@ -27,23 +30,6 @@ class StarViewController : AbstractGameViewController {
         for p in _players {
             p.displaySize = .Small
         }
-        
-        backButton.translatesAutoresizingMaskIntoConstraints = false
-        backButton.addConstraints([
-            backButton.widthAnchor.constraintEqualToConstant(44),
-            backButton.heightAnchor.constraintEqualToAnchor(backButton.widthAnchor) ])
-        
-        backButton.backgroundColor = GlobalTintColor
-        
-        // http://stackoverflow.com/a/34984063/234
-        backButton.clipsToBounds = true
-        backButton.layer.cornerRadius = 22
-        let shadowPath = UIBezierPath(roundedRect: backButton.bounds, cornerRadius: 22)
-        backButton.layer.masksToBounds = false
-        backButton.layer.shadowColor = UIColor.blackColor().CGColor
-        backButton.layer.shadowOffset = CGSizeMake(3, 3)
-        backButton.layer.shadowOpacity = 0.75
-        backButton.layer.shadowPath = shadowPath.CGPath
     }
     
     override func setConstraintsFor(traitCollection:UITraitCollection) {
@@ -54,11 +40,12 @@ class StarViewController : AbstractGameViewController {
             constraints.affectingView(c3!),
             constraints.affectingView(c4!),
             constraints.affectingView(c5!),
-            constraints.affectingView(backButton!))
+            constraints.affectingView(backButton!),
+            constraints.affectingView(refreshButton!),
+            constraints.affectingView(d20Button!)
+        )
         
         let views = ["c1":c1!, "c2":c2!, "c3":c3!, "c4":c4!, "c5":c5!]
-        
-//        view.addConstraints("|[toolbar]|", views: views)
         
         switch (traitCollection.horizontalSizeClass, traitCollection.verticalSizeClass) {
         case (.Compact, .Regular): // phone in portrait
@@ -83,21 +70,41 @@ class StarViewController : AbstractGameViewController {
             // second row horizontally
             view.addConstraints("|[c4(==c5)][c5(==c4)]|", views: views)
             
-            // two rows vertically (just align the leftmost and let the others stick to those)
-            view.addConstraints("V:|[c1][c4]|", views: views)
-            
             view.addAllConstraints(
-                // all equal height
-                [c2, c3, c4, c5].map { c1.heightAnchor.constraintEqualToAnchor($0.heightAnchor) },
+                // stack two rows vertically (just align the leftmost and let the others stick to those)
+                // top row gets 53%, not 50 due to space taken up by clock
+                [
+                    c1.topAnchor.constraintEqualToAnchor(view.topAnchor),
+                    c1.heightAnchor.constraintEqualToAnchor(view.heightAnchor, multiplier: 0.53),
+                    
+                    c4.topAnchor.constraintEqualToAnchor(c1.bottomAnchor),
+                    c4.bottomAnchor.constraintEqualToAnchor(view.bottomAnchor),
+                ],
                 
-                // align tops of two rows
-                [c2, c3].map { c1.topAnchor.constraintEqualToAnchor($0.topAnchor) },
-                [ c5.topAnchor.constraintEqualToAnchor(c4.topAnchor) ],
+                // all top row equal height and top aligned
+                [c2, c3].map { $0.heightAnchor.constraintEqualToAnchor(c1.heightAnchor) },
+                [c2, c3].map { $0.topAnchor.constraintEqualToAnchor(c1.topAnchor) },
+                
+                // second row equal height and top aligned
+                [
+                    c5.heightAnchor.constraintEqualToAnchor(c4.heightAnchor),
+                    c5.topAnchor.constraintEqualToAnchor(c4.topAnchor),
+                ],
                 
                 // back button
                 [
-                    backButton.leftAnchor.constraintEqualToAnchor(view.leftAnchor, constant: 8),
-                    backButton.topAnchor.constraintLessThanOrEqualToAnchor(c4.topAnchor, constant: 8)
+                    backButton.leadingAnchor.constraintEqualToAnchor(view.leadingAnchor, constant: 8),
+                    backButton.centerYAnchor.constraintEqualToAnchor(c1.bottomAnchor)
+                ],
+                // refresh button
+                [
+                    refreshButton.trailingAnchor.constraintEqualToAnchor(view.trailingAnchor, constant: -8),
+                    refreshButton.centerYAnchor.constraintEqualToAnchor(c1.bottomAnchor)
+                ],
+                // d20 button
+                [
+                    d20Button.centerXAnchor.constraintEqualToAnchor(view.centerXAnchor),
+                    d20Button.centerYAnchor.constraintEqualToAnchor(c1.bottomAnchor)
                 ]
             )
         }

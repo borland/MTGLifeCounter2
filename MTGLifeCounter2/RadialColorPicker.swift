@@ -13,17 +13,10 @@ class RadialColorPicker : UIView {
     private let _tapCallback:(RadialColorPicker, MtgColor?) -> Void
     private var _hitTestRects:[MtgColor:CGRect] = [:]
     
-    private var _drawPercentage = 0.0 // between 0 and 1
-    private let _drawPercentageEachTick = 0.1 // 10 ticks, then we stop
-    private var _drawTimer:NSTimer?
-    
     required init(frame: CGRect, tapCallback:((RadialColorPicker, MtgColor?) -> Void)) {
         _tapCallback = tapCallback
         assert(frame.width == frame.height)
         super.init(frame: frame)
-        
-        _drawTimer = NSTimer.scheduledTimerWithTimeInterval(0.03, target: self, selector: #selector(timerDidFire(_:)), userInfo: nil, repeats: true)
-        _drawTimer!.tolerance = 0 // no concern for battery on an animation that only lasts 100ms
         
         self.translatesAutoresizingMaskIntoConstraints = false
         
@@ -42,15 +35,6 @@ class RadialColorPicker : UIView {
         multipleTouchEnabled = true
         
 //        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(wasTapped(_:))))
-    }
-    
-    func timerDidFire(timer:NSTimer) {
-        _drawPercentage += _drawPercentageEachTick
-        setNeedsDisplay()
-        if let timer = _drawTimer where _drawPercentage >= 1 {
-            timer.invalidate()
-            _drawTimer = nil
-        }
     }
     
     private func hitTestForColor(point:CGPoint) -> MtgColor? {
@@ -88,15 +72,11 @@ class RadialColorPicker : UIView {
             .GreenBlue,
             .GreenWhite]
         
-        let thresholdPaired = 1.0 / Double(pairedColors.count)
-        let howManyPaired = Int(_drawPercentage / thresholdPaired)
-        let pairedRects = gc.drawSegments(rect, colors: pairedColors, howMany:  howManyPaired, offset: rect.midX * 0.8, width: rect.midX * 0.4)
+        let pairedRects = gc.drawSegments(rect, colors: pairedColors, howMany: pairedColors.count, offset: rect.midX * 0.8, width: rect.midX * 0.4)
         
-        let thresholdCore = 1.0 / Double(coreColors.count)
-        let howManyCore = Int(_drawPercentage / thresholdCore)
-        let coreRects = gc.drawSegments(rect, colors: coreColors, howMany:howManyCore, offset: rect.midX * 0.4, width: rect.midX * 0.4)
+        let coreRects = gc.drawSegments(rect, colors: coreColors, howMany: coreColors.count, offset: rect.midX * 0.4, width: rect.midX * 0.4)
         
-        if _drawPercentage >= 1.0 && _hitTestRects.isEmpty {
+        if _hitTestRects.isEmpty {
             backgroundColor = UIColor.grayColor()
             
             _hitTestRects = pairedRects

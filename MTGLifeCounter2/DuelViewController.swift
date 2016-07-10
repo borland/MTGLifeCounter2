@@ -19,7 +19,7 @@ class DuelViewController : AbstractGameViewController {
     @IBOutlet weak var toolbar: UIToolbar?
     
     // specialized because of upside down
-    override func d20ButtonPressed(sender: UIBarButtonItem) {
+    override func d20ButtonPressed(sender: AnyObject) {
         for (c, (num, winner)) in zip(containers, randomUntiedDiceRolls(containers.count, diceFaceCount: UInt(20))) {
             let diceRollView = DiceRollView.create(num, winner:winner)
             

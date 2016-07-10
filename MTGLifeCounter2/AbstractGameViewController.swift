@@ -20,18 +20,18 @@ class AbstractGameViewController : UIViewController {
         return UIStatusBarStyle.LightContent
     }
     
-    @IBAction func backButtonPressed(sender: UIBarButtonItem) {
+    @IBAction func backButtonPressed(sender: AnyObject) {
         navigationController!.popViewControllerAnimated(true)
     }
     
-    @IBAction func d20ButtonPressed(sender: UIBarButtonItem) {
+    @IBAction func d20ButtonPressed(sender: AnyObject) {
         for (c, (num, winner)) in zip(containers, randomUntiedDiceRolls(containers.count, diceFaceCount: UInt(20))) {
             let diceRollView = DiceRollView.create(num, winner:winner)
             diceRollView.showInView(c)
         }
     }
     
-    @IBAction func refreshButtonPressed(sender: UIBarButtonItem) {
+    @IBAction func refreshButtonPressed(sender: AnyObject) {
         for p in _players {
             p.resetLifeTotal(initialLifeTotal)
         }

@@ -280,45 +280,52 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="R4n-cr-rCc">
+                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" restorationIdentifier="c1" translatesAutoresizingMaskIntoConstraints="NO" id="R4n-cr-rCc">
                                 <rect key="frame" x="0.0" y="64" width="153" height="177"/>
                                 <connections>
                                     <segue destination="CaN-LE-yH2" kind="embed" identifier="player1_embed" id="GKG-1U-36t"/>
                                 </connections>
                             </containerView>
-                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4uS-9A-ZOC">
+                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" restorationIdentifier="c2" translatesAutoresizingMaskIntoConstraints="NO" id="4uS-9A-ZOC">
                                 <rect key="frame" x="153" y="64" width="167" height="177"/>
                                 <connections>
                                     <segue destination="CaN-LE-yH2" kind="embed" identifier="player2_embed" id="Qxc-iZ-wlt"/>
                                 </connections>
                             </containerView>
-                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wfg-lM-tdd">
+                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" restorationIdentifier="c3" translatesAutoresizingMaskIntoConstraints="NO" id="wfg-lM-tdd">
                                 <rect key="frame" x="0.0" y="325" width="161" height="155"/>
                                 <connections>
                                     <segue destination="CaN-LE-yH2" kind="embed" identifier="player3_embed" id="q01-LH-hIM"/>
                                 </connections>
                             </containerView>
-                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IIF-5D-MnG">
+                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" restorationIdentifier="c4" translatesAutoresizingMaskIntoConstraints="NO" id="IIF-5D-MnG">
                                 <rect key="frame" x="161" y="325" width="159" height="155"/>
                                 <connections>
                                     <segue destination="CaN-LE-yH2" kind="embed" identifier="player4_embed" id="Rdr-ho-0fM"/>
                                 </connections>
                             </containerView>
-                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PVy-TM-kwb">
+                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" restorationIdentifier="c5" translatesAutoresizingMaskIntoConstraints="NO" id="PVy-TM-kwb">
                                 <rect key="frame" x="0.0" y="240" width="320" height="88"/>
                                 <connections>
                                     <segue destination="CaN-LE-yH2" kind="embed" identifier="player5_embed" id="nag-xH-7pX"/>
                                 </connections>
                             </containerView>
+                            <button contentMode="scaleToFill" fixedFrame="YES" restorationIdentifier="backButton" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N5t-sb-VMt">
+                                <rect key="frame" x="20" y="325" width="44" height="44"/>
+                                <state key="normal" image="ic_arrow_back">
+                                    <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <connections>
-                        <outlet property="container1" destination="R4n-cr-rCc" id="lAn-Vv-dAA"/>
-                        <outlet property="container2" destination="4uS-9A-ZOC" id="8dC-Mp-J7Y"/>
-                        <outlet property="container3" destination="wfg-lM-tdd" id="h4h-uq-jlD"/>
-                        <outlet property="container4" destination="IIF-5D-MnG" id="VWu-VW-pnL"/>
-                        <outlet property="container5" destination="PVy-TM-kwb" id="E3h-3C-lsf"/>
+                        <outlet property="backButton" destination="N5t-sb-VMt" id="cIO-Zj-SK1"/>
+                        <outlet property="c1" destination="R4n-cr-rCc" id="lAn-Vv-dAA"/>
+                        <outlet property="c2" destination="4uS-9A-ZOC" id="8dC-Mp-J7Y"/>
+                        <outlet property="c3" destination="wfg-lM-tdd" id="h4h-uq-jlD"/>
+                        <outlet property="c4" destination="IIF-5D-MnG" id="VWu-VW-pnL"/>
+                        <outlet property="c5" destination="PVy-TM-kwb" id="E3h-3C-lsf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gyE-cR-jV3" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -486,16 +493,6 @@
                                     <action selector="minusButtonPressed:" destination="CaN-LE-yH2" eventType="touchUpInside" id="HL8-1R-MjE"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H8I-98-B5F">
-                                <rect key="frame" x="9" y="0.0" width="306" height="30"/>
-                                <state key="normal" title="Player 1">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="playerNamePressed:" destination="CaN-LE-yH2" eventType="touchUpInside" id="laV-si-rGw"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.30196078430000001" green="0.1019607843" blue="0.70196078429999997" alpha="1" colorSpace="calibratedRGB"/>
                         <gestureRecognizers/>
@@ -520,7 +517,6 @@
                         <outlet property="backgroundView" destination="ykH-2h-nWg" id="8xk-Ju-dnJ"/>
                         <outlet property="lifeTotalLabel" destination="0jV-SI-aPq" id="KyW-BU-6NL"/>
                         <outlet property="minusButton" destination="F1p-Xe-vmS" id="lVB-RW-kaa"/>
-                        <outlet property="playerNameButton" destination="H8I-98-B5F" id="nl0-Hl-knR"/>
                         <outlet property="plusButton" destination="6kK-Je-ogu" id="ydt-BU-UTe"/>
                     </connections>
                 </viewController>
@@ -561,8 +557,11 @@
             </objects>
         </scene>
     </scenes>
+    <resources>
+        <image name="ic_arrow_back" width="24" height="24"/>
+    </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="sjg-Pg-UFQ"/>
+        <segue reference="q01-LH-hIM"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.30196078431372547" green="0.10196078431372549" blue="0.70196078431372544" alpha="1" colorSpace="calibratedRGB"/>
 </document>

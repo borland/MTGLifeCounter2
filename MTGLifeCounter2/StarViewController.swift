@@ -13,11 +13,13 @@ class StarViewController : UIViewController {
     var initialLifeTotal:Int { get { return 20 } }
     var configKey:String {get { return "star" } }
     
-    @IBOutlet weak var container1: UIView!
-    @IBOutlet weak var container2: UIView!
-    @IBOutlet weak var container3: UIView!
-    @IBOutlet weak var container4: UIView!
-    @IBOutlet weak var container5: UIView!
+    @IBOutlet weak var backButton: UIButton!
+    
+    @IBOutlet weak var c1: UIView!
+    @IBOutlet weak var c2: UIView!
+    @IBOutlet weak var c3: UIView!
+    @IBOutlet weak var c4: UIView!
+    @IBOutlet weak var c5: UIView!
     
     private var _players:[PlayerViewController] = []
     
@@ -32,10 +34,24 @@ class StarViewController : UIViewController {
     }
     
     @IBAction func d20ButtonPressed(sender: AnyObject) {
-//        for (c, (num, winner)) in zip([container1, container2, container3], randomUntiedDiceRolls(3, diceFaceCount: UInt(20))) {
+//        for (c, (num, winner)) in zip([c1, c2, c3], randomUntiedDiceRolls(3, diceFaceCount: UInt(20))) {
 //            let diceRollView = DiceRollView.create(num, winner:winner)
 //            diceRollView.showInView(c)
 //        }
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        backButton.translatesAutoresizingMaskIntoConstraints = false
+        backButton.addConstraints([
+            NSLayoutConstraint(item: backButton, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1, constant: 44),
+            NSLayoutConstraint(item: backButton, attribute: .Height, relatedBy: .Equal, toItem: backButton, attribute: .Width, multiplier: 1, constant: 0)
+            ])
+        
+        backButton.clipsToBounds = true
+        backButton.layer.cornerRadius = 22
+        backButton.backgroundColor = GlobalTintColor
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -96,16 +112,16 @@ class StarViewController : UIViewController {
         return false
     }
     private func setConstraintsFor(traitCollection:UITraitCollection) {
-        let cx = view.constraints as [NSLayoutConstraint]
-        view.removeConstraints(concat(
-            constraints(cx, affectingView:container1!),
-                constraints(cx, affectingView:container2!),
-                constraints(cx, affectingView:container3!),
-                constraints(cx, affectingView:container4!),
-                constraints(cx, affectingView:container5!)
-        ))
+        let constraints = view.constraints as [NSLayoutConstraint]
+        view.removeAllConstraints(
+            constraints.affectingView(c1!),
+            constraints.affectingView(c2!),
+            constraints.affectingView(c3!),
+            constraints.affectingView(c4!),
+            constraints.affectingView(c5!),
+            constraints.affectingView(backButton!))
         
-        let views = ["c1":container1!, "c2":container2!, "c3":container3!, "c4":container4!, "c5":container5!]
+        let views = ["c1":c1!, "c2":c2!, "c3":c3!, "c4":c4!, "c5":c5!]
         
 //        view.addConstraints("|[toolbar]|", views: views)
         
@@ -121,6 +137,10 @@ class StarViewController : UIViewController {
             for p in _players {
                 p.buttonOrientation = .Horizontal // force buttons on the side even though we don't normally do this in landscape
             }
+            if _players.count == 5 {
+                _players[3].innerHorizontalOffset = 25
+                _players[4].innerHorizontalOffset = -25
+            }
             
             // first row horizontally
             view.addConstraints("|[c1(==c2)][c2(==c3)][c3(==c1)]|", views: views)
@@ -131,22 +151,26 @@ class StarViewController : UIViewController {
             // two rows vertically (just align the leftmost and let the others stick to those)
             view.addConstraints("V:|[c1][c4]|", views: views)
             
-            // all equal height
-            for c in [container2, container3, container4, container5] {
-                view.addConstraint(NSLayoutConstraint(item: container1, attribute: .Height, relatedBy: .Equal, toItem: c, attribute: .Height, multiplier: 1, constant: 0))
-            }
-            
-            // align tops of two rows
-            for c in [container2, container3] {
-                view.addConstraint(NSLayoutConstraint(item: container1, attribute: .Top, relatedBy: .Equal, toItem: c, attribute: .Top, multiplier: 1, constant: 0))
-            }
-            view.addConstraint(NSLayoutConstraint(item: container5, attribute: .Top, relatedBy: .Equal, toItem: container4, attribute: .Top, multiplier: 1, constant: 0))
+            view.addAllConstraints(
+                // all equal height
+                [c2, c3, c4, c5].map { c1.heightAnchor.constraintEqualToAnchor($0.heightAnchor) },
+                
+                // align tops of two rows
+                [c2, c3].map { c1.topAnchor.constraintEqualToAnchor($0.topAnchor) },
+                [ c5.topAnchor.constraintEqualToAnchor(c4.topAnchor) ],
+                
+                // back button
+                [
+                    view.leftAnchor.constraintEqualToAnchor(backButton.leftAnchor, constant: 8)
+                
+                ]
+            )
         }
     }
 }
 
 // swift 2.2 compiler +'ing more than 3 arrays together takes minutes to COMPILE, so we don't + them
-func concat<T>(arrays: [T]...) -> [T] {
+func concat<T>(arrays: [[T]]) -> [T] {
     var result = [T]()
     for array in arrays {
         result.appendContentsOf(array)

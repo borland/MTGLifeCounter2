@@ -55,20 +55,7 @@ class RadialColorPicker : UIView {
         return nil
     }
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        print("touches began")
-    }
-    
-    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        print("touches moved")
-    }
-    
-    override func touchesEstimatedPropertiesUpdated(touches: Set<NSObject>) {
-        print("touches cancelled")
-    }
-    
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        print("touches ended")
         guard let touch = touches.first else { return }
         _tapCallback(self, hitTestForColor(touch.locationInView(self)))
     }

@@ -9,27 +9,39 @@
 import Foundation
 import UIKit
 
+public let GlobalTintColor = UIColor(red: 0.302, green: 0.102, blue: 0.702, alpha: 1)
+
 extension UIView {
-    func addConstraints(format:String, views:[String:UIView], options:NSLayoutFormatOptions=NSLayoutFormatOptions(rawValue: 0)) {
+    func addConstraints(format:String, views:[String:UIView], metrics:[String:CGFloat]? = nil, options:NSLayoutFormatOptions=NSLayoutFormatOptions(rawValue: 0)) {
         let constraints = NSLayoutConstraint.constraintsWithVisualFormat(
             format,
             options: options,
-            metrics: nil,
+            metrics: metrics,
             views: views)
         
         self.addConstraints(constraints)
     }
+    
+    func addAllConstraints(constraints: [NSLayoutConstraint]...) {
+        addConstraints(concat(constraints))
+    }
+    
+    func removeAllConstraints(constraints: [NSLayoutConstraint]...) {
+        removeConstraints(concat(constraints))
+    }
 }
 
-func constraints(constraints:[NSLayoutConstraint], affectingView:UIView) -> [NSLayoutConstraint] {
-    return constraints.filter {
-        if let first = $0.firstItem as? UIView where first == affectingView {
-            return true
+extension SequenceType where Generator.Element == NSLayoutConstraint {
+    func affectingView(affectingView: UIView) -> [NSLayoutConstraint] {
+        return filter {
+            if let first = $0.firstItem as? UIView where first == affectingView {
+                return true
+            }
+            if let second = $0.secondItem as? UIView where second == affectingView {
+                return true
+            }
+            return false
         }
-        if let second = $0.secondItem as? UIView where second == affectingView {
-            return true
-        }
-        return false
     }
 }
 

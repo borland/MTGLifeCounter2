@@ -96,11 +96,13 @@ enum ButtonOrientation {
 class PlayerViewController : UIViewController {
     private let _tracker = LifeTotalDeltaTracker()
     
+    private var _xConstraint: NSLayoutConstraint?
+    private var _yConstraint: NSLayoutConstraint?
+    
     @IBOutlet var backgroundView: PlayerBackgroundView!
     @IBOutlet weak var lifeTotalLabel: UILabel!
     @IBOutlet weak var plusButton: UIButton!
     @IBOutlet weak var minusButton: UIButton!
-    @IBOutlet weak var playerNameButton: UIButton!
     
     @IBAction func plusButtonPressed(sender: AnyObject) {
         lifeTotal += 1
@@ -108,9 +110,6 @@ class PlayerViewController : UIViewController {
     
     @IBAction func minusButtonPressed(sender: AnyObject) {
         lifeTotal -= 1
-    }
-    
-    @IBAction func playerNamePressed(sender: AnyObject) {
     }
     
     @IBAction func lifeTotalPanning(sender: UIPanGestureRecognizer) {
@@ -208,6 +207,18 @@ class PlayerViewController : UIViewController {
     
     var buttonOrientation = ButtonOrientation.Auto
     
+    var innerHorizontalOffset = CGFloat(0) {
+        didSet {
+            _xConstraint?.constant = innerHorizontalOffset
+        }
+    }
+    
+    var innerVerticalOffset = CGFloat(0) {
+        didSet {
+            _yConstraint?.constant = innerHorizontalOffset
+        }
+    }
+    
     var color = MtgColor.White {
         didSet {
             backgroundView.setBackgroundToColors(color)
@@ -230,19 +241,10 @@ class PlayerViewController : UIViewController {
             return UIColor.whiteColor()
         }
         set(color) {
-            guard let l = lifeTotalLabel, plus = plusButton, minus = minusButton, name = playerNameButton else { return }
+            guard let l = lifeTotalLabel, plus = plusButton, minus = minusButton else { return }
             l.textColor = color
             plus.setTitleColor(color, forState: .Normal)
             minus.setTitleColor(color, forState: .Normal)
-            name.setTitleColor(color, forState: .Normal)
-        }
-    }
-    
-    var playerName = "" {
-        didSet {
-            if let x = playerNameButton {
-                x.setTitle(playerName, forState: .Normal)
-            }
         }
     }
     
@@ -283,7 +285,6 @@ class PlayerViewController : UIViewController {
         setConstraintsFor(traitCollection)
         
         // trigger all the property change callbacks
-        playerName = self.playerName + ""
         lifeTotal = self.lifeTotal + 0
         isUpsideDown = !(!self.isUpsideDown)
         displaySize = self.displaySize == .Normal ? .Normal : .Small
@@ -302,41 +303,41 @@ class PlayerViewController : UIViewController {
     }
     
     func setConstraintsFor(traitCollection:UITraitCollection) {
-        let cx = view.constraints as [NSLayoutConstraint]
-        view.removeConstraints(concat(
-            constraints(cx, affectingView:plusButton),
-            constraints(cx, affectingView:minusButton),
-            constraints(cx, affectingView:lifeTotalLabel),
-            constraints(cx, affectingView:playerNameButton)
-        ))
+        let constraints = view.constraints as [NSLayoutConstraint]
+        view.removeAllConstraints(
+            constraints.affectingView(plusButton),
+            constraints.affectingView(minusButton),
+            constraints.affectingView(lifeTotalLabel))
         
-        let views = ["view":view!, "plus":plusButton!, "minus":minusButton!, "lifeTotal":lifeTotalLabel!, "playerName":playerNameButton!]
+        let views = ["view":view!, "plus":plusButton!, "minus":minusButton!, "lifeTotal":lifeTotalLabel!]
         
-        view.addConstraints("H:[view]-(<=1)-[lifeTotal]", views: views, options: .AlignAllCenterY)
-        view.addConstraints("V:[view]-(<=1)-[lifeTotal]", views: views, options: .AlignAllCenterX)
+        _xConstraint = NSLayoutConstraint(item: lifeTotalLabel, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1.0, constant: innerHorizontalOffset)
+        _yConstraint = NSLayoutConstraint(item: lifeTotalLabel, attribute: .CenterY, relatedBy: .Equal, toItem: view, attribute: .CenterY, multiplier: 1.0, constant: innerVerticalOffset)
         
-        let btnOrientation = resolveButtonOrientation()
-        assert(btnOrientation != .Auto)
+        view.addConstraints([_xConstraint!, _yConstraint!])
         
-        switch btnOrientation {
+        switch resolveButtonOrientation() {
         case .Horizontal: // +/- on the sides
-            view.addConstraints("H:|-6-[playerName]", views: views)
-            view.addConstraints("V:|-10-[playerName]", views: views)
             
-            view.addConstraints("H:[plus(44)]-|", views: views)
-            view.addConstraint(NSLayoutConstraint(item: plusButton, attribute: .CenterY, relatedBy: .Equal, toItem: view, attribute: .CenterY, multiplier: 1, constant: 0))
-
-            view.addConstraints("H:|-[minus(44)]", views: views)
-            view.addConstraint(NSLayoutConstraint(item: minusButton, attribute: .CenterY, relatedBy: .Equal, toItem: view, attribute: .CenterY, multiplier: 1, constant: 0))
+            let hGap:CGFloat = displaySize == .Small ? 0 : 8 // in a horizontal star, pull the +/- buttons closer
+            let metrics = ["hGap": hGap]
+            
+            view.addConstraints("H:[minus(44)]-(hGap)-[lifeTotal]-(hGap)-[plus(44)]", views: views, metrics: metrics)
+            view.addConstraints([
+                NSLayoutConstraint(item: plusButton, attribute: .CenterY, relatedBy: .Equal, toItem: view, attribute: .CenterY, multiplier: 1, constant: 0),
+                 NSLayoutConstraint(item: minusButton, attribute: .CenterY, relatedBy: .Equal, toItem: view, attribute: .CenterY, multiplier: 1, constant: 0)
+            ])
             
         default: // +/- on the top/bottom
-            view.addConstraints("H:|-6-[playerName]", views: views)
-            view.addConstraints("V:|-30-[playerName]", views: views)
             
-            view.addConstraints("V:|-40-[plus(44)]", views: views)
-            view.addConstraint(NSLayoutConstraint(item: plusButton, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0))
-            view.addConstraints("V:[minus(44)]-40-|", views: views)
-            view.addConstraint(NSLayoutConstraint(item: minusButton, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0))
+            let vGap:CGFloat = -8
+            let metrics = ["vGap": vGap]
+            
+            view.addConstraints("V:[minus(44)]-(vGap)-[lifeTotal]-(vGap)-[plus(44)]", views: views, metrics: metrics)
+            view.addConstraints([
+                NSLayoutConstraint(item: plusButton, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0),
+                NSLayoutConstraint(item: minusButton, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0)
+            ])
         }
         
         view.setNeedsDisplay()

@@ -95,18 +95,15 @@ class ThreePlayerViewController : UIViewController {
         case "player1_embed":
             guard let viewController = segue.destinationViewController as? PlayerViewController else { return }
             _player1 = viewController
-            viewController.playerName = "P1"
             viewController.resetLifeTotal(initialLifeTotal)
             
         case "player2_embed":
             guard let viewController = segue.destinationViewController as? PlayerViewController else { return }
             _player2 = viewController
-            viewController.playerName = "P2"
             viewController.resetLifeTotal(initialLifeTotal)
         case "player3_embed":
             guard let viewController = segue.destinationViewController as? PlayerViewController else { return }
             _player3 = viewController
-            viewController.playerName = "P3"
             viewController.resetLifeTotal(initialLifeTotal)
         default: fatalError("unhandled segue")
         }
@@ -126,13 +123,12 @@ class ThreePlayerViewController : UIViewController {
     }
     
     private func setConstraintsFor(traitCollection:UITraitCollection) {
-        let cx = view.constraints as [NSLayoutConstraint]
-        view.removeConstraints(concat(
-            constraints(cx, affectingView:container1!),
-            constraints(cx, affectingView:container2!),
-            constraints(cx, affectingView:container3!),
-            constraints(cx, affectingView:toolbar)
-        ))
+        let constraints = view.constraints
+        view.removeAllConstraints(
+            constraints.affectingView(container1!),
+            constraints.affectingView(container2!),
+            constraints.affectingView(container3!),
+            constraints.affectingView(toolbar))
         
         let views = ["c1":container1!, "c2":container2!, "c3":container3!, "toolbar":toolbar!]
         

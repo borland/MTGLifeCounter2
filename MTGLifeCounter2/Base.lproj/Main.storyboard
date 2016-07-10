@@ -389,38 +389,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" restorationIdentifier="toolbar" translatesAutoresizingMaskIntoConstraints="NO" id="exV-rR-wHa">
-                                <rect key="frame" x="0.0" y="436" width="320" height="44"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="44" placeholder="YES" id="f4s-WP-gzC"/>
-                                </constraints>
-                                <items>
-                                    <barButtonItem title="Back" id="flf-kf-Nf0">
-                                        <connections>
-                                            <action selector="backButtonPressed:" destination="s0V-jc-fQq" id="6gw-NV-Fvt"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="ggQ-JI-0AW"/>
-                                    <barButtonItem title="D20" id="nA6-lc-Ocn">
-                                        <connections>
-                                            <action selector="d20ButtonPressed:" destination="s0V-jc-fQq" id="fkv-LJ-A0S"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="Nds-Gt-Qrg"/>
-                                    <barButtonItem style="done" systemItem="refresh" id="58V-7D-BEm">
-                                        <connections>
-                                            <action selector="refreshButtonPressed:" destination="s0V-jc-fQq" id="BGu-Vw-cB9"/>
-                                        </connections>
-                                    </barButtonItem>
-                                </items>
-                            </toolbar>
-                            <containerView opaque="NO" contentMode="scaleToFill" restorationIdentifier="c1" translatesAutoresizingMaskIntoConstraints="NO" id="twt-k1-mFC">
+                            <containerView opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" restorationIdentifier="c1" translatesAutoresizingMaskIntoConstraints="NO" id="twt-k1-mFC">
                                 <rect key="frame" x="0.0" y="60" width="320" height="139"/>
                                 <connections>
                                     <segue destination="CaN-LE-yH2" kind="embed" identifier="player1_embed" id="eDe-gw-Pia"/>
                                 </connections>
                             </containerView>
-                            <containerView opaque="NO" contentMode="scaleToFill" restorationIdentifier="c2" translatesAutoresizingMaskIntoConstraints="NO" id="JE2-nl-vFk">
+                            <containerView opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" restorationIdentifier="c2" translatesAutoresizingMaskIntoConstraints="NO" id="JE2-nl-vFk">
                                 <rect key="frame" x="0.0" y="212" width="320" height="200"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="200" placeholder="YES" id="G7O-20-L5N"/>
@@ -429,27 +404,71 @@
                                     <segue destination="CaN-LE-yH2" kind="embed" identifier="player2_embed" id="on7-Kh-9Qr"/>
                                 </connections>
                             </containerView>
+                            <button contentMode="scaleToFill" restorationIdentifier="backButton" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bFb-g6-Hqj" customClass="FloatingActionButton" customModule="MTGLifeCounter2" customModuleProvider="target">
+                                <rect key="frame" x="16" y="64" width="48" height="48"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="48" id="UN0-QL-MXO"/>
+                                    <constraint firstAttribute="height" constant="48" id="ymd-Ys-ooe"/>
+                                </constraints>
+                                <state key="normal" image="ic_arrow_back">
+                                    <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="backButtonPressed:" destination="2Ir-SA-F0F" eventType="touchUpInside" id="m3L-CM-o1F"/>
+                                </connections>
+                            </button>
+                            <button contentMode="scaleToFill" restorationIdentifier="refreshButton" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F22-sC-4d2" customClass="FloatingActionButton" customModule="MTGLifeCounter2" customModuleProvider="target">
+                                <rect key="frame" x="132" y="64" width="48" height="48"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="48" id="WNe-tx-yuO"/>
+                                    <constraint firstAttribute="height" constant="48" id="hIh-hc-qPL"/>
+                                </constraints>
+                                <state key="normal" image="ic_refresh">
+                                    <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="refreshButtonPressed:" destination="2Ir-SA-F0F" eventType="touchUpInside" id="cq6-29-TO5"/>
+                                </connections>
+                            </button>
+                            <button contentMode="scaleToFill" restorationIdentifier="d20Button" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dx4-ir-6xt" customClass="FloatingActionButton" customModule="MTGLifeCounter2" customModuleProvider="target">
+                                <rect key="frame" x="74" y="64" width="48" height="48"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="48" id="3pQ-05-QYK"/>
+                                    <constraint firstAttribute="width" constant="48" id="Apv-3s-w71"/>
+                                </constraints>
+                                <state key="normal" image="d20-48-white">
+                                    <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="d20ButtonPressed:" destination="2Ir-SA-F0F" eventType="touchUpInside" id="gI8-hN-JUS"/>
+                                    <action selector="refreshButtonPressed:" destination="2Ir-SA-F0F" eventType="touchUpInside" id="IyJ-9M-JGc"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="exV-rR-wHa" firstAttribute="top" secondItem="JE2-nl-vFk" secondAttribute="bottom" constant="24" placeholder="YES" id="15J-IN-N9w"/>
-                            <constraint firstItem="exV-rR-wHa" firstAttribute="leading" secondItem="Yz8-Az-Kj6" secondAttribute="leading" placeholder="YES" id="3bo-47-3W2"/>
                             <constraint firstItem="JE2-nl-vFk" firstAttribute="top" secondItem="twt-k1-mFC" secondAttribute="bottom" constant="13" placeholder="YES" id="4rS-Gh-qpL"/>
+                            <constraint firstItem="dx4-ir-6xt" firstAttribute="top" secondItem="bFb-g6-Hqj" secondAttribute="top" placeholder="YES" id="Eqt-zv-BWt"/>
                             <constraint firstAttribute="trailing" secondItem="twt-k1-mFC" secondAttribute="trailing" placeholder="YES" id="GC3-Ry-89o"/>
                             <constraint firstItem="twt-k1-mFC" firstAttribute="leading" secondItem="Yz8-Az-Kj6" secondAttribute="leading" placeholder="YES" id="KGb-gG-Bbi"/>
-                            <constraint firstAttribute="trailing" secondItem="exV-rR-wHa" secondAttribute="trailing" placeholder="YES" id="UX6-CI-9Xa"/>
+                            <constraint firstItem="bFb-g6-Hqj" firstAttribute="top" secondItem="Vnd-m4-0Gt" secondAttribute="bottom" placeholder="YES" id="Kcb-Nj-x0R"/>
+                            <constraint firstItem="F22-sC-4d2" firstAttribute="leading" secondItem="dx4-ir-6xt" secondAttribute="trailing" constant="10" placeholder="YES" id="RXL-zM-o1i"/>
+                            <constraint firstItem="F22-sC-4d2" firstAttribute="top" secondItem="dx4-ir-6xt" secondAttribute="top" placeholder="YES" id="RZy-b1-8z7"/>
+                            <constraint firstItem="dx4-ir-6xt" firstAttribute="leading" secondItem="bFb-g6-Hqj" secondAttribute="trailing" constant="10" placeholder="YES" id="WWb-Pn-JE6"/>
                             <constraint firstItem="JE2-nl-vFk" firstAttribute="top" secondItem="twt-k1-mFC" secondAttribute="bottom" constant="13" placeholder="YES" id="YCF-Cd-pqi"/>
                             <constraint firstItem="twt-k1-mFC" firstAttribute="top" secondItem="Yz8-Az-Kj6" secondAttribute="top" constant="60" placeholder="YES" id="d4s-jS-Yrq"/>
+                            <constraint firstItem="bFb-g6-Hqj" firstAttribute="leading" secondItem="Yz8-Az-Kj6" secondAttribute="leadingMargin" placeholder="YES" id="ewG-ba-kzB"/>
                             <constraint firstAttribute="trailing" secondItem="JE2-nl-vFk" secondAttribute="trailing" placeholder="YES" id="ieb-Wo-m4y"/>
-                            <constraint firstItem="HUz-Gq-3MK" firstAttribute="top" secondItem="exV-rR-wHa" secondAttribute="bottom" placeholder="YES" id="jcX-vo-dnR"/>
                             <constraint firstItem="JE2-nl-vFk" firstAttribute="leading" secondItem="Yz8-Az-Kj6" secondAttribute="leading" placeholder="YES" id="wOS-fw-DYP"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Duel" id="f3z-mA-Cik"/>
                     <connections>
+                        <outlet property="backButton" destination="bFb-g6-Hqj" id="3Sy-rv-ABn"/>
                         <outlet property="c1" destination="twt-k1-mFC" id="mjl-lb-X5G"/>
                         <outlet property="c2" destination="JE2-nl-vFk" id="MqT-eE-LN8"/>
-                        <outlet property="toolbar" destination="exV-rR-wHa" id="lNL-1o-Ezn"/>
+                        <outlet property="d20Button" destination="dx4-ir-6xt" id="h6z-Nh-JEf"/>
+                        <outlet property="refreshButton" destination="F22-sC-4d2" id="q3z-PG-bGe"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8GD-YH-8Ec" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -608,7 +627,7 @@
         <image name="ic_refresh" width="24" height="24"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="q01-LH-hIM"/>
+        <segue reference="on7-Kh-9Qr"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.30196078431372547" green="0.10196078431372549" blue="0.70196078431372544" alpha="1" colorSpace="calibratedRGB"/>
 </document>

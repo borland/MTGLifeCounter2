@@ -16,7 +16,10 @@ class DuelViewController : AbstractGameViewController {
     
     @IBOutlet weak var c1: UIView!
     @IBOutlet weak var c2: UIView!
-    @IBOutlet weak var toolbar: UIToolbar?
+    
+    @IBOutlet weak var backButton: UIButton!
+    @IBOutlet weak var d20Button: UIButton!
+    @IBOutlet weak var refreshButton: UIButton!
     
     // specialized because of upside down
     override func d20ButtonPressed(sender: AnyObject) {
@@ -73,22 +76,49 @@ class DuelViewController : AbstractGameViewController {
         view.removeAllConstraints(
             constraints.affectingView(c1!),
             constraints.affectingView(c2!),
-            constraints.affectingView(toolbar!))
+            constraints.affectingView(backButton!),
+            constraints.affectingView(d20Button!),
+            constraints.affectingView(refreshButton!)
+        )
         
-        let views = ["c1":c1!, "c2":c2!, "toolbar":toolbar!]
-        
-        view.addConstraints("|[toolbar]|", views: views)
+        let views = ["c1":c1!, "c2":c2!]
         
         switch (traitCollection.horizontalSizeClass, traitCollection.verticalSizeClass) {
         case (.Compact, .Regular):
-            view.addConstraints("V:|[c1(==c2)][toolbar(40)][c2(==c1)]|", views: views);
+            view.addConstraints("V:|[c1(==c2)][c2(==c1)]|", views: views);
             view.addConstraints("|[c1]|", views: views);
             view.addConstraints("|[c2]|", views: views);
             
+            view.addAllConstraints(
+                [
+                    backButton.topAnchor.constraintEqualToAnchor(view.topAnchor, constant: 8),
+                    backButton.centerXAnchor.constraintEqualToAnchor(c1.bottomAnchor)
+                ],
+                [
+                    refreshButton.bottomAnchor.constraintEqualToAnchor(view.bottomAnchor, constant: -8),
+                    refreshButton.centerXAnchor.constraintEqualToAnchor(c1.bottomAnchor)
+                ],
+                [
+                    d20Button.centerXAnchor.constraintEqualToAnchor(view.centerXAnchor),
+                    d20Button.centerYAnchor.constraintEqualToAnchor(c1.bottomAnchor)
+                ]
+            )
+            
         default:
             view.addConstraints("|[c1(==c2)][c2(==c1)]|", views: views);
-            view.addConstraints("V:|[c1][toolbar(34)]|", views: views);
-            view.addConstraints("V:|[c2][toolbar(34)]|", views: views);
+            view.addConstraints("V:|[c1]|", views: views);
+            view.addConstraints("V:|[c2]|", views: views);
+            
+            view.addConstraints([
+                backButton.leadingAnchor.constraintEqualToAnchor(view.leadingAnchor, constant: 8),
+                backButton.centerYAnchor.constraintEqualToAnchor(view.centerYAnchor),
+                
+                refreshButton.trailingAnchor.constraintEqualToAnchor(view.trailingAnchor, constant: -8),
+                refreshButton.centerYAnchor.constraintEqualToAnchor(view.centerYAnchor),
+                
+                d20Button.centerXAnchor.constraintEqualToAnchor(view.centerXAnchor),
+                d20Button.centerYAnchor.constraintEqualToAnchor(view.centerYAnchor)
+            ])
         }
         view.layoutSubviews()
     }

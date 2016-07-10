@@ -11,6 +11,16 @@ import UIKit
 
 public let GlobalTintColor = UIColor(red: 0.302, green: 0.102, blue: 0.702, alpha: 1)
 
+
+// swift 2.2 compiler +'ing more than 3 arrays together takes minutes to COMPILE, so we don't + them
+func concat<T>(arrays: [[T]]) -> [T] {
+    var result = [T]()
+    for array in arrays {
+        result.appendContentsOf(array)
+    }
+    return result
+}
+
 extension UIView {
     func addConstraints(format:String, views:[String:UIView], metrics:[String:CGFloat]? = nil, options:NSLayoutFormatOptions=NSLayoutFormatOptions(rawValue: 0)) {
         let constraints = NSLayoutConstraint.constraintsWithVisualFormat(
@@ -32,26 +42,16 @@ extension UIView {
 }
 
 extension SequenceType where Generator.Element == NSLayoutConstraint {
-    func affectingView(affectingView: UIView) -> [NSLayoutConstraint] {
+    func affectingView(view: UIView) -> [NSLayoutConstraint] {
         return filter {
-            if let first = $0.firstItem as? UIView where first == affectingView {
+            if let first = $0.firstItem as? UIView where first == view {
                 return true
             }
-            if let second = $0.secondItem as? UIView where second == affectingView {
+            if let second = $0.secondItem as? UIView where second == view {
                 return true
             }
             return false
         }
-    }
-}
-
-func resetPlayerViewController(playerViewController:PlayerViewController, lifeTotal:NSNumber?, color:NSNumber?) {
-    if let lt = lifeTotal,
-        let x = color,
-        let col = MtgColor(rawValue: x.integerValue)
-    {
-        playerViewController.resetLifeTotal(lt.integerValue)
-        playerViewController.color = col
     }
 }
 

@@ -263,6 +263,16 @@ class PlayerViewController : UIViewController {
         _tracker.reset(lifeTotal)
     }
     
+    func reset(lifeTotal lifeTotal:NSNumber?, color:NSNumber?) {
+        if let lt = lifeTotal,
+            let x = color,
+            let col = MtgColor(rawValue: x.integerValue)
+        {
+            self.resetLifeTotal(lt.integerValue)
+            self.color = col
+        }
+    }
+    
     var displaySize: DisplaySize = .Normal {
         didSet {
             if let x = lifeTotalLabel {

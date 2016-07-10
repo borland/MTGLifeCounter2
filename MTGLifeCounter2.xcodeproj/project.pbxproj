@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D30ED9781D32B9EC00BB874E /* AbstractGameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D30ED9771D32B9EC00BB874E /* AbstractGameViewController.swift */; };
 		D315A0F81AD1B8350055129F /* FloatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D315A0F71AD1B8350055129F /* FloatingView.swift */; };
 		D319CFDC1D108DFD001B5A0F /* RadialColorPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = D319CFDB1D108DFD001B5A0F /* RadialColorPicker.swift */; };
 		D330FDCB1A4E9E0500D731B2 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = D330FDCA1A4E9E0500D731B2 /* LaunchScreen.xib */; };
@@ -54,6 +55,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		D30ED9771D32B9EC00BB874E /* AbstractGameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AbstractGameViewController.swift; sourceTree = "<group>"; };
 		D315A0F71AD1B8350055129F /* FloatingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloatingView.swift; sourceTree = "<group>"; };
 		D319CFDB1D108DFD001B5A0F /* RadialColorPicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RadialColorPicker.swift; sourceTree = "<group>"; };
 		D330FDCA1A4E9E0500D731B2 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
@@ -141,6 +143,7 @@
 				D3BC006B19BDBFBC00101198 /* ThreePlayerViewController.swift */,
 				D3B96E6319BDBC030065B8C4 /* TwoHeadedGiantViewController.swift */,
 				D3F5432B19B86F230053DA1A /* Utility.swift */,
+				D30ED9771D32B9EC00BB874E /* AbstractGameViewController.swift */,
 			);
 			path = MTGLifeCounter2;
 			sourceTree = "<group>";
@@ -285,6 +288,7 @@
 				D315A0F81AD1B8350055129F /* FloatingView.swift in Sources */,
 				D38B324219C1AF94009F8345 /* DataStore.swift in Sources */,
 				D3F5432C19B86F230053DA1A /* Utility.swift in Sources */,
+				D30ED9781D32B9EC00BB874E /* AbstractGameViewController.swift in Sources */,
 				D3B96E6419BDBC030065B8C4 /* TwoHeadedGiantViewController.swift in Sources */,
 				D3F5430D19B867AD0053DA1A /* AppDelegate.swift in Sources */,
 				D319CFDC1D108DFD001B5A0F /* RadialColorPicker.swift in Sources */,

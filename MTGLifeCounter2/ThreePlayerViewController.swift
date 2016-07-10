@@ -9,128 +9,25 @@
 import Foundation
 import UIKit
 
-class ThreePlayerViewController : UIViewController {
-    var initialLifeTotal:Int { get { return 20 } }
-    var configKey:String {get { return "threePlayer" } }
+class ThreePlayerViewController : AbstractGameViewController {
+    override var initialLifeTotal: Int { return 20 }
+    override var configKey:String { return "threePlayer" }
+    override var containers: [UIView] { return [c1, c2, c3] }
     
-    @IBOutlet weak var container1: UIView!
-    @IBOutlet weak var container2: UIView!
-    @IBOutlet weak var container3: UIView!
+    @IBOutlet weak var c1: UIView!
+    @IBOutlet weak var c2: UIView!
+    @IBOutlet weak var c3: UIView!
     @IBOutlet weak var toolbar: UIToolbar!
     
-    private var _player1:PlayerViewController?
-    private var _player2:PlayerViewController?
-    private var _player3:PlayerViewController?
-    
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.LightContent
-    }
-    
-    @IBAction func backButtonPressed(sender: AnyObject) {
-        navigationController!.popViewControllerAnimated(true)
-    }
-    
-    @IBAction func refreshButtonPressed(sender: AnyObject) {
-        guard let p1 = _player1, let p2 = _player2, let p3 = _player3 else { return }
-        p1.resetLifeTotal(initialLifeTotal)
-        p2.resetLifeTotal(initialLifeTotal)
-        p3.resetLifeTotal(initialLifeTotal)
-    }
-    
-    @IBAction func d20ButtonPressed(sender: AnyObject) {
-        for (c, (num, winner)) in zip([container1, container2, container3], randomUntiedDiceRolls(3, diceFaceCount: UInt(20))) {
-            let diceRollView = DiceRollView.create(num, winner:winner)
-            diceRollView.showInView(c)
-        }
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationController!.navigationBarHidden = true
-        guard let p1 = _player1, let p2 = _player2, let p3 = _player3 else {
-            return
-        }
-        
-        do {
-            let settings = try DataStore.getWithKey(configKey)
-            
-            resetPlayerViewController(p1,
-                lifeTotal:settings["player1"] as? NSNumber,
-                color:settings["player1color"] as? NSNumber)
-            
-            resetPlayerViewController(p2,
-                lifeTotal:settings["player2"] as? NSNumber,
-                color:settings["player2color"] as? NSNumber)
-            
-            resetPlayerViewController(p3,
-                lifeTotal:settings["player3"] as? NSNumber,
-                color:settings["player3color"] as? NSNumber)
-                
-        } catch { } // perhaps we could show the user an error message or something?
-        UIApplication.sharedApplication().idleTimerDisabled = true
-    }
-    
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-        navigationController!.navigationBarHidden = false
-        guard let p1 = _player1, let p2 = _player2, let p3 = _player3 else {
-            return
-        }
-        
-        do {
-            try DataStore.setWithKey(configKey, value: [
-                "player1": p1.lifeTotal,
-                "player1color": p1.color.rawValue,
-                "player2": p2.lifeTotal,
-                "player2color": p2.color.rawValue,
-                "player3": p3.lifeTotal,
-                "player3color": p3.color.rawValue])
-        } catch { } // perhaps we could show the user an error message or something?
-        UIApplication.sharedApplication().idleTimerDisabled = false
-    }
-
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        guard let s = segue.identifier else { fatalError("segue identifier not set") }
-        switch s {
-        case "player1_embed":
-            guard let viewController = segue.destinationViewController as? PlayerViewController else { return }
-            _player1 = viewController
-            viewController.resetLifeTotal(initialLifeTotal)
-            
-        case "player2_embed":
-            guard let viewController = segue.destinationViewController as? PlayerViewController else { return }
-            _player2 = viewController
-            viewController.resetLifeTotal(initialLifeTotal)
-        case "player3_embed":
-            guard let viewController = segue.destinationViewController as? PlayerViewController else { return }
-            _player3 = viewController
-            viewController.resetLifeTotal(initialLifeTotal)
-        default: fatalError("unhandled segue")
-        }
-        
-        if(_player1 != nil && _player2 != nil && _player3 != nil) {
-            setConstraintsFor(traitCollection)
-        }
-    }
-    
-    override func traitCollectionDidChange(previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        setConstraintsFor(traitCollection)
-    }
-    
-    override func prefersStatusBarHidden() -> Bool {
-        return false
-    }
-    
-    private func setConstraintsFor(traitCollection:UITraitCollection) {
+    override func setConstraintsFor(traitCollection:UITraitCollection) {
         let constraints = view.constraints
         view.removeAllConstraints(
-            constraints.affectingView(container1!),
-            constraints.affectingView(container2!),
-            constraints.affectingView(container3!),
-            constraints.affectingView(toolbar))
+            constraints.affectingView(c1!),
+            constraints.affectingView(c2!),
+            constraints.affectingView(c3!),
+            constraints.affectingView(toolbar!))
         
-        let views = ["c1":container1!, "c2":container2!, "c3":container3!, "toolbar":toolbar!]
+        let views = ["c1":c1!, "c2":c2!, "c3":c3!, "toolbar":toolbar!]
         
         view.addConstraints("|[toolbar]|", views: views)
         

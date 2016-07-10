@@ -187,8 +187,8 @@
                     </view>
                     <navigationItem key="navigationItem" title="2HG" id="gsS-tO-1Cs"/>
                     <connections>
-                        <outlet property="container1" destination="Vy3-uw-She" id="hc5-qH-B06"/>
-                        <outlet property="container2" destination="XMy-JT-IBG" id="BWM-Ql-aQj"/>
+                        <outlet property="c1" destination="Vy3-uw-She" id="hc5-qH-B06"/>
+                        <outlet property="c2" destination="XMy-JT-IBG" id="BWM-Ql-aQj"/>
                         <outlet property="toolbar" destination="6dz-zM-xpR" id="Xf7-Li-xXX"/>
                     </connections>
                 </viewController>
@@ -258,9 +258,9 @@
                     </view>
                     <navigationItem key="navigationItem" title="3 Player" id="KJ3-BW-U0V"/>
                     <connections>
-                        <outlet property="container1" destination="XgF-9h-bMD" id="ttw-oP-nRA"/>
-                        <outlet property="container2" destination="nuh-Dy-O1l" id="TMt-St-fy5"/>
-                        <outlet property="container3" destination="nN3-lG-fbo" id="wVJ-TH-7bZ"/>
+                        <outlet property="c1" destination="XgF-9h-bMD" id="ttw-oP-nRA"/>
+                        <outlet property="c2" destination="nuh-Dy-O1l" id="TMt-St-fy5"/>
+                        <outlet property="c3" destination="nN3-lG-fbo" id="wVJ-TH-7bZ"/>
                         <outlet property="toolbar" destination="g4Q-43-osZ" id="gww-Oi-6gc"/>
                     </connections>
                 </viewController>
@@ -369,13 +369,13 @@
                                     </barButtonItem>
                                 </items>
                             </toolbar>
-                            <containerView opaque="NO" contentMode="scaleToFill" restorationIdentifier="container1" translatesAutoresizingMaskIntoConstraints="NO" id="twt-k1-mFC">
+                            <containerView opaque="NO" contentMode="scaleToFill" restorationIdentifier="c1" translatesAutoresizingMaskIntoConstraints="NO" id="twt-k1-mFC">
                                 <rect key="frame" x="0.0" y="60" width="320" height="139"/>
                                 <connections>
                                     <segue destination="CaN-LE-yH2" kind="embed" identifier="player1_embed" id="eDe-gw-Pia"/>
                                 </connections>
                             </containerView>
-                            <containerView opaque="NO" contentMode="scaleToFill" restorationIdentifier="container2" translatesAutoresizingMaskIntoConstraints="NO" id="JE2-nl-vFk">
+                            <containerView opaque="NO" contentMode="scaleToFill" restorationIdentifier="c2" translatesAutoresizingMaskIntoConstraints="NO" id="JE2-nl-vFk">
                                 <rect key="frame" x="0.0" y="212" width="320" height="200"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="200" placeholder="YES" id="G7O-20-L5N"/>
@@ -402,8 +402,8 @@
                     </view>
                     <navigationItem key="navigationItem" title="Duel" id="f3z-mA-Cik"/>
                     <connections>
-                        <outlet property="container1" destination="twt-k1-mFC" id="mjl-lb-X5G"/>
-                        <outlet property="container2" destination="JE2-nl-vFk" id="MqT-eE-LN8"/>
+                        <outlet property="c1" destination="twt-k1-mFC" id="mjl-lb-X5G"/>
+                        <outlet property="c2" destination="JE2-nl-vFk" id="MqT-eE-LN8"/>
                         <outlet property="toolbar" destination="exV-rR-wHa" id="lNL-1o-Ezn"/>
                     </connections>
                 </viewController>

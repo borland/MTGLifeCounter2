@@ -9,9 +9,9 @@
 import Foundation
 import UIKit
 
-class StarViewController : UIViewController {
-    var initialLifeTotal:Int { get { return 20 } }
-    var configKey:String {get { return "star" } }
+class StarViewController : AbstractGameViewController {
+    override var initialLifeTotal:Int { return 20 }
+    override var configKey:String { return "star" }
     
     @IBOutlet weak var backButton: UIButton!
     
@@ -21,27 +21,12 @@ class StarViewController : UIViewController {
     @IBOutlet weak var c4: UIView!
     @IBOutlet weak var c5: UIView!
     
-    private var _players:[PlayerViewController] = []
-    
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.LightContent
-    }
-    
-    @IBAction func refreshButtonPressed(sender: AnyObject) {
-        for p in _players {
-            p.resetLifeTotal(initialLifeTotal)
-        }
-    }
-    
-    @IBAction func d20ButtonPressed(sender: AnyObject) {
-//        for (c, (num, winner)) in zip([c1, c2, c3], randomUntiedDiceRolls(3, diceFaceCount: UInt(20))) {
-//            let diceRollView = DiceRollView.create(num, winner:winner)
-//            diceRollView.showInView(c)
-//        }
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        for p in _players {
+            p.displaySize = .Small
+        }
         
         backButton.translatesAutoresizingMaskIntoConstraints = false
         backButton.addConstraints([
@@ -54,64 +39,7 @@ class StarViewController : UIViewController {
         backButton.backgroundColor = GlobalTintColor
     }
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationController!.navigationBarHidden = true
-        
-        do {
-            let settings = try DataStore.getWithKey(configKey)
-            
-            for (idx, p) in _players.enumerate() {
-                resetPlayerViewController(p,
-                                          lifeTotal:settings["player\(idx)"] as? NSNumber,
-                                          color:settings["player\(idx)color"] as? NSNumber)
-            }
-            
-        } catch { } // perhaps we could show the user an error message or something?
-        UIApplication.sharedApplication().idleTimerDisabled = true
-    }
-    
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-        navigationController!.navigationBarHidden = false
-        
-        var dict = [String:Int]()
-        for (idx, p) in _players.enumerate() {
-            dict["player\(idx)"] = p.lifeTotal
-            dict["player\(idx)color"] = p.color.rawValue
-        }
-        
-        do {
-            try DataStore.setWithKey(configKey, value: dict)
-        } catch { } // perhaps we could show the user an error message or something?
-        UIApplication.sharedApplication().idleTimerDisabled = false
-    }
-    
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        guard let s = segue.identifier else { fatalError("segue identifier not set") }
-        switch s {
-        case "player1_embed", "player2_embed", "player3_embed", "player4_embed", "player5_embed":
-            guard let viewController = segue.destinationViewController as? PlayerViewController else { return }
-            viewController.resetLifeTotal(initialLifeTotal)
-            viewController.displaySize = .Small
-            _players.append(viewController)
-        default: fatalError("unhandled segue")
-        }
-        
-        if(_players.count == 5) {
-            setConstraintsFor(traitCollection)
-        }
-    }
-    
-    override func traitCollectionDidChange(previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        setConstraintsFor(traitCollection)
-    }
-    
-    override func prefersStatusBarHidden() -> Bool {
-        return false
-    }
-    private func setConstraintsFor(traitCollection:UITraitCollection) {
+    override func setConstraintsFor(traitCollection:UITraitCollection) {
         let constraints = view.constraints as [NSLayoutConstraint]
         view.removeAllConstraints(
             constraints.affectingView(c1!),
@@ -161,20 +89,10 @@ class StarViewController : UIViewController {
                 
                 // back button
                 [
-                    view.leftAnchor.constraintEqualToAnchor(backButton.leftAnchor, constant: 8)
-                
+                    backButton.leftAnchor.constraintEqualToAnchor(view.leftAnchor, constant: 8),
+                    backButton.topAnchor.constraintLessThanOrEqualToAnchor(c4.topAnchor, constant: 8)
                 ]
             )
         }
     }
 }
-
-// swift 2.2 compiler +'ing more than 3 arrays together takes minutes to COMPILE, so we don't + them
-func concat<T>(arrays: [[T]]) -> [T] {
-    var result = [T]()
-    for array in arrays {
-        result.appendContentsOf(array)
-    }
-    return result
-}
-

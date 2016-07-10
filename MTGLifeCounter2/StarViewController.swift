@@ -30,13 +30,20 @@ class StarViewController : AbstractGameViewController {
         
         backButton.translatesAutoresizingMaskIntoConstraints = false
         backButton.addConstraints([
-            NSLayoutConstraint(item: backButton, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1, constant: 44),
-            NSLayoutConstraint(item: backButton, attribute: .Height, relatedBy: .Equal, toItem: backButton, attribute: .Width, multiplier: 1, constant: 0)
-            ])
+            backButton.widthAnchor.constraintEqualToConstant(44),
+            backButton.heightAnchor.constraintEqualToAnchor(backButton.widthAnchor) ])
         
+        backButton.backgroundColor = GlobalTintColor
+        
+        // http://stackoverflow.com/a/34984063/234
         backButton.clipsToBounds = true
         backButton.layer.cornerRadius = 22
-        backButton.backgroundColor = GlobalTintColor
+        let shadowPath = UIBezierPath(roundedRect: backButton.bounds, cornerRadius: 22)
+        backButton.layer.masksToBounds = false
+        backButton.layer.shadowColor = UIColor.blackColor().CGColor
+        backButton.layer.shadowOffset = CGSizeMake(3, 3)
+        backButton.layer.shadowOpacity = 0.75
+        backButton.layer.shadowPath = shadowPath.CGPath
     }
     
     override func setConstraintsFor(traitCollection:UITraitCollection) {

@@ -165,9 +165,9 @@ class PlayerViewController : UIViewController {
         let topView = self.view.window! // MUST be on screen or crash means a bug
         let size = CGFloat(300)
         let half = size/2
-        
-        let lightboxBackground = UIView(frame: topView.frame)
-        lightboxBackground.backgroundColor = UIColor(white: 0, alpha: 1)
+//        
+//        let lightboxBackground = UIView(frame: topView.frame)
+//        lightboxBackground.backgroundColor = UIColor(white: 0, alpha: 1)
         
         let location = sender.locationInView(topView)
         let x = min(topView.frame.width - size, max(0, location.x - half))
@@ -178,12 +178,12 @@ class PlayerViewController : UIViewController {
             UIView.animateWithDuration(
                 0.2,
                 animations: {
-                    lightboxBackground.alpha = 0.0
+//                    lightboxBackground.alpha = 0.0
                     picker.alpha = 0.0
                 },
                 completion: { _ in
                     picker.removeFromSuperview()
-                    lightboxBackground.removeFromSuperview()
+//                    lightboxBackground.removeFromSuperview()
             })
         }
         
@@ -193,14 +193,14 @@ class PlayerViewController : UIViewController {
         }
         _currentColorPicker = picker
         
-        lightboxBackground.alpha = 0.0
+//        lightboxBackground.alpha = 0.0
         picker.alpha = 0.0
-        topView.addSubview(lightboxBackground)
+//        topView.addSubview(lightboxBackground)
         topView.addSubview(picker)
         picker.becomeFirstResponder()
         
         UIView.animateWithDuration(0.2) {
-            lightboxBackground.alpha = 0.3
+//            lightboxBackground.alpha = 0.3
             picker.alpha = 1.0
         }
     }

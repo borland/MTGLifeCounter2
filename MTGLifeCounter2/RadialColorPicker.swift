@@ -32,6 +32,13 @@ class RadialColorPicker : UIView {
         clipsToBounds = true
         backgroundColor = UIColor.clearColor()
         
+        let shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: layer.cornerRadius)
+        layer.masksToBounds = false
+        layer.shadowColor = UIColor.blackColor().CGColor
+        layer.shadowOffset = CGSizeMake(0, 0)
+        layer.shadowOpacity = 0.66
+        layer.shadowPath = shadowPath.CGPath
+        
         multipleTouchEnabled = true
         
 //        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(wasTapped(_:))))

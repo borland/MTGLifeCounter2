@@ -329,9 +329,10 @@ class PlayerViewController : UIViewController {
         
         let views = ["view":view!, "plus":plusButton!, "minus":minusButton!, "lifeTotal":lifeTotalLabel!]
         
-        _xConstraint = NSLayoutConstraint(item: lifeTotalLabel, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1.0, constant: innerHorizontalOffset)
-        _yConstraint = NSLayoutConstraint(item: lifeTotalLabel, attribute: .CenterY, relatedBy: .Equal, toItem: view, attribute: .CenterY, multiplier: 1.0, constant: innerVerticalOffset)
+        _xConstraint = lifeTotalLabel.centerXAnchor.constraintEqualToAnchor(view.centerXAnchor, constant: innerHorizontalOffset)
         
+        _yConstraint = lifeTotalLabel.centerYAnchor.constraintEqualToAnchor(view.centerYAnchor, constant: innerVerticalOffset)
+
         view.addConstraints([_xConstraint!, _yConstraint!])
         
         switch resolveButtonOrientation() {
@@ -342,20 +343,20 @@ class PlayerViewController : UIViewController {
             
             view.addConstraints("H:[minus(44)]-(hGap)-[lifeTotal]-(hGap)-[plus(44)]", views: views, metrics: metrics)
             view.addConstraints([
-                NSLayoutConstraint(item: plusButton, attribute: .CenterY, relatedBy: .Equal, toItem: view, attribute: .CenterY, multiplier: 1, constant: 0),
-                 NSLayoutConstraint(item: minusButton, attribute: .CenterY, relatedBy: .Equal, toItem: view, attribute: .CenterY, multiplier: 1, constant: 0)
+                plusButton.centerYAnchor.constraintEqualToAnchor(lifeTotalLabel.centerYAnchor),
+                minusButton.centerYAnchor.constraintEqualToAnchor(lifeTotalLabel.centerYAnchor),
             ])
             
         default: // +/- on the top/bottom
             
-            let vGap:CGFloat = -8
+            let vGap:CGFloat = -16
             let metrics = ["vGap": vGap]
             
             view.addConstraints("V:[plus(44)]-(vGap)-[lifeTotal]-(vGap)-[minus(44)]", views: views, metrics: metrics)
             view.addConstraints([
-                NSLayoutConstraint(item: plusButton, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0),
-                NSLayoutConstraint(item: minusButton, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0)
-            ])
+                plusButton.centerXAnchor.constraintEqualToAnchor(lifeTotalLabel.centerXAnchor),
+                minusButton.centerXAnchor.constraintEqualToAnchor(lifeTotalLabel.centerXAnchor),
+                ])
         }
         
         view.setNeedsDisplay()

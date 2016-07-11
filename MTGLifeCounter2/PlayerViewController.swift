@@ -9,90 +9,6 @@
 import Foundation
 import UIKit
 
-class LifeTotalDeltaTracker {
-    
-    let floatingViewTimeout = 1.7
-    let floatingViewHideTime = 0.25
-    
-    private var _baseline = 0 // we show +/- x relative to this.
-    private var _history = [(NSDate, Int)]()
-    private var _floatingView:FloatingView?
-    private let _label = UILabel()
-    private var _cancelPreviousDelay:(()->())?
-    
-    init(fontSize: CGFloat = 44) {
-        _label.font = UIFont(name:"Futura", size: 1)
-        _label.textColor = UIColor.whiteColor()
-        _label.translatesAutoresizingMaskIntoConstraints = false
-        
-        floatingViewFontSize = fontSize
-    }
-    
-    var floatingViewFontSize: CGFloat {
-        didSet {
-            _label.font = _label.font.fontWithSize(floatingViewFontSize)
-        }
-    }
-    
-    var parent:UIView?
-    
-    func update(lifeTotal:Int) {
-        if let (_, lt) = _history.last {
-            if lt == lifeTotal {
-                return // no point recording a duplicate
-            }
-        }
-        let tuple = (NSDate(), lifeTotal)
-        _history.append(tuple)
-        updateUi(lifeTotal)
-    }
-    
-    func reset(lifeTotal:Int) {
-        _history.removeAll(keepCapacity: true)
-        _baseline = lifeTotal
-        updateUi(lifeTotal)
-    }
-    
-    func updateUi(lifeTotal:Int) {
-        let symbol = (lifeTotal - _baseline >= 0) ? "+" : "-"
-        _label.text = "\(symbol)\(lifeTotal - _baseline)"
-        _label.sizeToFit()
-        showOrExtendView()
-    }
-    
-    func showOrExtendView() {
-        if let p = parent where _floatingView == nil && _history.count > 1 {
-            let fv = FloatingView(innerView:self._label, cornerRadius: Float(floatingViewFontSize) / 5)
-            
-            fv.showInView(p) { floatingView in
-                p.addConstraints([
-                    NSLayoutConstraint(item: floatingView, attribute: .Left, relatedBy: .Equal, toItem: p, attribute: .Left, multiplier: 1.0, constant: 5.0),
-                    NSLayoutConstraint(item: floatingView, attribute: .Top, relatedBy: .Equal, toItem: p, attribute: .Top, multiplier: 1.0, constant: 20.0)])
-            }
-            
-            _floatingView = fv
-        }
-        
-        if let c = _cancelPreviousDelay {
-            c()
-        }
-        _cancelPreviousDelay = delay(floatingViewTimeout) {
-            if let (_, lifeTotal) = self._history.last {
-                self._baseline = lifeTotal
-            }
-            self._history.removeAll(keepCapacity: true)
-            
-            if let fv = self._floatingView {
-                UIView.animateWithDuration(self.floatingViewHideTime,
-                    animations: { fv.alpha = 0.0 },
-                    completion: { _ in fv.removeFromSuperview() })
-            
-                self._floatingView = nil
-            }
-        }
-    }
-}
-
 enum DisplaySize {
     case Small, Normal
 }
@@ -123,13 +39,13 @@ class PlayerViewController : UIViewController {
     @IBAction func lifeTotalPanning(sender: UIPanGestureRecognizer) {
         let translation = sender.translationInView(view)
         
-        let verticalPanDivisor:CGFloat = 7.0
+        let verticalPanDivisor:CGFloat = 10.0
         if translation.y < -verticalPanDivisor || translation.y > verticalPanDivisor { // vertical pan greater than threshold
             lifeTotal -= Int(translation.y / verticalPanDivisor)
             sender.setTranslation(CGPointMake(0,0), inView: view) // reset the recognizer
         }
         
-        let horizontalPanDivisor:CGFloat = 20.0
+        let horizontalPanDivisor:CGFloat = 30.0
         if translation.x < -horizontalPanDivisor || translation.x > horizontalPanDivisor { // horz pan greater than threshold
             let newColor = color.rawValue + Int(translation.x / horizontalPanDivisor)
             if newColor < MtgColor.First().rawValue { // wrap
@@ -172,9 +88,6 @@ class PlayerViewController : UIViewController {
         let topView = self.view.window! // MUST be on screen or crash means a bug
         let size = CGFloat(300)
         let half = size/2
-//        
-//        let lightboxBackground = UIView(frame: topView.frame)
-//        lightboxBackground.backgroundColor = UIColor(white: 0, alpha: 1)
         
         let location = sender.locationInView(topView)
         let x = min(topView.frame.width - size, max(0, location.x - half))
@@ -184,14 +97,8 @@ class PlayerViewController : UIViewController {
             self._currentColorPicker = nil
             UIView.animateWithDuration(
                 0.2,
-                animations: {
-//                    lightboxBackground.alpha = 0.0
-                    picker.alpha = 0.0
-                },
-                completion: { _ in
-                    picker.removeFromSuperview()
-//                    lightboxBackground.removeFromSuperview()
-            })
+                animations: { picker.alpha = 0.0 },
+                completion: { _ in picker.removeFromSuperview() })
         }
         
         let picker = RadialColorPicker(frame: CGRectMake(x, y, size, size)) { picker, color in
@@ -200,16 +107,11 @@ class PlayerViewController : UIViewController {
         }
         _currentColorPicker = picker
         
-//        lightboxBackground.alpha = 0.0
         picker.alpha = 0.0
-//        topView.addSubview(lightboxBackground)
         topView.addSubview(picker)
         picker.becomeFirstResponder()
         
-        UIView.animateWithDuration(0.2) {
-//            lightboxBackground.alpha = 0.3
-            picker.alpha = 1.0
-        }
+        UIView.animateWithDuration(0.2) { picker.alpha = 1.0 }
     }
     
     var buttonOrientation = ButtonOrientation.Auto
@@ -235,7 +137,6 @@ class PlayerViewController : UIViewController {
             } else {
                 textColor = UIColor.whiteColor()
             }
-            
             backgroundView.addLabel(color.displayName, isUpsideDown: isUpsideDown, textColor: textColor)
         }
     }
@@ -266,8 +167,8 @@ class PlayerViewController : UIViewController {
     }
     
     func resetLifeTotal(lifeTotal:Int) {
+        _tracker.reset(lifeTotal) // do this first to avoid "+0" flash on load
         self.lifeTotal = lifeTotal
-        _tracker.reset(lifeTotal)
     }
     
     func reset(lifeTotal lifeTotal:NSNumber?, color:NSNumber?) {

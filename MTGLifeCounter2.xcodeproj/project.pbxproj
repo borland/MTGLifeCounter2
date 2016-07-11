@@ -12,6 +12,7 @@
 		D315A0F81AD1B8350055129F /* FloatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D315A0F71AD1B8350055129F /* FloatingView.swift */; };
 		D319CFDC1D108DFD001B5A0F /* RadialColorPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = D319CFDB1D108DFD001B5A0F /* RadialColorPicker.swift */; };
 		D330FDCB1A4E9E0500D731B2 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = D330FDCA1A4E9E0500D731B2 /* LaunchScreen.xib */; };
+		D33FE3AD1D342BD600397A38 /* LifeTotalDeltaTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = D33FE3AC1D342BD600397A38 /* LifeTotalDeltaTracker.swift */; };
 		D36252A119CC3C0E00D60681 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D36252A019CC3C0E00D60681 /* Colors.swift */; };
 		D3666A501D3176A50051233B /* StarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3666A4F1D3176A50051233B /* StarViewController.swift */; };
 		D3734CE71B03D54800B85628 /* NumberWheelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3734CE61B03D54800B85628 /* NumberWheelView.swift */; };
@@ -61,6 +62,7 @@
 		D315A0F71AD1B8350055129F /* FloatingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloatingView.swift; sourceTree = "<group>"; };
 		D319CFDB1D108DFD001B5A0F /* RadialColorPicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RadialColorPicker.swift; sourceTree = "<group>"; };
 		D330FDCA1A4E9E0500D731B2 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
+		D33FE3AC1D342BD600397A38 /* LifeTotalDeltaTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LifeTotalDeltaTracker.swift; sourceTree = "<group>"; };
 		D36252A019CC3C0E00D60681 /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		D3666A4F1D3176A50051233B /* StarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StarViewController.swift; sourceTree = "<group>"; };
 		D3734CE61B03D54800B85628 /* NumberWheelView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumberWheelView.swift; sourceTree = "<group>"; };
@@ -147,6 +149,7 @@
 				D3F5432B19B86F230053DA1A /* Utility.swift */,
 				D30ED9771D32B9EC00BB874E /* AbstractGameViewController.swift */,
 				D30ED9791D32C0F200BB874E /* FloatingActionButton.swift */,
+				D33FE3AC1D342BD600397A38 /* LifeTotalDeltaTracker.swift */,
 			);
 			path = MTGLifeCounter2;
 			sourceTree = "<group>";
@@ -290,6 +293,7 @@
 				D3F9A57919BB0AA4008C3BF0 /* MainMenuViewController.swift in Sources */,
 				D3F5432E19B8734A0053DA1A /* DuelViewController.swift in Sources */,
 				D315A0F81AD1B8350055129F /* FloatingView.swift in Sources */,
+				D33FE3AD1D342BD600397A38 /* LifeTotalDeltaTracker.swift in Sources */,
 				D38B324219C1AF94009F8345 /* DataStore.swift in Sources */,
 				D3F5432C19B86F230053DA1A /* Utility.swift in Sources */,
 				D30ED9781D32B9EC00BB874E /* AbstractGameViewController.swift in Sources */,

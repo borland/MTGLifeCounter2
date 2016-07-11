@@ -12,7 +12,6 @@ import UIKit
 class DuelViewController : AbstractGameViewController {
     override var initialLifeTotal:Int { return 20 }
     override var configKey:String { return "duel" }
-    override var containers:[UIView] { return [c1, c2] }
     
     @IBOutlet weak var c1: UIView!
     @IBOutlet weak var c2: UIView!

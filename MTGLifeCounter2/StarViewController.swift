@@ -12,7 +12,6 @@ import UIKit
 class StarViewController : AbstractGameViewController {
     override var initialLifeTotal:Int { return 20 }
     override var configKey:String { return "star" }
-    override var containers: [UIView] { return [c1, c2, c3, c4, c5] }
     
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var d20Button: UIButton!

@@ -12,7 +12,6 @@ import UIKit
 class AbstractGameViewController : UIViewController {
     var initialLifeTotal:Int { preconditionFailure("This method must be overridden")  }
     var configKey:String { preconditionFailure("This method must be overridden")  }
-    var containers:[UIView] { preconditionFailure("This method must be overridden")  }
     
     var _players:[PlayerViewController] = []
     
@@ -25,7 +24,7 @@ class AbstractGameViewController : UIViewController {
     }
     
     @IBAction func d20ButtonPressed(sender: AnyObject) {
-        for (c, (num, winner)) in zip(_players, randomUntiedDiceRolls(containers.count, diceFaceCount: UInt(20))) {
+        for (c, (num, winner)) in zip(_players, randomUntiedDiceRolls(_players.count, diceFaceCount: UInt(20))) {
             let diceRollView = DiceRollView.create(num, winner:winner)
             diceRollView.showInView(c.view) // putting the dice roll view inside the playerView means it's auto-upside down
         }

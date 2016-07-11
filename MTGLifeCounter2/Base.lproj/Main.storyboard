@@ -143,54 +143,87 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6dz-zM-xpR">
-                                <rect key="frame" x="0.0" y="436" width="320" height="44"/>
+                            <containerView opaque="NO" contentMode="scaleToFill" restorationIdentifier="c1" translatesAutoresizingMaskIntoConstraints="NO" id="qzH-LN-4PL">
+                                <rect key="frame" x="0.0" y="64" width="320" height="200"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="44" placeholder="YES" id="GCg-Nt-YiW"/>
+                                    <constraint firstAttribute="height" constant="200" placeholder="YES" id="ZNK-gE-2JU"/>
+                                    <constraint firstAttribute="width" constant="320" placeholder="YES" id="gOW-c3-sNU"/>
                                 </constraints>
-                                <items>
-                                    <barButtonItem title="Back" id="Cam-Z3-VEt">
-                                        <connections>
-                                            <action selector="backButtonPressed:" destination="9bP-n6-3Qx" id="nLP-Pj-aao"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="e1p-d6-fP6"/>
-                                    <barButtonItem title="D20" id="3Gu-Un-QCJ">
-                                        <connections>
-                                            <action selector="d20ButtonPressed:" destination="9bP-n6-3Qx" id="M4H-A3-1K0"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="OeE-t7-3yE"/>
-                                    <barButtonItem style="done" systemItem="refresh" id="FzP-d2-4xf">
-                                        <connections>
-                                            <action selector="refreshButtonPressed:" destination="9bP-n6-3Qx" id="WYa-ZT-K7q"/>
-                                        </connections>
-                                    </barButtonItem>
-                                </items>
-                            </toolbar>
-                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vy3-uw-She">
                                 <connections>
-                                    <segue destination="CaN-LE-yH2" kind="embed" identifier="player1_embed" id="0Ia-tu-WX8"/>
+                                    <segue destination="CaN-LE-yH2" kind="embed" identifier="player1_embed" id="fo2-Qi-ovP"/>
                                 </connections>
                             </containerView>
-                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XMy-JT-IBG">
+                            <containerView opaque="NO" contentMode="scaleToFill" restorationIdentifier="c2" translatesAutoresizingMaskIntoConstraints="NO" id="c44-Tf-gBV">
+                                <rect key="frame" x="0.0" y="264" width="320" height="200"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="320" placeholder="YES" id="Cij-eS-88F"/>
+                                    <constraint firstAttribute="height" constant="200" placeholder="YES" id="rBC-13-LTe"/>
+                                </constraints>
                                 <connections>
-                                    <segue destination="CaN-LE-yH2" kind="embed" identifier="player2_embed" id="8tz-nR-cNh"/>
+                                    <segue destination="CaN-LE-yH2" kind="embed" identifier="player2_embed" id="IBx-cY-tVn"/>
                                 </connections>
                             </containerView>
+                            <button contentMode="scaleToFill" restorationIdentifier="d20Button" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p08-vY-zxg" customClass="FloatingActionButton" customModule="MTGLifeCounter2" customModuleProvider="target">
+                                <rect key="frame" x="64" y="64" width="48" height="48"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="48" id="6hC-ZS-qrE"/>
+                                    <constraint firstAttribute="height" constant="48" id="OaP-mV-9UN"/>
+                                </constraints>
+                                <state key="normal" image="d20-48-white">
+                                    <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="d20ButtonPressed:" destination="9bP-n6-3Qx" eventType="touchUpInside" id="pL9-OF-56m"/>
+                                </connections>
+                            </button>
+                            <button contentMode="scaleToFill" restorationIdentifier="backButton" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gXw-e3-Hiz" customClass="FloatingActionButton" customModule="MTGLifeCounter2" customModuleProvider="target">
+                                <rect key="frame" x="16" y="64" width="48" height="48"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="48" id="jUD-Sb-GR5"/>
+                                    <constraint firstAttribute="width" constant="48" id="sMo-Px-X0s"/>
+                                </constraints>
+                                <state key="normal" image="ic_arrow_back">
+                                    <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="backButtonPressed:" destination="9bP-n6-3Qx" eventType="touchUpInside" id="wrI-h1-ogw"/>
+                                </connections>
+                            </button>
+                            <button contentMode="scaleToFill" restorationIdentifier="refreshButton" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yiT-8n-xtT" customClass="FloatingActionButton" customModule="MTGLifeCounter2" customModuleProvider="target">
+                                <rect key="frame" x="98" y="64" width="48" height="48"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="48" id="RYm-r1-JJf"/>
+                                    <constraint firstAttribute="width" constant="48" id="mdI-Ys-3GM"/>
+                                </constraints>
+                                <state key="normal" image="ic_refresh">
+                                    <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="refreshButtonPressed:" destination="9bP-n6-3Qx" eventType="touchUpInside" id="CZ8-le-qoh"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="QRd-Rf-EwO" firstAttribute="top" secondItem="6dz-zM-xpR" secondAttribute="bottom" id="28y-7u-IsS"/>
-                            <constraint firstAttribute="trailing" secondItem="6dz-zM-xpR" secondAttribute="trailing" id="Xp7-wm-qCn"/>
-                            <constraint firstItem="6dz-zM-xpR" firstAttribute="leading" secondItem="eh5-iN-f6a" secondAttribute="leading" id="ko1-Xk-Qro"/>
+                            <constraint firstItem="gXw-e3-Hiz" firstAttribute="top" secondItem="LhH-Rn-9vg" secondAttribute="bottom" placeholder="YES" id="GDU-Bk-nii"/>
+                            <constraint firstItem="c44-Tf-gBV" firstAttribute="leading" secondItem="qzH-LN-4PL" secondAttribute="leading" placeholder="YES" id="Una-aG-8KD"/>
+                            <constraint firstItem="gXw-e3-Hiz" firstAttribute="leading" secondItem="eh5-iN-f6a" secondAttribute="leadingMargin" placeholder="YES" id="ZNB-IZ-3hf"/>
+                            <constraint firstItem="p08-vY-zxg" firstAttribute="leading" secondItem="gXw-e3-Hiz" secondAttribute="trailing" placeholder="YES" id="cb3-1V-k5e"/>
+                            <constraint firstItem="yiT-8n-xtT" firstAttribute="top" secondItem="p08-vY-zxg" secondAttribute="top" placeholder="YES" id="dg9-sb-cRn"/>
+                            <constraint firstItem="yiT-8n-xtT" firstAttribute="leading" secondItem="p08-vY-zxg" secondAttribute="trailing" constant="-14" placeholder="YES" id="ggI-Sy-3Nf"/>
+                            <constraint firstItem="qzH-LN-4PL" firstAttribute="top" secondItem="LhH-Rn-9vg" secondAttribute="bottom" placeholder="YES" id="nkk-z1-qDS"/>
+                            <constraint firstItem="p08-vY-zxg" firstAttribute="top" secondItem="gXw-e3-Hiz" secondAttribute="top" placeholder="YES" id="xV2-dq-JPv"/>
+                            <constraint firstItem="qzH-LN-4PL" firstAttribute="leading" secondItem="eh5-iN-f6a" secondAttribute="leading" placeholder="YES" id="xiY-xg-vMX"/>
+                            <constraint firstItem="c44-Tf-gBV" firstAttribute="top" secondItem="qzH-LN-4PL" secondAttribute="bottom" placeholder="YES" id="yOP-cv-Rtl"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="2HG" id="gsS-tO-1Cs"/>
                     <connections>
-                        <outlet property="c1" destination="Vy3-uw-She" id="hc5-qH-B06"/>
-                        <outlet property="c2" destination="XMy-JT-IBG" id="BWM-Ql-aQj"/>
-                        <outlet property="toolbar" destination="6dz-zM-xpR" id="Xf7-Li-xXX"/>
+                        <outlet property="backButton" destination="gXw-e3-Hiz" id="NX4-bN-qYa"/>
+                        <outlet property="c1" destination="qzH-LN-4PL" id="eqf-ff-SNR"/>
+                        <outlet property="c2" destination="c44-Tf-gBV" id="0qL-Rg-JSQ"/>
+                        <outlet property="d20Button" destination="p08-vY-zxg" id="qjX-yk-t0C"/>
+                        <outlet property="refreshButton" destination="yiT-8n-xtT" id="RUe-Li-eCA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="p3o-Fc-9YU" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -389,16 +422,21 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <containerView opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" restorationIdentifier="c1" translatesAutoresizingMaskIntoConstraints="NO" id="twt-k1-mFC">
-                                <rect key="frame" x="0.0" y="60" width="320" height="139"/>
+                            <containerView opaque="NO" contentMode="scaleToFill" restorationIdentifier="c1" translatesAutoresizingMaskIntoConstraints="NO" id="twt-k1-mFC">
+                                <rect key="frame" x="0.0" y="60" width="320" height="200"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="200" placeholder="YES" id="f95-8M-qCg"/>
+                                    <constraint firstAttribute="width" constant="320" placeholder="YES" id="fFz-bd-ORf"/>
+                                </constraints>
                                 <connections>
                                     <segue destination="CaN-LE-yH2" kind="embed" identifier="player1_embed" id="eDe-gw-Pia"/>
                                 </connections>
                             </containerView>
-                            <containerView opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" restorationIdentifier="c2" translatesAutoresizingMaskIntoConstraints="NO" id="JE2-nl-vFk">
-                                <rect key="frame" x="0.0" y="212" width="320" height="200"/>
+                            <containerView opaque="NO" contentMode="scaleToFill" restorationIdentifier="c2" translatesAutoresizingMaskIntoConstraints="NO" id="JE2-nl-vFk">
+                                <rect key="frame" x="0.0" y="260" width="320" height="200"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="200" placeholder="YES" id="G7O-20-L5N"/>
+                                    <constraint firstAttribute="height" constant="200" placeholder="YES" id="Xdb-nH-C6n"/>
+                                    <constraint firstAttribute="width" constant="320" placeholder="YES" id="hPf-8G-8cR"/>
                                 </constraints>
                                 <connections>
                                     <segue destination="CaN-LE-yH2" kind="embed" identifier="player2_embed" id="on7-Kh-9Qr"/>
@@ -414,6 +452,7 @@
                                     <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
+                                    <action selector="backButtonPressed:" destination="s0V-jc-fQq" eventType="touchUpInside" id="0a5-2b-g5b"/>
                                     <action selector="backButtonPressed:" destination="2Ir-SA-F0F" eventType="touchUpInside" id="m3L-CM-o1F"/>
                                 </connections>
                             </button>
@@ -428,6 +467,7 @@
                                 </state>
                                 <connections>
                                     <action selector="refreshButtonPressed:" destination="2Ir-SA-F0F" eventType="touchUpInside" id="cq6-29-TO5"/>
+                                    <action selector="refreshButtonPressed:" destination="s0V-jc-fQq" eventType="touchUpInside" id="hgl-PR-khS"/>
                                 </connections>
                             </button>
                             <button contentMode="scaleToFill" restorationIdentifier="d20Button" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dx4-ir-6xt" customClass="FloatingActionButton" customModule="MTGLifeCounter2" customModuleProvider="target">
@@ -441,25 +481,23 @@
                                 </state>
                                 <connections>
                                     <action selector="d20ButtonPressed:" destination="2Ir-SA-F0F" eventType="touchUpInside" id="gI8-hN-JUS"/>
+                                    <action selector="d20ButtonPressed:" destination="s0V-jc-fQq" eventType="touchUpInside" id="juk-kP-1yA"/>
                                     <action selector="refreshButtonPressed:" destination="2Ir-SA-F0F" eventType="touchUpInside" id="IyJ-9M-JGc"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="JE2-nl-vFk" firstAttribute="top" secondItem="twt-k1-mFC" secondAttribute="bottom" constant="13" placeholder="YES" id="4rS-Gh-qpL"/>
+                            <constraint firstItem="JE2-nl-vFk" firstAttribute="leading" secondItem="Yz8-Az-Kj6" secondAttribute="leading" placeholder="YES" id="2DP-fE-ach"/>
+                            <constraint firstItem="bFb-g6-Hqj" firstAttribute="top" secondItem="Vnd-m4-0Gt" secondAttribute="bottom" placeholder="YES" id="Bg3-d7-vZi"/>
                             <constraint firstItem="dx4-ir-6xt" firstAttribute="top" secondItem="bFb-g6-Hqj" secondAttribute="top" placeholder="YES" id="Eqt-zv-BWt"/>
-                            <constraint firstAttribute="trailing" secondItem="twt-k1-mFC" secondAttribute="trailing" placeholder="YES" id="GC3-Ry-89o"/>
-                            <constraint firstItem="twt-k1-mFC" firstAttribute="leading" secondItem="Yz8-Az-Kj6" secondAttribute="leading" placeholder="YES" id="KGb-gG-Bbi"/>
-                            <constraint firstItem="bFb-g6-Hqj" firstAttribute="top" secondItem="Vnd-m4-0Gt" secondAttribute="bottom" placeholder="YES" id="Kcb-Nj-x0R"/>
+                            <constraint firstItem="JE2-nl-vFk" firstAttribute="top" secondItem="twt-k1-mFC" secondAttribute="bottom" placeholder="YES" id="IzV-v6-ksX"/>
                             <constraint firstItem="F22-sC-4d2" firstAttribute="leading" secondItem="dx4-ir-6xt" secondAttribute="trailing" constant="10" placeholder="YES" id="RXL-zM-o1i"/>
                             <constraint firstItem="F22-sC-4d2" firstAttribute="top" secondItem="dx4-ir-6xt" secondAttribute="top" placeholder="YES" id="RZy-b1-8z7"/>
                             <constraint firstItem="dx4-ir-6xt" firstAttribute="leading" secondItem="bFb-g6-Hqj" secondAttribute="trailing" constant="10" placeholder="YES" id="WWb-Pn-JE6"/>
-                            <constraint firstItem="JE2-nl-vFk" firstAttribute="top" secondItem="twt-k1-mFC" secondAttribute="bottom" constant="13" placeholder="YES" id="YCF-Cd-pqi"/>
-                            <constraint firstItem="twt-k1-mFC" firstAttribute="top" secondItem="Yz8-Az-Kj6" secondAttribute="top" constant="60" placeholder="YES" id="d4s-jS-Yrq"/>
                             <constraint firstItem="bFb-g6-Hqj" firstAttribute="leading" secondItem="Yz8-Az-Kj6" secondAttribute="leadingMargin" placeholder="YES" id="ewG-ba-kzB"/>
-                            <constraint firstAttribute="trailing" secondItem="JE2-nl-vFk" secondAttribute="trailing" placeholder="YES" id="ieb-Wo-m4y"/>
-                            <constraint firstItem="JE2-nl-vFk" firstAttribute="leading" secondItem="Yz8-Az-Kj6" secondAttribute="leading" placeholder="YES" id="wOS-fw-DYP"/>
+                            <constraint firstItem="twt-k1-mFC" firstAttribute="top" secondItem="Yz8-Az-Kj6" secondAttribute="top" constant="60" placeholder="YES" id="s9I-iX-0oG"/>
+                            <constraint firstItem="twt-k1-mFC" firstAttribute="leading" secondItem="Yz8-Az-Kj6" secondAttribute="leading" placeholder="YES" id="uha-cI-Z6c"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Duel" id="f3z-mA-Cik"/>
@@ -627,7 +665,7 @@
         <image name="ic_refresh" width="24" height="24"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="on7-Kh-9Qr"/>
+        <segue reference="IBx-cY-tVn"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.30196078431372547" green="0.10196078431372549" blue="0.70196078431372544" alpha="1" colorSpace="calibratedRGB"/>
 </document>

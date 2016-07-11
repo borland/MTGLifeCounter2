@@ -25,9 +25,9 @@ class AbstractGameViewController : UIViewController {
     }
     
     @IBAction func d20ButtonPressed(sender: AnyObject) {
-        for (c, (num, winner)) in zip(containers, randomUntiedDiceRolls(containers.count, diceFaceCount: UInt(20))) {
+        for (c, (num, winner)) in zip(_players, randomUntiedDiceRolls(containers.count, diceFaceCount: UInt(20))) {
             let diceRollView = DiceRollView.create(num, winner:winner)
-            diceRollView.showInView(c)
+            diceRollView.showInView(c.view) // putting the dice roll view inside the playerView means it's auto-upside down
         }
     }
     

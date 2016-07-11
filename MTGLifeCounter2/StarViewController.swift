@@ -56,13 +56,18 @@ class StarViewController : AbstractGameViewController {
             break
             
         default:
+            assert(_players.count == 5) // called before view loaded?
+            
             for p in _players {
                 p.buttonOrientation = .Horizontal // force buttons on the side even though we don't normally do this in landscape
             }
-            if _players.count == 5 {
-                _players[3].innerHorizontalOffset = 25
-                _players[4].innerHorizontalOffset = -25
-            }
+            
+            _players[0].isUpsideDown = true
+            _players[1].isUpsideDown = true
+            _players[2].isUpsideDown = true
+            
+            _players[3].innerHorizontalOffset = 25
+            _players[4].innerHorizontalOffset = -25
             
             // first row horizontally
             view.addConstraints("|[c1(==c2)][c2(==c3)][c3(==c1)]|", views: views)
@@ -87,24 +92,20 @@ class StarViewController : AbstractGameViewController {
                 
                 // second row equal height and top aligned
                 [
-                    c5.heightAnchor.constraintEqualToAnchor(c4.heightAnchor),
-                    c5.topAnchor.constraintEqualToAnchor(c4.topAnchor),
-                ],
-                
+                c5.heightAnchor.constraintEqualToAnchor(c4.heightAnchor),
+                c5.topAnchor.constraintEqualToAnchor(c4.topAnchor),
+
                 // back button
-                [
-                    backButton.leadingAnchor.constraintEqualToAnchor(view.leadingAnchor, constant: 8),
-                    backButton.centerYAnchor.constraintEqualToAnchor(c1.bottomAnchor)
-                ],
+                backButton.leadingAnchor.constraintEqualToAnchor(view.leadingAnchor, constant: 8),
+                backButton.centerYAnchor.constraintEqualToAnchor(c1.bottomAnchor),
+
                 // refresh button
-                [
-                    refreshButton.trailingAnchor.constraintEqualToAnchor(view.trailingAnchor, constant: -8),
-                    refreshButton.centerYAnchor.constraintEqualToAnchor(c1.bottomAnchor)
-                ],
+                refreshButton.trailingAnchor.constraintEqualToAnchor(view.trailingAnchor, constant: -8),
+                refreshButton.centerYAnchor.constraintEqualToAnchor(c1.bottomAnchor),
+
                 // d20 button
-                [
-                    d20Button.centerXAnchor.constraintEqualToAnchor(view.centerXAnchor),
-                    d20Button.centerYAnchor.constraintEqualToAnchor(c1.bottomAnchor)
+                d20Button.centerXAnchor.constraintEqualToAnchor(view.centerXAnchor),
+                d20Button.centerYAnchor.constraintEqualToAnchor(c1.bottomAnchor)
                 ]
             )
         }

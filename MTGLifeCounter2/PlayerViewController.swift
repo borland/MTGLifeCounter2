@@ -148,10 +148,9 @@ class PlayerViewController : UIViewController {
         let reference = view.frame
         
         var up = true;
-        switch buttonOrientation {
+        switch resolveButtonOrientation() {
         case .Horizontal: // buttons on sides
             up = location.x > (reference.size.width / 2)
-            
         default:
             up = location.y < (reference.size.height / 2)
         }

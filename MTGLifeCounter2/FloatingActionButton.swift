@@ -23,7 +23,7 @@ class FloatingActionButton : UIButton {
         let shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: 22)
         layer.masksToBounds = false
         layer.shadowColor = UIColor.blackColor().CGColor
-        layer.shadowOffset = CGSizeMake(elevation, elevation)
+        layer.shadowOffset = CGSizeMake(0, 0)
         layer.shadowOpacity = 0.66
         layer.shadowPath = shadowPath.CGPath
     }

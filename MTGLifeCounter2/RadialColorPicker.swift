@@ -9,13 +9,39 @@
 import Foundation
 import UIKit
 
+private class ColorInfo {
+    let color:MtgColor
+    var rect:CGRect
+    var hilight:Bool = false
+    
+    init(color: MtgColor, rect: CGRect) {
+        self.color = color
+        self.rect = rect
+    }
+}
+
+private let coreColors:[MtgColor] = [.White, .Blue, .Black, .Red, .Green] // WUBRG
+private let pairedColors:[MtgColor] = [.WhiteBlack,
+                               .WhiteBlue,
+                               .BlueRed,
+                               .BlueBlack,
+                               .BlackGreen,
+                               .BlackRed,
+                               .RedWhite,
+                               .RedGreen,
+                               .GreenBlue,
+                               .GreenWhite]
+
 class RadialColorPicker : UIView {
     private let _tapCallback:(RadialColorPicker, MtgColor?) -> Void
-    private var _hitTestRects:[MtgColor:CGRect] = [:]
+    private let _colorInfo:[ColorInfo]
     
     required init(frame: CGRect, tapCallback:((RadialColorPicker, MtgColor?) -> Void)) {
         _tapCallback = tapCallback
         assert(frame.width == frame.height)
+        
+        _colorInfo = (coreColors + pairedColors).map{ c in ColorInfo(color: c, rect: CGRectNull) }
+        
         super.init(frame: frame)
         
         self.translatesAutoresizingMaskIntoConstraints = false
@@ -33,14 +59,12 @@ class RadialColorPicker : UIView {
         layer.shadowPath = shadowPath.CGPath
         
         multipleTouchEnabled = true
-        
-//        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(wasTapped(_:))))
     }
     
-    private func hitTestForColor(point:CGPoint) -> MtgColor? {
-        for (color, rect) in _hitTestRects {
-            if rect.contains(point) { // TODO experiment - we might need to inset the boxes
-                return color
+    private func hitTestForColor(point:CGPoint) -> ColorInfo? {
+        for info in _colorInfo {
+            if info.rect.contains(point) { // TODO experiment - we might need to inset the boxes
+                return info
             }
         }
         return nil
@@ -48,7 +72,14 @@ class RadialColorPicker : UIView {
     
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
         guard let touch = touches.first else { return }
-        _tapCallback(self, hitTestForColor(touch.locationInView(self)))
+        
+        let hit = hitTestForColor(touch.locationInView(self))
+        if let h = hit {
+            h.hilight = true
+            setNeedsDisplay()
+        }
+        
+        _tapCallback(self, hit?.color)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -60,72 +91,54 @@ class RadialColorPicker : UIView {
         CGContextSaveGState(gc)
         defer{ CGContextRestoreGState(gc) }
         
-        let coreColors:[MtgColor] = [.White, .Blue, .Black, .Red, .Green] // WUBRG
-        let pairedColors:[MtgColor] = [.WhiteBlack,
-            .WhiteBlue,
-            .BlueRed,
-            .BlueBlack,
-            .BlackGreen,
-            .BlackRed,
-            .RedWhite,
-            .RedGreen,
-            .GreenBlue,
-            .GreenWhite]
+        drawSegments(gc, frame: rect, colors: _colorInfo[4..<15], offset: rect.midX * 0.8, width: rect.midX * 0.4)
         
-        let pairedRects = gc.drawSegments(rect, colors: pairedColors, howMany: pairedColors.count, offset: rect.midX * 0.8, width: rect.midX * 0.4)
-        
-        let coreRects = gc.drawSegments(rect, colors: coreColors, howMany: coreColors.count, offset: rect.midX * 0.4, width: rect.midX * 0.4)
-        
-        if _hitTestRects.isEmpty {
-            backgroundColor = UIColor.grayColor()
-            
-            _hitTestRects = pairedRects
-            for (k,v) in coreRects {
-                _hitTestRects[k] = CGRectInset(v, 3, 3) // because they're non rectangular, pull them in a bit
-            }
-        }
+        drawSegments(gc, frame: rect, colors: _colorInfo[0..<5], offset: rect.midX * 0.4, width: rect.midX * 0.4)
     }
-}
-
-private extension CGContext {
-    func drawSegments(rect: CGRect, colors:[MtgColor], howMany:Int, offset: CGFloat, width: CGFloat) -> [MtgColor:CGRect] {
-        var boxes:[MtgColor:CGRect] = [:]
+    
+    private func drawSegments(context: CGContext, frame: CGRect, colors:ArraySlice<ColorInfo>, offset: CGFloat, width: CGFloat) {
         
         let num = colors.count
-        for i in 0..<howMany {
-            let mtgColor = colors[i]
+        for (idx, ci) in colors.enumerate() {
+            let mtgColor = ci.color
             
-            let startPct = Double(i) / Double(num)
-            let endPct = (Double(i + 1) / Double(num))
+            let startPct = Double(idx) / Double(num)
+            let endPct = (Double(idx + 1) / Double(num))
             
             let start = (M_PI * 2 * startPct) - M_PI_2
             let end = (M_PI * 2 * endPct) - M_PI_2
             
-            boxes[mtgColor] = drawSegment(rect, offset: offset, width: width, startAngle: CGFloat(start), endAngle: CGFloat(end), colorA: mtgColor.lookup(true), colorB: mtgColor.lookup(false))
+            let bounds = drawSegment(context, frame: frame, offset: offset, width: width, startAngle: CGFloat(start), endAngle: CGFloat(end), colorA: mtgColor.lookup(true), colorB: mtgColor.lookup(false), hilight: ci.hilight)
+            
+            if ci.rect == CGRectNull { // assign if not already assigned, so someone can hit test later
+                ci.rect = CGRectInset(bounds, 3, 3) // inset slightly due to non-rectangular things
+            }
         }
-        return boxes
     }
     
-    func drawSegment(rect: CGRect, offset: CGFloat, width:CGFloat, startAngle: CGFloat, endAngle: CGFloat, colorA:UIColor, colorB:UIColor) -> CGRect {
-        let center = rect.midX
+    private func drawSegment(context: CGContext, frame: CGRect, offset: CGFloat, width:CGFloat, startAngle: CGFloat, endAngle: CGFloat, colorA: UIColor, colorB: UIColor, hilight: Bool) -> CGRect {
+        let center = frame.midX
         
         let arc = CGPathCreateMutable()
         CGPathAddArc(arc, nil, center, center, offset, startAngle, endAngle, false)
         let strokedArc = CGPathCreateCopyByStrokingPath(arc, nil, width, CGLineCap.Butt, CGLineJoin.Miter, 10)
         let boundingBox = CGPathGetBoundingBox(strokedArc)
         
+        let resolvedColorA = hilight ? hilightColor(colorA) : colorA
+        let resolvedColorB = hilight ? hilightColor(colorB) : colorB
+        
         if(colorA == colorB) {
             // flat color, use a simpler method for efficiency
-            CGContextBeginPath(self);
-            CGContextAddPath(self, strokedArc)
-            CGContextSetFillColorWithColor(self, colorA.CGColor)
-            CGContextSetStrokeColorWithColor(self, UIColor.grayColor().CGColor)
-            CGContextSetLineWidth(self, 3)
-            CGContextDrawPath(self, CGPathDrawingMode.FillStroke)
+            CGContextBeginPath(context);
+            CGContextAddPath(context, strokedArc)
+            CGContextSetFillColorWithColor(context, resolvedColorA.CGColor)
+            CGContextSetStrokeColorWithColor(context, UIColor.grayColor().CGColor)
+            CGContextSetLineWidth(context, 3)
+            CGContextDrawPath(context, CGPathDrawingMode.FillStroke)
         } else {
             // gradient - linear gradient because it's simpler
-            let c1 = CGColorGetComponents(colorA.CGColor)
-            let c2 = CGColorGetComponents(colorB.CGColor)
+            let c1 = CGColorGetComponents(resolvedColorA.CGColor)
+            let c2 = CGColorGetComponents(resolvedColorB.CGColor)
             
             let locations:[CGFloat] = [0.2, 0.8]
             let components:[CGFloat] = [c1.memory, (c1+1).memory,(c1+2).memory,(c1+3).memory,
@@ -134,22 +147,29 @@ private extension CGContext {
             let colorSpace = CGColorSpaceCreateDeviceRGB()
             let gradient = CGGradientCreateWithColorComponents(colorSpace, components, locations, 2)
             
-            CGContextSaveGState(self);
-            CGContextAddPath(self, strokedArc);
-            CGContextClip(self);
+            CGContextSaveGState(context);
+            CGContextAddPath(context, strokedArc);
+            CGContextClip(context);
             
             let gradientStart = CGPointMake(boundingBox.minX, boundingBox.minY)
             let gradientEnd   = CGPointMake(boundingBox.maxX, boundingBox.maxY)
             
-            CGContextDrawLinearGradient(self, gradient, gradientStart, gradientEnd, CGGradientDrawingOptions(rawValue: 0))
-            CGContextRestoreGState(self)
-            
-            // borders
-//            CGContextAddPath(self, strokedArc)
-//            CGContextSetStrokeColorWithColor(self, UIColor.grayColor().CGColor)
-//            CGContextSetLineWidth(self, 2)
-//            CGContextDrawPath(self, CGPathDrawingMode.Stroke)
+            CGContextDrawLinearGradient(context, gradient, gradientStart, gradientEnd, CGGradientDrawingOptions(rawValue: 0))
+            CGContextRestoreGState(context)
         }
         return boundingBox
     }
+    
+    private func hilightColor(color: UIColor) -> UIColor {
+        var r: CGFloat = 0, g: CGFloat = 0, b: CGFloat = 0, a: CGFloat = 0
+        if color.getRed(&r, green: &g, blue: &b, alpha: &a) {
+            return UIColor(
+                red: min(r + 0.2, 1),
+                green: min(g + 0.2, 1),
+                blue: min(b + 0.2, 1),
+                alpha: a)
+        }
+        return color //nop as we failed
+    }
+
 }

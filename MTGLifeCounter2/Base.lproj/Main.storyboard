@@ -454,7 +454,7 @@
                         <viewControllerLayoutGuide type="top" id="Vnd-m4-0Gt"/>
                         <viewControllerLayoutGuide type="bottom" id="HUz-Gq-3MK"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" restorationIdentifier="outerView" id="Yz8-Az-Kj6">
+                    <view key="view" contentMode="scaleToFill" restorationIdentifier="outerView" id="Yz8-Az-Kj6" customClass="RadialHostView" customModule="MTGLifeCounter2" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -542,6 +542,7 @@
                         <outlet property="c1" destination="twt-k1-mFC" id="mjl-lb-X5G"/>
                         <outlet property="c2" destination="JE2-nl-vFk" id="MqT-eE-LN8"/>
                         <outlet property="d20Button" destination="dx4-ir-6xt" id="h6z-Nh-JEf"/>
+                        <outlet property="hostView" destination="Yz8-Az-Kj6" id="i28-G9-lJ4"/>
                         <outlet property="refreshButton" destination="F22-sC-4d2" id="q3z-PG-bGe"/>
                     </connections>
                 </viewController>
@@ -701,7 +702,7 @@
         <image name="ic_refresh" width="24" height="24"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="sjg-Pg-UFQ"/>
+        <segue reference="on7-Kh-9Qr"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.30196078431372547" green="0.10196078431372549" blue="0.70196078431372544" alpha="1" colorSpace="calibratedRGB"/>
 </document>

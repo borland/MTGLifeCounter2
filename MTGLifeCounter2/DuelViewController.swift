@@ -13,6 +13,7 @@ class DuelViewController : AbstractGameViewController {
     override var initialLifeTotal:Int { return 20 }
     override var configKey:String { return "duel" }
     
+    @IBOutlet weak var hostView: RadialHostView!
     @IBOutlet weak var c1: UIView!
     @IBOutlet weak var c2: UIView!
     

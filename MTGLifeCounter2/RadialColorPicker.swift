@@ -32,6 +32,30 @@ private let pairedColors:[MtgColor] = [.WhiteBlack,
                                .GreenBlue,
                                .GreenWhite]
 
+class RadialHostView : UIView {
+    static func locate(view: UIView) -> RadialHostView? {
+        var v : UIView = view
+        repeat {
+            if let r = v as? RadialHostView {
+                return r
+            }
+            guard let sv = v.superview else {
+                return nil
+            }
+            v = sv
+        } while true
+    }
+    
+    var activePicker : RadialColorPicker?
+    
+    override func hitTest(point: CGPoint, withEvent event: UIEvent?) -> UIView? {
+        if let _ = activePicker {
+            print("touches moved")
+        }
+        return super.hitTest(point, withEvent: event)
+    }
+}
+
 class RadialColorPicker : UIView {
     private let _tapCallback:(RadialColorPicker, MtgColor?) -> Void
     private let _colorInfo:[ColorInfo]

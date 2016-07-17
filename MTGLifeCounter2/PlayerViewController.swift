@@ -85,6 +85,8 @@ class PlayerViewController : UIViewController {
             return
         }
         
+        let radialHostView = RadialHostView.locate(sender.view!)
+        
         let topView = self.view.window! // MUST be on screen or crash means a bug
         let size = CGFloat(300)
         let half = size/2
@@ -98,7 +100,10 @@ class PlayerViewController : UIViewController {
             UIView.animateWithDuration(
                 0.2,
                 animations: { picker.alpha = 0.0 },
-                completion: { _ in picker.removeFromSuperview() })
+                completion: { _ in
+                    picker.removeFromSuperview()
+                    radialHostView?.activePicker = nil
+            })
         }
         
         let picker = RadialColorPicker(frame: CGRectMake(x, y, size, size)) { picker, color in
@@ -106,6 +111,7 @@ class PlayerViewController : UIViewController {
             closePicker(picker)
         }
         _currentColorPicker = picker
+        radialHostView?.activePicker = picker
         
         picker.alpha = 0.0
         topView.addSubview(picker)

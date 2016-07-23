@@ -48,13 +48,19 @@ class RadialHostView : UIView {
     
     var activePicker : RadialColorPicker?
     
-    override func hitTest(point: CGPoint, withEvent event: UIEvent?) -> UIView? {
-        if let _ = activePicker {
-            print("touches moved")
-        }
-        return super.hitTest(point, withEvent: event)
-    }
+//    override func hitTest(point: CGPoint, withEvent event: UIEvent?) -> UIView? {
+////        if let _ = activePicker {
+//            print("touches moved")
+////        }
+//        return super.hitTest(point, withEvent: event)
+//    }
 }
+
+//class TouchesMovedRecognizer : UIGestureRecognizer {
+//    func touchesMoved(touches:NSSet, withEvent event:UIEvent) {
+//        self.state = .Recognized
+//    }
+//}
 
 class RadialColorPicker : UIView {
     private let _tapCallback:(RadialColorPicker, MtgColor?) -> Void
@@ -115,7 +121,7 @@ class RadialColorPicker : UIView {
         CGContextSaveGState(gc)
         defer{ CGContextRestoreGState(gc) }
         
-        drawSegments(gc, frame: rect, colors: _colorInfo[4..<15], offset: rect.midX * 0.8, width: rect.midX * 0.4)
+        drawSegments(gc, frame: rect, colors: _colorInfo[5..<15], offset: rect.midX * 0.8, width: rect.midX * 0.4)
         
         drawSegments(gc, frame: rect, colors: _colorInfo[0..<5], offset: rect.midX * 0.4, width: rect.midX * 0.4)
     }

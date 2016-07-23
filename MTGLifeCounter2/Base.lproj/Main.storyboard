@@ -572,25 +572,6 @@
             </objects>
             <point key="canvasLocation" x="-35" y="279"/>
         </scene>
-        <!--Test View Controller-->
-        <scene sceneID="jL0-Nz-zui">
-            <objects>
-                <viewController id="Kjy-XB-DVZ" customClass="TestViewController" customModule="MTGLifeCounter2" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="jmt-dL-g11"/>
-                        <viewControllerLayoutGuide type="bottom" id="xzF-SB-4JD"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="u0m-51-RZf">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="r75-Nj-92i" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-557" y="1023"/>
-        </scene>
         <!--Player View Controller-->
         <scene sceneID="4Pu-1e-HhP">
             <objects>

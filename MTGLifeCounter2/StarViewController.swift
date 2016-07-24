@@ -45,25 +45,78 @@ class StarViewController : AbstractGameViewController {
         )
         
         let views = ["c1":c1!, "c2":c2!, "c3":c3!, "c4":c4!, "c5":c5!]
+        assert(_players.count == 5) // called before view loaded?
+        
+        for p in _players {
+            p.buttonPosition = .Sides // force buttons on the side even though we don't normally do this in landscape
+            p.innerHorizontalOffset = 0
+        }
         
         switch (traitCollection.horizontalSizeClass, traitCollection.verticalSizeClass) {
         case (.Compact, .Regular): // phone in portrait
-//            view.addConstraints("V:|[c1(==c2)][c2(==c3)][c3(==c1)][toolbar(34)]|", views: views)
-//            view.addConstraints("|[c1]|", views: views)
-//            view.addConstraints("|[c2]|", views: views)
-//            view.addConstraints("|[c3]|", views: views)
+            _players[0].orientation = .UpsideDown
+//            _players[1].orientation = .Left
+//            _players[2].orientation = .Right
+//            _players[3].orientation = .Left
+//            _players[4].orientation = .Right
+            // I want to rotate, but it breaks; fix in progress
+            _players[1].orientation = .Normal
+            _players[2].orientation = .Normal
+            _players[3].orientation = .Normal
+            _players[4].orientation = .Normal
+            
+            view.addConstraints([
+                // c1 fills horizontal
+                c1.leadingAnchor.constraintEqualToAnchor(view.leadingAnchor),
+                c1.trailingAnchor.constraintEqualToAnchor(view.trailingAnchor),
+                
+                // c2, c3
+                c2.leadingAnchor.constraintEqualToAnchor(view.leadingAnchor),
+                c3.leadingAnchor.constraintEqualToAnchor(c2.trailingAnchor),
+                c3.trailingAnchor.constraintEqualToAnchor(view.trailingAnchor),
+                
+                c3.widthAnchor.constraintEqualToAnchor(c2.widthAnchor),
+                c3.heightAnchor.constraintEqualToAnchor(c2.heightAnchor),
+                c3.topAnchor.constraintEqualToAnchor(c2.topAnchor),
+                
+                // c4, c5
+                c4.leadingAnchor.constraintEqualToAnchor(view.leadingAnchor),
+                c5.leadingAnchor.constraintEqualToAnchor(c4.trailingAnchor),
+                c5.trailingAnchor.constraintEqualToAnchor(view.trailingAnchor),
+                
+                c5.widthAnchor.constraintEqualToAnchor(c4.widthAnchor),
+                c5.heightAnchor.constraintEqualToAnchor(c4.heightAnchor),
+                c5.topAnchor.constraintEqualToAnchor(c4.topAnchor),
+                
+                // stack the left row all vertically
+                c1.topAnchor.constraintEqualToAnchor(view.topAnchor),
+                c2.topAnchor.constraintEqualToAnchor(c1.bottomAnchor),
+                c4.topAnchor.constraintEqualToAnchor(c2.bottomAnchor),
+                c4.bottomAnchor.constraintEqualToAnchor(view.bottomAnchor),
+                
+                // top view gets less space (not 33%) because it's wider, other views split evenly
+                c1.heightAnchor.constraintEqualToAnchor(view.heightAnchor, multiplier: 0.30),
+                // c2,3 get a bit more space as they're overlapped by buttons
+                c2.heightAnchor.constraintEqualToAnchor(view.heightAnchor, multiplier: 0.37),
+                
+                // buttons
+                backButton.leftAnchor.constraintEqualToAnchor(view.leftAnchor, constant: 8),
+                backButton.centerYAnchor.constraintEqualToAnchor(c1.bottomAnchor),
+                
+                d20Button.centerXAnchor.constraintEqualToAnchor(c1.centerXAnchor),
+                d20Button.centerYAnchor.constraintEqualToAnchor(c1.bottomAnchor),
+                
+                refreshButton.rightAnchor.constraintEqualToAnchor(view.rightAnchor, constant: -8),
+                refreshButton.centerYAnchor.constraintEqualToAnchor(c1.bottomAnchor)
+            ])
             break
             
-        default:
-            assert(_players.count == 5) // called before view loaded?
-            
-            for p in _players {
-                p.buttonOrientation = .Horizontal // force buttons on the side even though we don't normally do this in landscape
-            }
-            
-            _players[0].isUpsideDown = true
-            _players[1].isUpsideDown = true
-            _players[2].isUpsideDown = true
+        default: // landscape view
+            _players[0].orientation = .UpsideDown
+            _players[1].orientation = .UpsideDown
+            _players[2].orientation = .UpsideDown
+            _players[3].orientation = .Normal
+            _players[4].orientation = .Normal
             
             _players[3].innerHorizontalOffset = 25
             _players[4].innerHorizontalOffset = -25

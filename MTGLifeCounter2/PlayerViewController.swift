@@ -13,8 +13,12 @@ enum DisplaySize {
     case Small, Normal
 }
 
-enum ButtonOrientation {
-    case Auto, Horizontal, Vertical
+enum PlusMinusButtonPosition {
+    case Auto, Sides, TopBottom
+}
+
+enum ViewOrientation {
+    case Normal, UpsideDown, Left, Right
 }
 
 class PlayerViewController : UIViewController {
@@ -37,12 +41,12 @@ class PlayerViewController : UIViewController {
     }
     
     @IBAction func lifeTotalPanning(sender: UIPanGestureRecognizer) {
-        let translation = sender.translationInView(view)
+        let translation = sender.translationInView(backgroundView)
         
         let verticalPanDivisor:CGFloat = 10.0
         if translation.y < -verticalPanDivisor || translation.y > verticalPanDivisor { // vertical pan greater than threshold
             lifeTotal -= Int(translation.y / verticalPanDivisor)
-            sender.setTranslation(CGPointMake(0,0), inView: view) // reset the recognizer
+            sender.setTranslation(CGPointMake(0,0), inView: backgroundView) // reset the recognizer
         }
         
         let horizontalPanDivisor:CGFloat = 30.0
@@ -55,17 +59,17 @@ class PlayerViewController : UIViewController {
             } else if let x = MtgColor(rawValue: newColor) {
                 color = x
             }
-            sender.setTranslation(CGPointMake(0,0), inView: view) // reset the recognizer
+            sender.setTranslation(CGPointMake(0,0), inView: backgroundView) // reset the recognizer
         }
     }
     
     @IBAction func lifeTotalWasTapped(sender: UITapGestureRecognizer) {
-        let location = sender.locationInView(view)
-        let reference = view.frame
+        let location = sender.locationInView(backgroundView)
+        let reference = backgroundView.frame
         
         var up = true;
-        switch resolveButtonOrientation() {
-        case .Horizontal: // buttons on sides
+        switch resolveButtonPosition() {
+        case .Sides:
             up = location.x > (reference.size.width / 2)
         default:
             up = location.y < (reference.size.height / 2)
@@ -120,7 +124,7 @@ class PlayerViewController : UIViewController {
         UIView.animateWithDuration(0.2) { picker.alpha = 1.0 }
     }
     
-    var buttonOrientation = ButtonOrientation.Auto
+    var buttonPosition = PlusMinusButtonPosition.Auto
     
     var innerHorizontalOffset = CGFloat(0) {
         didSet {
@@ -143,7 +147,7 @@ class PlayerViewController : UIViewController {
             } else {
                 textColor = UIColor.whiteColor()
             }
-            backgroundView.addLabel(color.displayName, isUpsideDown: isUpsideDown, textColor: textColor)
+            backgroundView.addLabel(color.displayName, isUpsideDown: false, textColor: textColor)
         }
     }
     
@@ -196,12 +200,17 @@ class PlayerViewController : UIViewController {
         }
     }
     
-    var isUpsideDown = false {
+    var orientation: ViewOrientation = .Normal {
         didSet {
-            if isUpsideDown {
-                view.transform = CGAffineTransformRotate(CGAffineTransformIdentity, CGFloat(M_PI));
-            } else {
-                view.transform = CGAffineTransformIdentity;
+            switch orientation {
+            case .UpsideDown:
+                backgroundView.transform = CGAffineTransformRotate(CGAffineTransformIdentity, CGFloat(M_PI))
+            case .Left:
+                backgroundView.transform = CGAffineTransformRotate(CGAffineTransformIdentity, CGFloat(M_PI_2))
+            case .Right:
+                backgroundView.transform = CGAffineTransformRotate(CGAffineTransformIdentity, CGFloat(-M_PI_2))
+            case .Normal:
+                backgroundView.transform = CGAffineTransformIdentity;
             }
         }
     }
@@ -211,7 +220,7 @@ class PlayerViewController : UIViewController {
         
         // trigger all the property change callbacks
         lifeTotal = self.lifeTotal + 0
-        isUpsideDown = !(!self.isUpsideDown)
+        orientation = self.orientation == .Normal ? .Normal : self.orientation
         displaySize = self.displaySize == .Normal ? .Normal : .Small
         
         let maxColorNum = UInt32(MtgColor.Last().rawValue)
@@ -219,7 +228,7 @@ class PlayerViewController : UIViewController {
             color = x  // likely to get overwritten by config load
         }
 
-        _tracker.parent = view // now the tracker can use the parent
+        _tracker.parent = backgroundView // now the tracker can use the parent
     }
     
     override func traitCollectionDidChange(previousTraitCollection: UITraitCollection?) {
@@ -228,28 +237,28 @@ class PlayerViewController : UIViewController {
     }
     
     func setConstraintsFor(traitCollection:UITraitCollection) {
-        let constraints = view.constraints as [NSLayoutConstraint]
-        view.removeAllConstraints(
+        let constraints = backgroundView.constraints as [NSLayoutConstraint]
+        backgroundView.removeAllConstraints(
             constraints.affectingView(plusButton),
             constraints.affectingView(minusButton),
             constraints.affectingView(lifeTotalLabel))
         
-        let views = ["view":view!, "plus":plusButton!, "minus":minusButton!, "lifeTotal":lifeTotalLabel!]
+        let views = ["view":backgroundView!, "plus":plusButton!, "minus":minusButton!, "lifeTotal":lifeTotalLabel!]
         
-        _xConstraint = lifeTotalLabel.centerXAnchor.constraintEqualToAnchor(view.centerXAnchor, constant: innerHorizontalOffset)
+        _xConstraint = lifeTotalLabel.centerXAnchor.constraintEqualToAnchor(backgroundView.centerXAnchor, constant: innerHorizontalOffset)
         
-        _yConstraint = lifeTotalLabel.centerYAnchor.constraintEqualToAnchor(view.centerYAnchor, constant: innerVerticalOffset)
+        _yConstraint = lifeTotalLabel.centerYAnchor.constraintEqualToAnchor(backgroundView.centerYAnchor, constant: innerVerticalOffset)
 
-        view.addConstraints([_xConstraint!, _yConstraint!])
+        backgroundView.addConstraints([_xConstraint!, _yConstraint!])
         
-        switch resolveButtonOrientation() {
-        case .Horizontal: // +/- on the sides
+        switch resolveButtonPosition() {
+        case .Sides: // +/- on the sides
             
             let hGap:CGFloat = displaySize == .Small ? 0 : 8 // in a horizontal star, pull the +/- buttons closer
             let metrics = ["hGap": hGap]
             
-            view.addConstraints("H:[minus(44)]-(hGap)-[lifeTotal]-(hGap)-[plus(44)]", views: views, metrics: metrics)
-            view.addConstraints([
+            backgroundView.addConstraints("H:[minus(44)]-(hGap)-[lifeTotal]-(hGap)-[plus(44)]", views: views, metrics: metrics)
+            backgroundView.addConstraints([
                 plusButton.centerYAnchor.constraintEqualToAnchor(lifeTotalLabel.centerYAnchor),
                 minusButton.centerYAnchor.constraintEqualToAnchor(lifeTotalLabel.centerYAnchor),
             ])
@@ -259,28 +268,26 @@ class PlayerViewController : UIViewController {
             let vGap:CGFloat = -16
             let metrics = ["vGap": vGap]
             
-            view.addConstraints("V:[plus(44)]-(vGap)-[lifeTotal]-(vGap)-[minus(44)]", views: views, metrics: metrics)
-            view.addConstraints([
+            backgroundView.addConstraints("V:[plus(44)]-(vGap)-[lifeTotal]-(vGap)-[minus(44)]", views: views, metrics: metrics)
+            backgroundView.addConstraints([
                 plusButton.centerXAnchor.constraintEqualToAnchor(lifeTotalLabel.centerXAnchor),
                 minusButton.centerXAnchor.constraintEqualToAnchor(lifeTotalLabel.centerXAnchor),
                 ])
         }
         
-        view.setNeedsDisplay()
+        backgroundView.setNeedsDisplay()
     }
     
-    func resolveButtonOrientation() -> ButtonOrientation {
-        switch buttonOrientation {
-        case .Vertical:
-            return .Vertical // explicitly set
-        case .Horizontal:
-            return .Horizontal // explicitly set
+    func resolveButtonPosition() -> PlusMinusButtonPosition {
+        switch buttonPosition {
+        case .TopBottom, .Sides:
+            return buttonPosition // explicitly set
         case .Auto:
             switch (traitCollection.horizontalSizeClass, traitCollection.verticalSizeClass) {
             case (.Compact, .Regular): // +/- on the sides
-                return .Horizontal;
-            default: // +/- on the top/bottom
-                return .Vertical;
+                return .Sides;
+            default:
+                return .TopBottom;
             }
         }
     }
@@ -362,5 +369,57 @@ class PlayerBackgroundView : UIView {
 
         CGContextRestoreGState(context);
 
+    }
+}
+
+@IBDesignable class RotationContainerView: UIView {
+    var child: UIView!
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
+    override init(frame: CGRect){
+        super.init(frame: frame)
+        self.setup()
+    }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        self.setup()
+    }
+    
+    func setup() {
+//        
+//        rotationView.backgroundColor = UIColor.redColor()
+//        textView.backgroundColor = UIColor.yellowColor()
+//        self.addSubview(rotationView)
+//        rotationView.addSubview(textView)
+//        
+//        // could also do this with auto layout constraints
+//        textView.frame = rotationView.bounds
+    }
+    
+    override func layoutSubviews() {
+//        super.layoutSubviews()
+//        
+//        rotationView.transform = CGAffineTransformIdentity // *** key line ***
+//        
+//        rotationView.frame = CGRect(origin: CGPointZero, size: CGSize(width: self.bounds.height, height: self.bounds.width))
+//        rotationView.transform = translateRotateFlip()
+    }
+    
+    func translateRotateFlip() -> CGAffineTransform {
+        
+        var transform = CGAffineTransformIdentity
+        
+        // translate to new center
+        transform = CGAffineTransformTranslate(transform, (self.bounds.width / 2)-(self.bounds.height / 2), (self.bounds.height / 2)-(self.bounds.width / 2))
+        // rotate counterclockwise around center
+        transform = CGAffineTransformRotate(transform, CGFloat(-M_PI_2))
+        // flip vertically
+        transform = CGAffineTransformScale(transform, -1, 1)
+        
+        return transform
     }
 }

@@ -27,9 +27,9 @@ class DuelViewController : AbstractGameViewController {
         if(_players.count == 2) { // all loaded
             switch (traitCollection.horizontalSizeClass, traitCollection.verticalSizeClass) {
             case (.Compact, .Regular): // phone in portrait
-                _players.first?.isUpsideDown = true
+                _players.first?.orientation = .UpsideDown
             default:
-                _players.first?.isUpsideDown = false
+                _players.first?.orientation = .Normal
             }
         }
     }
@@ -40,9 +40,9 @@ class DuelViewController : AbstractGameViewController {
         
         switch (traitCollection.horizontalSizeClass, traitCollection.verticalSizeClass) {
         case (.Compact, .Regular): // phone in portrait
-            p1.isUpsideDown = true
+            p1.orientation = .UpsideDown
         default:
-            p1.isUpsideDown = false
+            p1.orientation = .Normal
         }
         
         setConstraintsFor(traitCollection)

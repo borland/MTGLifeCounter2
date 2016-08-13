@@ -20,20 +20,20 @@ private class ColorInfo {
     }
 }
 
-private let coreColors:[MtgColor] = [.White, .Blue, .Black, .Red, .Green] // WUBRG
-private let pairedColors:[MtgColor] = [.WhiteBlack,
-                               .WhiteBlue,
-                               .BlueRed,
-                               .BlueBlack,
-                               .BlackGreen,
-                               .BlackRed,
-                               .RedWhite,
-                               .RedGreen,
-                               .GreenBlue,
-                               .GreenWhite]
+private let coreColors:[MtgColor] = [.white, .blue, .black, .red, .green] // WUBRG
+private let pairedColors:[MtgColor] = [.whiteBlack,
+                               .whiteBlue,
+                               .blueRed,
+                               .blueBlack,
+                               .blackGreen,
+                               .blackRed,
+                               .redWhite,
+                               .redGreen,
+                               .greenBlue,
+                               .greenWhite]
 
 class RadialHostView : UIView {
-    static func locate(view: UIView) -> RadialHostView? {
+    static func locate(_ view: UIView) -> RadialHostView? {
         var v : UIView = view
         repeat {
             if let r = v as? RadialHostView {
@@ -70,7 +70,7 @@ class RadialColorPicker : UIView {
         _tapCallback = tapCallback
         assert(frame.width == frame.height)
         
-        _colorInfo = (coreColors + pairedColors).map{ c in ColorInfo(color: c, rect: CGRectNull) }
+        _colorInfo = (coreColors + pairedColors).map{ c in ColorInfo(color: c, rect: CGRect.null) }
         
         super.init(frame: frame)
         
@@ -79,19 +79,19 @@ class RadialColorPicker : UIView {
         let radius = frame.width
         layer.cornerRadius = radius / 2
         clipsToBounds = true
-        backgroundColor = UIColor.clearColor()
+        backgroundColor = UIColor.clear
         
         let shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: layer.cornerRadius)
         layer.masksToBounds = false
-        layer.shadowColor = UIColor.blackColor().CGColor
-        layer.shadowOffset = CGSizeMake(0, 0)
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowOffset = CGSize(width: 0, height: 0)
         layer.shadowOpacity = 0.66
-        layer.shadowPath = shadowPath.CGPath
+        layer.shadowPath = shadowPath.cgPath
         
-        multipleTouchEnabled = true
+        isMultipleTouchEnabled = true
     }
     
-    private func hitTestForColor(point:CGPoint) -> ColorInfo? {
+    private func hitTestForColor(_ point:CGPoint) -> ColorInfo? {
         for info in _colorInfo {
             if info.rect.contains(point) { // TODO experiment - we might need to inset the boxes
                 return info
@@ -100,10 +100,10 @@ class RadialColorPicker : UIView {
         return nil
     }
     
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first else { return }
         
-        let hit = hitTestForColor(touch.locationInView(self))
+        let hit = hitTestForColor(touch.location(in: self))
         if let h = hit {
             h.hilight = true
             setNeedsDisplay()
@@ -116,20 +116,20 @@ class RadialColorPicker : UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func drawRect(rect: CGRect) {
+    override func draw(_ rect: CGRect) {
         let gc = UIGraphicsGetCurrentContext()!
-        CGContextSaveGState(gc)
-        defer{ CGContextRestoreGState(gc) }
+        gc.saveGState()
+        defer{ gc.restoreGState() }
         
         drawSegments(gc, frame: rect, colors: _colorInfo[5..<15], offset: rect.midX * 0.8, width: rect.midX * 0.4)
         
         drawSegments(gc, frame: rect, colors: _colorInfo[0..<5], offset: rect.midX * 0.4, width: rect.midX * 0.4)
     }
     
-    private func drawSegments(context: CGContext, frame: CGRect, colors:ArraySlice<ColorInfo>, offset: CGFloat, width: CGFloat) {
+    private func drawSegments(_ context: CGContext, frame: CGRect, colors:ArraySlice<ColorInfo>, offset: CGFloat, width: CGFloat) {
         
         let num = colors.count
-        for (idx, ci) in colors.enumerate() {
+        for (idx, ci) in colors.enumerated() {
             let mtgColor = ci.color
             
             let startPct = Double(idx) / Double(num)
@@ -140,57 +140,57 @@ class RadialColorPicker : UIView {
             
             let bounds = drawSegment(context, frame: frame, offset: offset, width: width, startAngle: CGFloat(start), endAngle: CGFloat(end), colorA: mtgColor.lookup(true), colorB: mtgColor.lookup(false), hilight: ci.hilight)
             
-            if ci.rect == CGRectNull { // assign if not already assigned, so someone can hit test later
-                ci.rect = CGRectInset(bounds, 3, 3) // inset slightly due to non-rectangular things
+            if ci.rect == CGRect.null { // assign if not already assigned, so someone can hit test later
+                ci.rect = bounds.insetBy(dx: 3, dy: 3) // inset slightly due to non-rectangular things
             }
         }
     }
     
-    private func drawSegment(context: CGContext, frame: CGRect, offset: CGFloat, width:CGFloat, startAngle: CGFloat, endAngle: CGFloat, colorA: UIColor, colorB: UIColor, hilight: Bool) -> CGRect {
+    private func drawSegment(_ context: CGContext, frame: CGRect, offset: CGFloat, width:CGFloat, startAngle: CGFloat, endAngle: CGFloat, colorA: UIColor, colorB: UIColor, hilight: Bool) -> CGRect {
         let center = frame.midX
         
-        let arc = CGPathCreateMutable()
-        CGPathAddArc(arc, nil, center, center, offset, startAngle, endAngle, false)
-        let strokedArc = CGPathCreateCopyByStrokingPath(arc, nil, width, CGLineCap.Butt, CGLineJoin.Miter, 10)
-        let boundingBox = CGPathGetBoundingBox(strokedArc)
+        let arc = CGMutablePath()
+        arc.addArc(nil, x: center, y: center, radius: offset, startAngle: startAngle, endAngle: endAngle, clockwise: false)
+        let strokedArc = CGPath(copyByStroking: arc, transform: nil, lineWidth: width, lineCap: CGLineCap.butt, lineJoin: CGLineJoin.miter, miterLimit: 10)
+        let boundingBox = strokedArc?.boundingBox
         
         let resolvedColorA = hilight ? hilightColor(colorA) : colorA
         let resolvedColorB = hilight ? hilightColor(colorB) : colorB
         
         if(colorA == colorB) {
             // flat color, use a simpler method for efficiency
-            CGContextBeginPath(context);
-            CGContextAddPath(context, strokedArc)
-            CGContextSetFillColorWithColor(context, resolvedColorA.CGColor)
-            CGContextSetStrokeColorWithColor(context, UIColor.grayColor().CGColor)
-            CGContextSetLineWidth(context, 3)
-            CGContextDrawPath(context, CGPathDrawingMode.FillStroke)
+            context.beginPath();
+            context.addPath(strokedArc!)
+            context.setFillColor(resolvedColorA.cgColor)
+            context.setStrokeColor(UIColor.gray.cgColor)
+            context.setLineWidth(3)
+            context.drawPath(using: CGPathDrawingMode.fillStroke)
         } else {
             // gradient - linear gradient because it's simpler
-            let c1 = CGColorGetComponents(resolvedColorA.CGColor)
-            let c2 = CGColorGetComponents(resolvedColorB.CGColor)
+            let c1 = resolvedColorA.cgColor.components
+            let c2 = resolvedColorB.cgColor.components
             
             let locations:[CGFloat] = [0.2, 0.8]
-            let components:[CGFloat] = [c1.memory, (c1+1).memory,(c1+2).memory,(c1+3).memory,
-                                        c2.memory, (c2+1).memory,(c2+2).memory,(c2+3).memory ]
+            let components:[CGFloat] = [c1.pointee, (c1+1).pointee,(c1+2).pointee,(c1+3).pointee,
+                                        c2.pointee, (c2+1).pointee,(c2+2).pointee,(c2+3).pointee ]
             
             let colorSpace = CGColorSpaceCreateDeviceRGB()
-            let gradient = CGGradientCreateWithColorComponents(colorSpace, components, locations, 2)
+            let gradient = CGGradient(colorComponentsSpace: colorSpace, components: components, locations: locations, count: 2)
             
-            CGContextSaveGState(context);
-            CGContextAddPath(context, strokedArc);
-            CGContextClip(context);
+            context.saveGState();
+            context.addPath(strokedArc!);
+            context.clip();
             
-            let gradientStart = CGPointMake(boundingBox.minX, boundingBox.minY)
-            let gradientEnd   = CGPointMake(boundingBox.maxX, boundingBox.maxY)
+            let gradientStart = CGPoint(x: (boundingBox?.minX)!, y: (boundingBox?.minY)!)
+            let gradientEnd   = CGPoint(x: (boundingBox?.maxX)!, y: (boundingBox?.maxY)!)
             
-            CGContextDrawLinearGradient(context, gradient, gradientStart, gradientEnd, CGGradientDrawingOptions(rawValue: 0))
-            CGContextRestoreGState(context)
+            context.drawLinearGradient(gradient!, start: gradientStart, end: gradientEnd, options: CGGradientDrawingOptions(rawValue: 0))
+            context.restoreGState()
         }
-        return boundingBox
+        return boundingBox!
     }
     
-    private func hilightColor(color: UIColor) -> UIColor {
+    private func hilightColor(_ color: UIColor) -> UIColor {
         var r: CGFloat = 0, g: CGFloat = 0, b: CGFloat = 0, a: CGFloat = 0
         if color.getRed(&r, green: &g, blue: &b, alpha: &a) {
             return UIColor(

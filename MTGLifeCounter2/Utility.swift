@@ -12,18 +12,18 @@ import UIKit
 public let GlobalTintColor = UIColor(red: 0.302, green: 0.102, blue: 0.702, alpha: 1)
 
 // swift 2.2 compiler +'ing more than 3 arrays together takes minutes to COMPILE, so we don't + them
-func concat<T>(arrays: [[T]]) -> [T] {
+func concat<T>(_ arrays: [[T]]) -> [T] {
     var result = [T]()
     for array in arrays {
-        result.appendContentsOf(array)
+        result.append(contentsOf: array)
     }
     return result
 }
 
 extension UIView {
-    func addConstraints(format:String, views:[String:UIView], metrics:[String:CGFloat]? = nil, options:NSLayoutFormatOptions=NSLayoutFormatOptions(rawValue: 0)) {
-        let constraints = NSLayoutConstraint.constraintsWithVisualFormat(
-            format,
+    func addConstraints(_ format:String, views:[String:UIView], metrics:[String:CGFloat]? = nil, options:NSLayoutFormatOptions=NSLayoutFormatOptions(rawValue: 0)) {
+        let constraints = NSLayoutConstraint.constraints(
+            withVisualFormat: format,
             options: options,
             metrics: metrics,
             views: views)
@@ -31,22 +31,22 @@ extension UIView {
         self.addConstraints(constraints)
     }
     
-    func addAllConstraints(constraints: [NSLayoutConstraint]...) {
+    func addAllConstraints(_ constraints: [NSLayoutConstraint]...) {
         addConstraints(concat(constraints))
     }
     
-    func removeAllConstraints(constraints: [NSLayoutConstraint]...) {
+    func removeAllConstraints(_ constraints: [NSLayoutConstraint]...) {
         removeConstraints(concat(constraints))
     }
 }
 
-extension SequenceType where Generator.Element == NSLayoutConstraint {
-    func affectingView(view: UIView) -> [NSLayoutConstraint] {
+extension Sequence where Iterator.Element == NSLayoutConstraint {
+    func affectingView(_ view: UIView) -> [NSLayoutConstraint] {
         return filter {
-            if let first = $0.firstItem as? UIView where first == view {
+            if let first = $0.firstItem as? UIView, first == view {
                 return true
             }
-            if let second = $0.secondItem as? UIView where second == view {
+            if let second = $0.secondItem as? UIView, second == view {
                 return true
             }
             return false
@@ -55,12 +55,12 @@ extension SequenceType where Generator.Element == NSLayoutConstraint {
 }
 
 //! The UInt is the number rolled on the dice face, the Bool is true if this is the "winning" value
-func randomUntiedDiceRolls(numDice:Int, diceFaceCount:UInt) -> [(UInt, Bool)] {
-    var values = Array(count:numDice, repeatedValue:UInt(1))
+func randomUntiedDiceRolls(_ numDice:Int, diceFaceCount:UInt) -> [(UInt, Bool)] {
+    var values = Array(repeating: UInt(1), count: numDice)
 
     // find the indexes of values that have the highest value, and replace those values with randoms. Repeat until no ties
     while true {
-        let maxVal = values.maxElement()! // we only care if the highest dice rolls are tied (e.g. if there are 3 people and the dice go 7,2,2 that's fine)
+        let maxVal = values.max()! // we only care if the highest dice rolls are tied (e.g. if there are 3 people and the dice go 7,2,2 that's fine)
         let tiedValueIndexes = findIndexes(values, value: maxVal)
         if tiedValueIndexes.count < 2 {
             break
@@ -70,14 +70,14 @@ func randomUntiedDiceRolls(numDice:Int, diceFaceCount:UInt) -> [(UInt, Bool)] {
             values[ix] = UInt(arc4random_uniform(UInt32(diceFaceCount)) + 1)
         }
     }
-    let maxVal = values.maxElement()!
+    let maxVal = values.max()!
     return values.map{ x in (x, x == maxVal) }
 }
 
-func delay(seconds: NSTimeInterval, block: dispatch_block_t) -> () -> () {
+func delay(_ seconds: TimeInterval, block: ()->()) -> () -> () {
     var canceled = false // volatile? lock?
-    let dt = dispatch_time(DISPATCH_TIME_NOW, Int64(seconds * Double(NSEC_PER_SEC)))
-    dispatch_after(dt, dispatch_get_main_queue()) {
+    let dt = DispatchTime.now() + Double(Int64(seconds * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+    DispatchQueue.main.asyncAfter(deadline: dt) {
         if !canceled {
             block()
         }
@@ -88,9 +88,9 @@ func delay(seconds: NSTimeInterval, block: dispatch_block_t) -> () -> () {
     }
 }
 
-func findIndexes<T : Equatable>(domain:[T], value:T) -> [Int] {
+func findIndexes<T : Equatable>(_ domain:[T], value:T) -> [Int] {
     return domain
-        .enumerate()
+        .enumerated()
         .filter{ (ix, obj) in obj == value }
         .map{ (ix, obj) in ix }
 }

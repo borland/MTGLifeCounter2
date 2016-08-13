@@ -12,15 +12,15 @@ import UIKit
 extension UIViewAutoresizing {
     static var FlexibleMargins: UIViewAutoresizing {
         get {
-            return [.FlexibleLeftMargin, .FlexibleTopMargin, .FlexibleRightMargin, .FlexibleBottomMargin]
+            return [.flexibleLeftMargin, .flexibleTopMargin, .flexibleRightMargin, .flexibleBottomMargin]
         }
     }
 }
 
 class DiceRollView {
     
-    class func create(num:UInt, winner:Bool) -> FloatingView {
-        let singleUnderline:[String:AnyObject] = [NSUnderlineStyleAttributeName: NSNumber(int: 1)]
+    class func create(_ num:UInt, winner:Bool) -> FloatingView {
+        let singleUnderline:[String:AnyObject] = [NSUnderlineStyleAttributeName: NSNumber(value: 1)]
         
         let generator = { (x:Int) -> NSAttributedString in
             if x == 0 {
@@ -34,9 +34,9 @@ class DiceRollView {
             return NSAttributedString(string: "\(arc4random_uniform(20) + 1)") // don't underline values that aren't the result, it looks bad
         }
         
-        let numberView = NumberWheelView(fontSize: 110, textColor: UIColor.whiteColor(), numCells:30, generator: generator)
-        let widthConstraint = NSLayoutConstraint(item: numberView, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1.0, constant: 135)
-        let heightConstraint = NSLayoutConstraint(item: numberView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1.0, constant: 125)
+        let numberView = NumberWheelView(fontSize: 110, textColor: UIColor.white, numCells:30, generator: generator)
+        let widthConstraint = NSLayoutConstraint(item: numberView, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1.0, constant: 135)
+        let heightConstraint = NSLayoutConstraint(item: numberView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1.0, constant: 125)
 
         numberView.addConstraints([widthConstraint, heightConstraint])
 
@@ -49,15 +49,15 @@ class DiceRollView {
                 let duration = 0.1
                 let initialTransform = fv.transform
 
-                UIView.animateWithDuration(duration, delay: 0, options: .Autoreverse,
+                UIView.animate(withDuration: duration, delay: 0, options: .autoreverse,
                     animations: {
-                        fv.transform = CGAffineTransformConcat(initialTransform, CGAffineTransformMakeScale(1.2, 1.2))
+                        fv.transform = initialTransform.concatenating(CGAffineTransform(scaleX: 1.2, y: 1.2))
                     }, completion: { _ in
                         fv.transform = initialTransform
                         // this is how we "repeat" one time
-                        UIView.animateWithDuration(duration, delay: 0, options: .Autoreverse,
+                        UIView.animate(withDuration: duration, delay: 0, options: .autoreverse,
                             animations: {
-                                fv.transform = CGAffineTransformConcat(initialTransform, CGAffineTransformMakeScale(1.2, 1.2))
+                                fv.transform = initialTransform.concatenating(CGAffineTransform(scaleX: 1.2, y: 1.2))
                             }, completion: { _ in
                                 fv.transform = initialTransform
                         })
@@ -77,10 +77,10 @@ class FloatingView : UIView {
     convenience init(text:NSAttributedString, fontSize:CGFloat) {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = UIColor.whiteColor()
+        label.textColor = UIColor.white
         label.attributedText = text
         label.font = UIFont(name:"Futura", size:fontSize)
-        label.textAlignment = .Center
+        label.textAlignment = .center
         label.sizeToFit()
         
         self.init(innerView:label)
@@ -91,21 +91,21 @@ class FloatingView : UIView {
     required init(innerView:UIView, cornerRadius:Float = 20) {
         _inner = innerView
         
-        super.init(frame: CGRectMake(0,0,0,0))
+        super.init(frame: CGRect(x: 0,y: 0,width: 0,height: 0))
     
-        backgroundColor = UIColor.blueColor()
+        backgroundColor = UIColor.blue
         
         translatesAutoresizingMaskIntoConstraints = false
         addSubview(innerView)
-        addConstraints("H:|-[inner]-|", views: ["inner":innerView], options: .AlignAllBaseline)
-        addConstraints("V:|-[inner]-|", views: ["inner":innerView], options: .AlignAllBaseline)
+        addConstraints("H:|-[inner]-|", views: ["inner":innerView], options: .alignAllLastBaseline)
+        addConstraints("V:|-[inner]-|", views: ["inner":innerView], options: .alignAllLastBaseline)
         sizeToFit()
 
         backgroundColor = UIColor(red:0.3, green:0.1, blue:0.7, alpha:1)
         alpha = 0.0
         layer.cornerRadius = CGFloat(cornerRadius)
         clipsToBounds = true
-        userInteractionEnabled = false
+        isUserInteractionEnabled = false
     }
     
     // not needed but compiler makes us add it
@@ -114,8 +114,8 @@ class FloatingView : UIView {
         super.init(coder: aDecoder)
     }
     
-    var beforeShow:(Double -> Void)?
-    var beforePause:(Void -> Void)?
+    var beforeShow:((Double) -> Void)?
+    var beforePause:((Void) -> Void)?
     
     var isUpsideDown:Bool {
         get{ return _isUpsideDown }
@@ -125,13 +125,13 @@ class FloatingView : UIView {
         }
     }
     
-    func propertyDidChange(propertyName:String) {
+    func propertyDidChange(_ propertyName:String) {
         switch(propertyName) {
         case "isUpsideDown":
             if _isUpsideDown {
-                transform = CGAffineTransformRotate(CGAffineTransformIdentity, CGFloat(M_PI));
+                transform = CGAffineTransform.identity.rotated(by: CGFloat(M_PI));
             } else {
-                transform = CGAffineTransformIdentity;
+                transform = CGAffineTransform.identity;
             }
             
         default:
@@ -139,7 +139,7 @@ class FloatingView : UIView {
         }
     }
     
-    func showInView(parent: UIView, setup: UIView -> ()) {
+    func showInView(_ parent: UIView, setup: (UIView) -> ()) {
         alpha = 1.0
         
         parent.addSubview(self)
@@ -147,12 +147,12 @@ class FloatingView : UIView {
         setup(self)
     }
     
-    func showInView(parent: UIView, callbackDuration:Double = 2.2, pauseDuration:Double = 1.4, fadeDuration:Double = 0.6) {
+    func showInView(_ parent: UIView, callbackDuration:Double = 2.2, pauseDuration:Double = 1.4, fadeDuration:Double = 0.6) {
         showInView(parent) { floatingView in
             // Center
             parent.addConstraints([
-                NSLayoutConstraint(item: floatingView, attribute: .CenterX, relatedBy: .Equal, toItem: parent, attribute: .CenterX, multiplier: 1.0, constant: 0.0),
-                NSLayoutConstraint(item: floatingView, attribute: .CenterY, relatedBy: .Equal, toItem: parent, attribute: .CenterY, multiplier: 1.0, constant: 0.0)])
+                NSLayoutConstraint(item: floatingView, attribute: .centerX, relatedBy: .equal, toItem: parent, attribute: .centerX, multiplier: 1.0, constant: 0.0),
+                NSLayoutConstraint(item: floatingView, attribute: .centerY, relatedBy: .equal, toItem: parent, attribute: .centerY, multiplier: 1.0, constant: 0.0)])
             
             if let callback = self.beforeShow {
                 callback(callbackDuration)
@@ -162,9 +162,9 @@ class FloatingView : UIView {
                     callback()
                 }
             }
-            UIView.animateWithDuration(fadeDuration,
+            UIView.animate(withDuration: fadeDuration,
                 delay: callbackDuration + pauseDuration,
-                options: .CurveEaseInOut,
+                options: UIViewAnimationOptions(),
                 animations: { floatingView.alpha = 0 },
                 completion: { (b:Bool) in
                     floatingView.removeFromSuperview()

@@ -21,39 +21,39 @@ class DuelViewController : AbstractGameViewController {
     @IBOutlet weak var d20Button: UIButton!
     @IBOutlet weak var refreshButton: UIButton!
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        super.prepareForSegue(segue, sender: sender)
+    override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
+        super.prepare(for: segue, sender: sender)
         
         if(_players.count == 2) { // all loaded
             switch (traitCollection.horizontalSizeClass, traitCollection.verticalSizeClass) {
-            case (.Compact, .Regular): // phone in portrait
-                _players.first?.orientation = .UpsideDown
+            case (.compact, .regular): // phone in portrait
+                _players.first?.orientation = .upsideDown
             default:
-                _players.first?.orientation = .Normal
+                _players.first?.orientation = .normal
             }
         }
     }
     
-    override func traitCollectionDidChange(previousTraitCollection: UITraitCollection?) {
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         guard let p1 = _players.first else { return }
         
         switch (traitCollection.horizontalSizeClass, traitCollection.verticalSizeClass) {
-        case (.Compact, .Regular): // phone in portrait
-            p1.orientation = .UpsideDown
+        case (.compact, .regular): // phone in portrait
+            p1.orientation = .upsideDown
         default:
-            p1.orientation = .Normal
+            p1.orientation = .normal
         }
         
         setConstraintsFor(traitCollection)
     }
     
-    override func prefersStatusBarHidden() -> Bool {
+    override var prefersStatusBarHidden: Bool {
         return false
     }
     
     // override this for different layouts
-    override func setConstraintsFor(traitCollection:UITraitCollection) {
+    override func setConstraintsFor(_ traitCollection:UITraitCollection) {
         let constraints = view.constraints as [NSLayoutConstraint]
         view.removeAllConstraints(
             constraints.affectingView(c1!),
@@ -66,20 +66,20 @@ class DuelViewController : AbstractGameViewController {
         let views = ["c1":c1!, "c2":c2!]
         
         switch (traitCollection.horizontalSizeClass, traitCollection.verticalSizeClass) {
-        case (.Compact, .Regular): // vertical layout, top and bottom
+        case (.compact, .regular): // vertical layout, top and bottom
             view.addConstraints("V:|[c1(==c2)][c2(==c1)]|", views: views);
             view.addConstraints("|[c1]|", views: views);
             view.addConstraints("|[c2]|", views: views);
             
             view.addConstraints([
-                backButton.leftAnchor.constraintEqualToAnchor(view.leftAnchor, constant: 8),
-                backButton.centerYAnchor.constraintEqualToAnchor(c1.bottomAnchor),
+                backButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 8),
+                backButton.centerYAnchor.constraint(equalTo: c1.bottomAnchor),
                 
-                d20Button.centerXAnchor.constraintEqualToAnchor(view.centerXAnchor),
-                d20Button.centerYAnchor.constraintEqualToAnchor(c1.bottomAnchor),
+                d20Button.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                d20Button.centerYAnchor.constraint(equalTo: c1.bottomAnchor),
             
-                refreshButton.rightAnchor.constraintEqualToAnchor(view.rightAnchor, constant: -8),
-                refreshButton.centerYAnchor.constraintEqualToAnchor(c1.bottomAnchor),
+                refreshButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -8),
+                refreshButton.centerYAnchor.constraint(equalTo: c1.bottomAnchor),
             ])
             
         default: // horizontal, side by side
@@ -88,14 +88,14 @@ class DuelViewController : AbstractGameViewController {
             view.addConstraints("V:|[c2]|", views: views);
             
             view.addConstraints([
-                backButton.centerXAnchor.constraintEqualToAnchor(view.centerXAnchor),
-                backButton.bottomAnchor.constraintEqualToAnchor(d20Button.topAnchor, constant: -8),
+                backButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                backButton.bottomAnchor.constraint(equalTo: d20Button.topAnchor, constant: -8),
                 
-                d20Button.centerXAnchor.constraintEqualToAnchor(view.centerXAnchor),
-                d20Button.centerYAnchor.constraintEqualToAnchor(view.centerYAnchor),
+                d20Button.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                d20Button.centerYAnchor.constraint(equalTo: view.centerYAnchor),
                 
-                refreshButton.centerXAnchor.constraintEqualToAnchor(view.centerXAnchor),
-                refreshButton.topAnchor.constraintEqualToAnchor(d20Button.bottomAnchor, constant: 8),
+                refreshButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                refreshButton.topAnchor.constraint(equalTo: d20Button.bottomAnchor, constant: 8),
             ])
         }
         view.layoutSubviews()

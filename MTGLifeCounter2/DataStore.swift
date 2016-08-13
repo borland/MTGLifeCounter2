@@ -9,52 +9,52 @@
 import Foundation
 import UIKit
 
-enum DataStoreError : ErrorType {
-    case FileNotFound(String)
-    case FileInvalidContents
-    case CannotSerializeDictiory
+enum DataStoreError : Error {
+    case fileNotFound(String)
+    case fileInvalidContents
+    case cannotSerializeDictiory
 }
 
 class DataStore {
     
     // throws DataStoreError or a JSON parsing error2
-    class func getWithKey(key:String) throws -> NSDictionary {
+    class func getWithKey(_ key:String) throws -> NSDictionary {
         let path = filePathForKey(key)
         
-        let fileManager = NSFileManager.defaultManager()
-        if !fileManager.fileExistsAtPath(path) {
-            throw DataStoreError.FileNotFound(path)
+        let fileManager = FileManager.default
+        if !fileManager.fileExists(atPath: path) {
+            throw DataStoreError.fileNotFound(path)
         }
         
-        guard let data = fileManager.contentsAtPath(path) else {
-            throw DataStoreError.FileInvalidContents
+        guard let data = fileManager.contents(atPath: path) else {
+            throw DataStoreError.fileInvalidContents
         }
         
-        guard let dict = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments) as? NSDictionary else {
-            throw DataStoreError.FileInvalidContents
+        guard let dict = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments) as? NSDictionary else {
+            throw DataStoreError.fileInvalidContents
         }
         
         return dict
     }
 
-    class func setWithKey(key:String, value:NSDictionary) throws {
-        let data = try NSJSONSerialization.dataWithJSONObject(value, options: NSJSONWritingOptions(rawValue: 0))
+    class func setWithKey(_ key:String, value:NSDictionary) throws {
+        let data = try JSONSerialization.data(withJSONObject: value, options: JSONSerialization.WritingOptions(rawValue: 0))
         
-        let fileManager = NSFileManager.defaultManager()
+        let fileManager = FileManager.default
         let path = filePathForKey(key)
-        if fileManager.fileExistsAtPath(path) {
-            try fileManager.removeItemAtPath(path)
+        if fileManager.fileExists(atPath: path) {
+            try fileManager.removeItem(atPath: path)
         }
         
-        fileManager.createFileAtPath(path, contents: data, attributes: nil)
+        fileManager.createFile(atPath: path, contents: data, attributes: nil)
     }
     
 private
-    class func filePathForKey(key:String) -> String {
-        let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+    class func filePathForKey(_ key:String) -> String {
+        let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
         if paths.count == 1 {
-            if let url = NSURL(string: paths[0]) {
-                return url.URLByAppendingPathComponent(key).absoluteString
+            if let url = URL(string: paths[0]) {
+                return url.appendingPathComponent(key).absoluteString
             }
         }
         return ""

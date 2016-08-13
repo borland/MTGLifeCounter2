@@ -10,15 +10,15 @@ import Foundation
 import UIKit
 
 enum DisplaySize {
-    case Small, Normal
+    case small, normal
 }
 
 enum PlusMinusButtonPosition {
-    case Auto, Sides, TopBottom
+    case auto, sides, topBottom
 }
 
 enum ViewOrientation {
-    case Normal, UpsideDown, Left, Right
+    case normal, upsideDown, left, right
 }
 
 class PlayerViewController : UIViewController {
@@ -32,21 +32,21 @@ class PlayerViewController : UIViewController {
     @IBOutlet weak var plusButton: UIButton!
     @IBOutlet weak var minusButton: UIButton!
     
-    @IBAction func plusButtonPressed(sender: AnyObject) {
+    @IBAction func plusButtonPressed(_ sender: AnyObject) {
         lifeTotal += 1
     }
     
-    @IBAction func minusButtonPressed(sender: AnyObject) {
+    @IBAction func minusButtonPressed(_ sender: AnyObject) {
         lifeTotal -= 1
     }
     
-    @IBAction func lifeTotalPanning(sender: UIPanGestureRecognizer) {
-        let translation = sender.translationInView(backgroundView)
+    @IBAction func lifeTotalPanning(_ sender: UIPanGestureRecognizer) {
+        let translation = sender.translation(in: backgroundView)
         
         let verticalPanDivisor:CGFloat = 10.0
         if translation.y < -verticalPanDivisor || translation.y > verticalPanDivisor { // vertical pan greater than threshold
             lifeTotal -= Int(translation.y / verticalPanDivisor)
-            sender.setTranslation(CGPointMake(0,0), inView: backgroundView) // reset the recognizer
+            sender.setTranslation(CGPoint(x: 0,y: 0), in: backgroundView) // reset the recognizer
         }
         
         let horizontalPanDivisor:CGFloat = 30.0
@@ -59,17 +59,17 @@ class PlayerViewController : UIViewController {
             } else if let x = MtgColor(rawValue: newColor) {
                 color = x
             }
-            sender.setTranslation(CGPointMake(0,0), inView: backgroundView) // reset the recognizer
+            sender.setTranslation(CGPoint(x: 0,y: 0), in: backgroundView) // reset the recognizer
         }
     }
     
-    @IBAction func lifeTotalWasTapped(sender: UITapGestureRecognizer) {
-        let location = sender.locationInView(backgroundView)
+    @IBAction func lifeTotalWasTapped(_ sender: UITapGestureRecognizer) {
+        let location = sender.location(in: backgroundView)
         let reference = backgroundView.frame
         
         var up = true;
         switch resolveButtonPosition() {
-        case .Sides:
+        case .sides:
             up = location.x > (reference.size.width / 2)
         default:
             up = location.y < (reference.size.height / 2)
@@ -84,7 +84,7 @@ class PlayerViewController : UIViewController {
     
     private var _currentColorPicker:RadialColorPicker?
     
-    @IBAction func viewWasLongPressed(sender: UILongPressGestureRecognizer) {
+    @IBAction func viewWasLongPressed(_ sender: UILongPressGestureRecognizer) {
         if _currentColorPicker != nil {
             return
         }
@@ -95,14 +95,14 @@ class PlayerViewController : UIViewController {
         let size = CGFloat(300)
         let half = size/2
         
-        let location = sender.locationInView(topView)
+        let location = sender.location(in: topView)
         let x = min(topView.frame.width - size, max(0, location.x - half))
         let y = min(topView.frame.height - size, max(20, location.y - half))
         
-        let closePicker:(RadialColorPicker -> Void) = { picker in
+        let closePicker:((RadialColorPicker) -> Void) = { picker in
             self._currentColorPicker = nil
-            UIView.animateWithDuration(
-                0.2,
+            UIView.animate(
+                withDuration: 0.2,
                 animations: { picker.alpha = 0.0 },
                 completion: { _ in
                     picker.removeFromSuperview()
@@ -110,7 +110,7 @@ class PlayerViewController : UIViewController {
             })
         }
         
-        let picker = RadialColorPicker(frame: CGRectMake(x, y, size, size)) { picker, color in
+        let picker = RadialColorPicker(frame: CGRect(x: x, y: y, width: size, height: size)) { picker, color in
             if let c = color { self.color = c }
             closePicker(picker)
         }
@@ -121,10 +121,10 @@ class PlayerViewController : UIViewController {
         topView.addSubview(picker)
         picker.becomeFirstResponder()
         
-        UIView.animateWithDuration(0.2) { picker.alpha = 1.0 }
+        UIView.animate(withDuration: 0.2) { picker.alpha = 1.0 }
     }
     
-    var buttonPosition = PlusMinusButtonPosition.Auto
+    var buttonPosition = PlusMinusButtonPosition.auto
     
     var innerHorizontalOffset = CGFloat(0) {
         didSet {
@@ -138,14 +138,14 @@ class PlayerViewController : UIViewController {
         }
     }
     
-    var color = MtgColor.White {
+    var color = MtgColor.white {
         didSet {
             backgroundView.setBackgroundToColors(color)
             
-            if(color == MtgColor.White) {
+            if(color == MtgColor.white) {
                 textColor = UIColor(red: 0.2, green:0.2, blue:0.2, alpha:1.0)
             } else {
-                textColor = UIColor.whiteColor()
+                textColor = UIColor.white
             }
             backgroundView.addLabel(color.displayName, isUpsideDown: false, textColor: textColor)
         }
@@ -156,13 +156,13 @@ class PlayerViewController : UIViewController {
             if let x = lifeTotalLabel {
                 return x.textColor
             }
-            return UIColor.whiteColor()
+            return UIColor.white
         }
         set(color) {
-            guard let l = lifeTotalLabel, plus = plusButton, minus = minusButton else { return }
+            guard let l = lifeTotalLabel, let plus = plusButton, let minus = minusButton else { return }
             l.textColor = color
-            plus.setTitleColor(color, forState: .Normal)
-            minus.setTitleColor(color, forState: .Normal)
+            plus.setTitleColor(color, for: UIControlState())
+            minus.setTitleColor(color, for: UIControlState())
         }
     }
     
@@ -176,41 +176,41 @@ class PlayerViewController : UIViewController {
         }
     }
     
-    func resetLifeTotal(lifeTotal:Int) {
+    func resetLifeTotal(_ lifeTotal:Int) {
         _tracker.reset(lifeTotal) // do this first to avoid "+0" flash on load
         self.lifeTotal = lifeTotal
     }
     
-    func reset(lifeTotal lifeTotal:NSNumber?, color:NSNumber?) {
+    func reset(lifeTotal:NSNumber?, color:NSNumber?) {
         if let lt = lifeTotal,
             let x = color,
-            let col = MtgColor(rawValue: x.integerValue)
+            let col = MtgColor(rawValue: x.intValue)
         {
-            self.resetLifeTotal(lt.integerValue)
+            self.resetLifeTotal(lt.intValue)
             self.color = col
         }
     }
     
-    var displaySize: DisplaySize = .Normal {
+    var displaySize: DisplaySize = .normal {
         didSet {
             if let x = lifeTotalLabel {
-                x.font = x.font.fontWithSize(displaySize == .Normal ? 120 : 80)
+                x.font = x.font.withSize(displaySize == .normal ? 120 : 80)
             }
-            _tracker.floatingViewFontSize = displaySize == .Normal ? 44 : 30
+            _tracker.floatingViewFontSize = displaySize == .normal ? 44 : 30
         }
     }
     
-    var orientation: ViewOrientation = .Normal {
+    var orientation: ViewOrientation = .normal {
         didSet {
             switch orientation {
-            case .UpsideDown:
-                backgroundView.transform = CGAffineTransformRotate(CGAffineTransformIdentity, CGFloat(M_PI))
-            case .Left:
-                backgroundView.transform = CGAffineTransformRotate(CGAffineTransformIdentity, CGFloat(M_PI_2))
-            case .Right:
-                backgroundView.transform = CGAffineTransformRotate(CGAffineTransformIdentity, CGFloat(-M_PI_2))
-            case .Normal:
-                backgroundView.transform = CGAffineTransformIdentity;
+            case .upsideDown:
+                backgroundView.transform = CGAffineTransform.identity.rotated(by: CGFloat(M_PI))
+            case .left:
+                backgroundView.transform = CGAffineTransform.identity.rotated(by: CGFloat(M_PI_2))
+            case .right:
+                backgroundView.transform = CGAffineTransform.identity.rotated(by: CGFloat(-M_PI_2))
+            case .normal:
+                backgroundView.transform = CGAffineTransform.identity;
             }
         }
     }
@@ -220,8 +220,8 @@ class PlayerViewController : UIViewController {
         
         // trigger all the property change callbacks
         lifeTotal = self.lifeTotal + 0
-        orientation = self.orientation == .Normal ? .Normal : self.orientation
-        displaySize = self.displaySize == .Normal ? .Normal : .Small
+        orientation = self.orientation == .normal ? .normal : self.orientation
+        displaySize = self.displaySize == .normal ? .normal : .small
         
         let maxColorNum = UInt32(MtgColor.Last().rawValue)
         if let x = MtgColor(rawValue: Int(arc4random_uniform(maxColorNum))) {
@@ -231,12 +231,12 @@ class PlayerViewController : UIViewController {
         _tracker.parent = backgroundView // now the tracker can use the parent
     }
     
-    override func traitCollectionDidChange(previousTraitCollection: UITraitCollection?) {
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         setConstraintsFor(traitCollection)
     }
     
-    func setConstraintsFor(traitCollection:UITraitCollection) {
+    func setConstraintsFor(_ traitCollection:UITraitCollection) {
         let constraints = backgroundView.constraints as [NSLayoutConstraint]
         backgroundView.removeAllConstraints(
             constraints.affectingView(plusButton),
@@ -245,22 +245,22 @@ class PlayerViewController : UIViewController {
         
         let views = ["view":backgroundView!, "plus":plusButton!, "minus":minusButton!, "lifeTotal":lifeTotalLabel!]
         
-        _xConstraint = lifeTotalLabel.centerXAnchor.constraintEqualToAnchor(backgroundView.centerXAnchor, constant: innerHorizontalOffset)
+        _xConstraint = lifeTotalLabel.centerXAnchor.constraint(equalTo: backgroundView.centerXAnchor, constant: innerHorizontalOffset)
         
-        _yConstraint = lifeTotalLabel.centerYAnchor.constraintEqualToAnchor(backgroundView.centerYAnchor, constant: innerVerticalOffset)
+        _yConstraint = lifeTotalLabel.centerYAnchor.constraint(equalTo: backgroundView.centerYAnchor, constant: innerVerticalOffset)
 
         backgroundView.addConstraints([_xConstraint!, _yConstraint!])
         
         switch resolveButtonPosition() {
-        case .Sides: // +/- on the sides
+        case .sides: // +/- on the sides
             
-            let hGap:CGFloat = displaySize == .Small ? 0 : 8 // in a horizontal star, pull the +/- buttons closer
+            let hGap:CGFloat = displaySize == .small ? 0 : 8 // in a horizontal star, pull the +/- buttons closer
             let metrics = ["hGap": hGap]
             
             backgroundView.addConstraints("H:[minus(44)]-(hGap)-[lifeTotal]-(hGap)-[plus(44)]", views: views, metrics: metrics)
             backgroundView.addConstraints([
-                plusButton.centerYAnchor.constraintEqualToAnchor(lifeTotalLabel.centerYAnchor),
-                minusButton.centerYAnchor.constraintEqualToAnchor(lifeTotalLabel.centerYAnchor),
+                plusButton.centerYAnchor.constraint(equalTo: lifeTotalLabel.centerYAnchor),
+                minusButton.centerYAnchor.constraint(equalTo: lifeTotalLabel.centerYAnchor),
             ])
             
         default: // +/- on the top/bottom
@@ -270,8 +270,8 @@ class PlayerViewController : UIViewController {
             
             backgroundView.addConstraints("V:[plus(44)]-(vGap)-[lifeTotal]-(vGap)-[minus(44)]", views: views, metrics: metrics)
             backgroundView.addConstraints([
-                plusButton.centerXAnchor.constraintEqualToAnchor(lifeTotalLabel.centerXAnchor),
-                minusButton.centerXAnchor.constraintEqualToAnchor(lifeTotalLabel.centerXAnchor),
+                plusButton.centerXAnchor.constraint(equalTo: lifeTotalLabel.centerXAnchor),
+                minusButton.centerXAnchor.constraint(equalTo: lifeTotalLabel.centerXAnchor),
                 ])
         }
         
@@ -280,39 +280,39 @@ class PlayerViewController : UIViewController {
     
     func resolveButtonPosition() -> PlusMinusButtonPosition {
         switch buttonPosition {
-        case .TopBottom, .Sides:
+        case .topBottom, .sides:
             return buttonPosition // explicitly set
-        case .Auto:
+        case .auto:
             switch (traitCollection.horizontalSizeClass, traitCollection.verticalSizeClass) {
-            case (.Compact, .Regular): // +/- on the sides
-                return .Sides;
+            case (.compact, .regular): // +/- on the sides
+                return .sides;
             default:
-                return .TopBottom;
+                return .topBottom;
             }
         }
     }
 }
 
 class PlayerBackgroundView : UIView {
-    private var _color1:UIColor = UIColor.blueColor()
-    private var _color2:UIColor = UIColor.blueColor()
+    private var _color1:UIColor = UIColor.blue
+    private var _color2:UIColor = UIColor.blue
     private var _lastLabel:UILabel? = nil
     
-    func setBackgroundToColors(color:MtgColor) {
+    func setBackgroundToColors(_ color:MtgColor) {
         _color1 = color.lookup(true)
         _color2 = color.lookup(false)
         
         self.setNeedsDisplay()
     }
     
-    func addLabel(text:String, isUpsideDown:Bool, textColor:UIColor) {
+    func addLabel(_ text:String, isUpsideDown:Bool, textColor:UIColor) {
         let labelHeight = CGFloat(20)
         let labelTopOffset = CGFloat(20)
         let label = UILabel(frame:
-            CGRectMake(0, labelTopOffset, frame.width, labelHeight))
+            CGRect(x: 0, y: labelTopOffset, width: frame.width, height: labelHeight))
         
-        label.font = UIFont.boldSystemFontOfSize(14.0)
-        label.textAlignment = .Center
+        label.font = UIFont.boldSystemFont(ofSize: 14.0)
+        label.textAlignment = .center
         label.text = text
         label.textColor = textColor
         
@@ -322,33 +322,33 @@ class PlayerBackgroundView : UIView {
         _lastLabel = label
         
         addSubview(label)
-        UIView.animateWithDuration(0.5,
+        UIView.animate(withDuration: 0.5,
             delay:0,
-            options:UIViewAnimationOptions.CurveEaseInOut,
+            options:UIViewAnimationOptions(),
             animations:{ label.alpha = 0 },
             completion:{ _ in label.removeFromSuperview() })
     }
     
-    override func drawRect(rect: CGRect) {
+    override func draw(_ rect: CGRect) {
         let context = UIGraphicsGetCurrentContext()
-        CGContextSaveGState(context)
+        context?.saveGState()
         
-        let c1 = CGColorGetComponents(_color1.CGColor)
-        let c2 = CGColorGetComponents(_color2.CGColor)
+        let c1 = _color1.cgColor.components
+        let c2 = _color2.cgColor.components
         
         // draw a flat background rectangle as the gradient doesn't "keep going"
-        CGContextSetFillColor(context, c2)
-        CGContextFillRect(context, rect)
+        context?.setFillColor(c2!)
+        context?.fill(rect)
         
         //Define the gradient ----------------------
         let locations:[CGFloat] = [0.0, 1.0];
         
-        let components:[CGFloat] = [c1.memory, (c1+1).memory,(c1+2).memory,(c1+3).memory,
-            c2.memory, (c2+1).memory,(c2+2).memory,(c2+3).memory ]
+        let components:[CGFloat] = [c1.pointee, (c1+1).pointee,(c1+2).pointee,(c1+3).pointee,
+            c2.pointee, (c2+1).pointee,(c2+2).pointee,(c2+3).pointee ]
 
         let colorSpace = CGColorSpaceCreateDeviceRGB();
 
-        let gradient = CGGradientCreateWithColorComponents(colorSpace, components, locations, locations.count);
+        let gradient = CGGradient(colorComponentsSpace: colorSpace, components: components, locations: locations, count: locations.count);
         
         //Define Gradient Positions ---------------
         
@@ -365,9 +365,9 @@ class PlayerBackgroundView : UIView {
         let options = CGGradientDrawingOptions(rawValue: 0)
         
         //Generate the Image -----------------------
-        CGContextDrawRadialGradient(context, gradient, startCenter, startRadius, endCenter, endRadius, options)
+        context?.drawRadialGradient(gradient!, startCenter: startCenter, startRadius: startRadius, endCenter: endCenter, endRadius: endRadius, options: options)
 
-        CGContextRestoreGState(context);
+        context?.restoreGState();
 
     }
 }
@@ -411,14 +411,14 @@ class PlayerBackgroundView : UIView {
     
     func translateRotateFlip() -> CGAffineTransform {
         
-        var transform = CGAffineTransformIdentity
+        var transform = CGAffineTransform.identity
         
         // translate to new center
-        transform = CGAffineTransformTranslate(transform, (self.bounds.width / 2)-(self.bounds.height / 2), (self.bounds.height / 2)-(self.bounds.width / 2))
+        transform = transform.translatedBy(x: (self.bounds.width / 2)-(self.bounds.height / 2), y: (self.bounds.height / 2)-(self.bounds.width / 2))
         // rotate counterclockwise around center
-        transform = CGAffineTransformRotate(transform, CGFloat(-M_PI_2))
+        transform = transform.rotated(by: CGFloat(-M_PI_2))
         // flip vertically
-        transform = CGAffineTransformScale(transform, -1, 1)
+        transform = transform.scaledBy(x: -1, y: 1)
         
         return transform
     }

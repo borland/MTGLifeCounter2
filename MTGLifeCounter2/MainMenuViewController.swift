@@ -12,15 +12,15 @@ import UIKit
 class MainMenuViewController : UITableViewController {
     
     override func viewDidLoad() {
-        self.navigationController?.navigationBar.barStyle = .Black // white text
+        self.navigationController?.navigationBar.barStyle = .black // white text
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if indexPath.section == 1 && indexPath.row == 0 { // Roll D20
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if (indexPath as NSIndexPath).section == 1 && (indexPath as NSIndexPath).row == 0 { // Roll D20
             let diceRollView = DiceRollView.create(UInt(arc4random_uniform(20) + 1), winner:false)
             diceRollView.showInView(view, callbackDuration:1, pauseDuration:1.3)
             
-            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            tableView.deselectRow(at: indexPath, animated: true)
         }
     }
 

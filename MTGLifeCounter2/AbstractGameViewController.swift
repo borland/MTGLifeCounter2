@@ -15,48 +15,48 @@ class AbstractGameViewController : UIViewController {
     
     var _players:[PlayerViewController] = []
     
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.LightContent
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
     }
     
-    @IBAction func backButtonPressed(sender: AnyObject) {
-        navigationController!.popViewControllerAnimated(true)
+    @IBAction func backButtonPressed(_ sender: AnyObject) {
+        navigationController!.popViewController(animated: true)
     }
     
-    @IBAction func d20ButtonPressed(sender: AnyObject) {
+    @IBAction func d20ButtonPressed(_ sender: AnyObject) {
         for (c, (num, winner)) in zip(_players, randomUntiedDiceRolls(_players.count, diceFaceCount: UInt(20))) {
             let diceRollView = DiceRollView.create(num, winner:winner)
             diceRollView.showInView(c.view) // putting the dice roll view inside the playerView means it's auto-upside down
         }
     }
     
-    @IBAction func refreshButtonPressed(sender: AnyObject) {
+    @IBAction func refreshButtonPressed(_ sender: AnyObject) {
         for p in _players {
             p.resetLifeTotal(initialLifeTotal)
         }
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController!.navigationBarHidden = true
+        navigationController!.isNavigationBarHidden = true
         
         do {
             let settings = try DataStore.getWithKey(configKey)
             
-            for (idx, p) in _players.enumerate() {
+            for (idx, p) in _players.enumerated() {
                 p.reset(lifeTotal: settings["player\(idx)"] as? NSNumber, color:settings["player\(idx)color"] as? NSNumber)
             }
         } catch { } // can't really do anything productive
         
-        UIApplication.sharedApplication().idleTimerDisabled = true
+        UIApplication.shared.isIdleTimerDisabled = true
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        navigationController!.navigationBarHidden = false
+        navigationController!.isNavigationBarHidden = false
         
         var dict = [String:Int]()
-        for (idx, p) in _players.enumerate() {
+        for (idx, p) in _players.enumerated() {
             dict["player\(idx)"] = p.lifeTotal
             dict["player\(idx)color"] = p.color.rawValue
         }
@@ -65,31 +65,31 @@ class AbstractGameViewController : UIViewController {
             try DataStore.setWithKey(configKey, value: dict)
         } catch { } // perhaps we could show the user an error message or something?
         
-        UIApplication.sharedApplication().idleTimerDisabled = false
+        UIApplication.shared.isIdleTimerDisabled = false
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
         guard let s = segue.identifier else { fatalError("segue identifier not set") }
         switch s {
         case "player1_embed", "player2_embed", "player3_embed", "player4_embed", "player5_embed":
-            guard let viewController = segue.destinationViewController as? PlayerViewController else { return }
+            guard let viewController = segue.destination as? PlayerViewController else { return }
             viewController.resetLifeTotal(initialLifeTotal)
             _players.append(viewController)
         default: fatalError("unhandled segue \(s)")
         }
     }
     
-    override func traitCollectionDidChange(previousTraitCollection: UITraitCollection?) {
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         setConstraintsFor(traitCollection)
     }
     
-    override func prefersStatusBarHidden() -> Bool {
+    override var prefersStatusBarHidden: Bool {
         return false
     }
     
     // override this for different layouts
-    func setConstraintsFor(traitCollection:UITraitCollection) {
+    func setConstraintsFor(_ traitCollection:UITraitCollection) {
         preconditionFailure("must be overridden")
     }
 }

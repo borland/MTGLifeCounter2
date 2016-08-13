@@ -15,16 +15,16 @@ class FloatingActionButton : UIButton {
     
     override func awakeFromNib() {
         backgroundColor = GlobalTintColor
-        tintColor = UIColor.whiteColor()
+        tintColor = UIColor.white
         
         // http://stackoverflow.com/a/34984063/234
         clipsToBounds = true
         layer.cornerRadius = bounds.width / 2
         let shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: 22)
         layer.masksToBounds = false
-        layer.shadowColor = UIColor.blackColor().CGColor
-        layer.shadowOffset = CGSizeMake(0, 0)
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowOffset = CGSize(width: 0, height: 0)
         layer.shadowOpacity = 0.66
-        layer.shadowPath = shadowPath.CGPath
+        layer.shadowPath = shadowPath.cgPath
     }
 }

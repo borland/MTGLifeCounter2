@@ -27,11 +27,11 @@ class StarViewController : AbstractGameViewController {
         super.viewDidLoad()
         
         for p in _players {
-            p.displaySize = .Small
+            p.displaySize = .small
         }
     }
     
-    override func setConstraintsFor(traitCollection:UITraitCollection) {
+    override func setConstraintsFor(_ traitCollection:UITraitCollection) {
         let constraints = view.constraints as [NSLayoutConstraint]
         view.removeAllConstraints(
             constraints.affectingView(c1!),
@@ -48,75 +48,75 @@ class StarViewController : AbstractGameViewController {
         assert(_players.count == 5) // called before view loaded?
         
         for p in _players {
-            p.buttonPosition = .Sides // force buttons on the side even though we don't normally do this in landscape
+            p.buttonPosition = .sides // force buttons on the side even though we don't normally do this in landscape
             p.innerHorizontalOffset = 0
         }
         
         switch (traitCollection.horizontalSizeClass, traitCollection.verticalSizeClass) {
-        case (.Compact, .Regular): // phone in portrait
-            _players[0].orientation = .UpsideDown
+        case (.compact, .regular): // phone in portrait
+            _players[0].orientation = .upsideDown
 //            _players[1].orientation = .Left
 //            _players[2].orientation = .Right
 //            _players[3].orientation = .Left
 //            _players[4].orientation = .Right
             // I want to rotate, but it breaks; fix in progress
-            _players[1].orientation = .Normal
-            _players[2].orientation = .Normal
-            _players[3].orientation = .Normal
-            _players[4].orientation = .Normal
+            _players[1].orientation = .normal
+            _players[2].orientation = .normal
+            _players[3].orientation = .normal
+            _players[4].orientation = .normal
             
             view.addConstraints([
                 // c1 fills horizontal
-                c1.leadingAnchor.constraintEqualToAnchor(view.leadingAnchor),
-                c1.trailingAnchor.constraintEqualToAnchor(view.trailingAnchor),
+                c1.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                c1.trailingAnchor.constraint(equalTo: view.trailingAnchor),
                 
                 // c2, c3
-                c2.leadingAnchor.constraintEqualToAnchor(view.leadingAnchor),
-                c3.leadingAnchor.constraintEqualToAnchor(c2.trailingAnchor),
-                c3.trailingAnchor.constraintEqualToAnchor(view.trailingAnchor),
+                c2.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                c3.leadingAnchor.constraint(equalTo: c2.trailingAnchor),
+                c3.trailingAnchor.constraint(equalTo: view.trailingAnchor),
                 
-                c3.widthAnchor.constraintEqualToAnchor(c2.widthAnchor),
-                c3.heightAnchor.constraintEqualToAnchor(c2.heightAnchor),
-                c3.topAnchor.constraintEqualToAnchor(c2.topAnchor),
+                c3.widthAnchor.constraint(equalTo: c2.widthAnchor),
+                c3.heightAnchor.constraint(equalTo: c2.heightAnchor),
+                c3.topAnchor.constraint(equalTo: c2.topAnchor),
                 
                 // c4, c5
-                c4.leadingAnchor.constraintEqualToAnchor(view.leadingAnchor),
-                c5.leadingAnchor.constraintEqualToAnchor(c4.trailingAnchor),
-                c5.trailingAnchor.constraintEqualToAnchor(view.trailingAnchor),
+                c4.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                c5.leadingAnchor.constraint(equalTo: c4.trailingAnchor),
+                c5.trailingAnchor.constraint(equalTo: view.trailingAnchor),
                 
-                c5.widthAnchor.constraintEqualToAnchor(c4.widthAnchor),
-                c5.heightAnchor.constraintEqualToAnchor(c4.heightAnchor),
-                c5.topAnchor.constraintEqualToAnchor(c4.topAnchor),
+                c5.widthAnchor.constraint(equalTo: c4.widthAnchor),
+                c5.heightAnchor.constraint(equalTo: c4.heightAnchor),
+                c5.topAnchor.constraint(equalTo: c4.topAnchor),
                 
                 // stack the left row all vertically
-                c1.topAnchor.constraintEqualToAnchor(view.topAnchor),
-                c2.topAnchor.constraintEqualToAnchor(c1.bottomAnchor),
-                c4.topAnchor.constraintEqualToAnchor(c2.bottomAnchor),
-                c4.bottomAnchor.constraintEqualToAnchor(view.bottomAnchor),
+                c1.topAnchor.constraint(equalTo: view.topAnchor),
+                c2.topAnchor.constraint(equalTo: c1.bottomAnchor),
+                c4.topAnchor.constraint(equalTo: c2.bottomAnchor),
+                c4.bottomAnchor.constraint(equalTo: view.bottomAnchor),
                 
                 // top view gets less space (not 33%) because it's wider, other views split evenly
-                c1.heightAnchor.constraintEqualToAnchor(view.heightAnchor, multiplier: 0.30),
+                c1.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.30),
                 // c2,3 get a bit more space as they're overlapped by buttons
-                c2.heightAnchor.constraintEqualToAnchor(view.heightAnchor, multiplier: 0.37),
+                c2.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.37),
                 
                 // buttons
-                backButton.leftAnchor.constraintEqualToAnchor(view.leftAnchor, constant: 8),
-                backButton.centerYAnchor.constraintEqualToAnchor(c1.bottomAnchor),
+                backButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 8),
+                backButton.centerYAnchor.constraint(equalTo: c1.bottomAnchor),
                 
-                d20Button.centerXAnchor.constraintEqualToAnchor(c1.centerXAnchor),
-                d20Button.centerYAnchor.constraintEqualToAnchor(c1.bottomAnchor),
+                d20Button.centerXAnchor.constraint(equalTo: c1.centerXAnchor),
+                d20Button.centerYAnchor.constraint(equalTo: c1.bottomAnchor),
                 
-                refreshButton.rightAnchor.constraintEqualToAnchor(view.rightAnchor, constant: -8),
-                refreshButton.centerYAnchor.constraintEqualToAnchor(c1.bottomAnchor)
+                refreshButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -8),
+                refreshButton.centerYAnchor.constraint(equalTo: c1.bottomAnchor)
             ])
             break
             
         default: // landscape view
-            _players[0].orientation = .UpsideDown
-            _players[1].orientation = .UpsideDown
-            _players[2].orientation = .UpsideDown
-            _players[3].orientation = .Normal
-            _players[4].orientation = .Normal
+            _players[0].orientation = .upsideDown
+            _players[1].orientation = .upsideDown
+            _players[2].orientation = .upsideDown
+            _players[3].orientation = .normal
+            _players[4].orientation = .normal
             
             _players[3].innerHorizontalOffset = 25
             _players[4].innerHorizontalOffset = -25
@@ -131,33 +131,33 @@ class StarViewController : AbstractGameViewController {
                 // stack two rows vertically (just align the leftmost and let the others stick to those)
                 // top row gets 53%, not 50 due to space taken up by clock
                 [
-                    c1.topAnchor.constraintEqualToAnchor(view.topAnchor),
-                    c1.heightAnchor.constraintEqualToAnchor(view.heightAnchor, multiplier: 0.53),
+                    c1.topAnchor.constraint(equalTo: view.topAnchor),
+                    c1.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.53),
                     
-                    c4.topAnchor.constraintEqualToAnchor(c1.bottomAnchor),
-                    c4.bottomAnchor.constraintEqualToAnchor(view.bottomAnchor),
+                    c4.topAnchor.constraint(equalTo: c1.bottomAnchor),
+                    c4.bottomAnchor.constraint(equalTo: view.bottomAnchor),
                 ],
                 
                 // all top row equal height and top aligned
-                [c2, c3].map { $0.heightAnchor.constraintEqualToAnchor(c1.heightAnchor) },
-                [c2, c3].map { $0.topAnchor.constraintEqualToAnchor(c1.topAnchor) },
+                [c2, c3].map { $0.heightAnchor.constraint(equalTo: c1.heightAnchor) },
+                [c2, c3].map { $0.topAnchor.constraint(equalTo: c1.topAnchor) },
                 
                 // second row equal height and top aligned
                 [
-                c5.heightAnchor.constraintEqualToAnchor(c4.heightAnchor),
-                c5.topAnchor.constraintEqualToAnchor(c4.topAnchor),
+                c5.heightAnchor.constraint(equalTo: c4.heightAnchor),
+                c5.topAnchor.constraint(equalTo: c4.topAnchor),
 
                 // back button
-                backButton.leadingAnchor.constraintEqualToAnchor(view.leadingAnchor, constant: 8),
-                backButton.centerYAnchor.constraintEqualToAnchor(c1.bottomAnchor),
+                backButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
+                backButton.centerYAnchor.constraint(equalTo: c1.bottomAnchor),
 
                 // refresh button
-                refreshButton.trailingAnchor.constraintEqualToAnchor(view.trailingAnchor, constant: -8),
-                refreshButton.centerYAnchor.constraintEqualToAnchor(c1.bottomAnchor),
+                refreshButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8),
+                refreshButton.centerYAnchor.constraint(equalTo: c1.bottomAnchor),
 
                 // d20 button
-                d20Button.centerXAnchor.constraintEqualToAnchor(view.centerXAnchor),
-                d20Button.centerYAnchor.constraintEqualToAnchor(c1.bottomAnchor)
+                d20Button.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                d20Button.centerYAnchor.constraint(equalTo: c1.bottomAnchor)
                 ]
             )
         }

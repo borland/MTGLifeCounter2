@@ -138,7 +138,7 @@ class RadialColorPicker : UIView {
             let start = (M_PI * 2 * startPct) - M_PI_2
             let end = (M_PI * 2 * endPct) - M_PI_2
             
-            let bounds = drawSegment(context, frame: frame, offset: offset, width: width, startAngle: CGFloat(start), endAngle: CGFloat(end), colorA: mtgColor.lookup(true), colorB: mtgColor.lookup(false), hilight: ci.hilight)
+            let bounds = drawSegment(context, frame: frame, offset: offset, width: width, startAngle: CGFloat(start), endAngle: CGFloat(end), color1: mtgColor.lookup(true), color2: mtgColor.lookup(false), hilight: ci.hilight)
             
             if ci.rect == CGRect.null { // assign if not already assigned, so someone can hit test later
                 ci.rect = bounds.insetBy(dx: 3, dy: 3) // inset slightly due to non-rectangular things
@@ -146,7 +146,7 @@ class RadialColorPicker : UIView {
         }
     }
     
-    private func drawSegment(_ context: CGContext, frame: CGRect, offset: CGFloat, width:CGFloat, startAngle: CGFloat, endAngle: CGFloat, colorA: UIColor, colorB: UIColor, hilight: Bool) -> CGRect {
+    private func drawSegment(_ context: CGContext, frame: CGRect, offset: CGFloat, width:CGFloat, startAngle: CGFloat, endAngle: CGFloat, color1: UIColor, color2: UIColor, hilight: Bool) -> CGRect {
         let center = frame.midX
         
         let arc = CGMutablePath()
@@ -154,25 +154,28 @@ class RadialColorPicker : UIView {
         let strokedArc = CGPath(copyByStroking: arc, transform: nil, lineWidth: width, lineCap: CGLineCap.butt, lineJoin: CGLineJoin.miter, miterLimit: 10)
         let boundingBox = strokedArc?.boundingBox
         
-        let resolvedColorA = hilight ? hilightColor(colorA) : colorA
-        let resolvedColorB = hilight ? hilightColor(colorB) : colorB
+        let resolvedColor1 = hilight ? hilightColor(color1) : color1
+        let resolvedColor2 = hilight ? hilightColor(color2) : color2
         
-        if(colorA == colorB) {
+        if(color1 == color2) {
             // flat color, use a simpler method for efficiency
             context.beginPath();
             context.addPath(strokedArc!)
-            context.setFillColor(resolvedColorA.cgColor)
+            context.setFillColor(resolvedColor1.cgColor)
             context.setStrokeColor(UIColor.gray.cgColor)
             context.setLineWidth(3)
             context.drawPath(using: CGPathDrawingMode.fillStroke)
         } else {
             // gradient - linear gradient because it's simpler
-            let c1 = resolvedColorA.cgColor.components
-            let c2 = resolvedColorB.cgColor.components
+            var r1: CGFloat = 0, g1: CGFloat = 0, b1: CGFloat = 0, a1: CGFloat = 0
+            var r2: CGFloat = 0, g2: CGFloat = 0, b2: CGFloat = 0, a2: CGFloat = 0
+            
+            resolvedColor1.getRed(&r1, green: &g1, blue: &b1, alpha: &a1)
+            resolvedColor2.getRed(&r2, green: &g2, blue: &b2, alpha: &a2)
             
             let locations:[CGFloat] = [0.2, 0.8]
-            let components:[CGFloat] = [c1.pointee, (c1+1).pointee,(c1+2).pointee,(c1+3).pointee,
-                                        c2.pointee, (c2+1).pointee,(c2+2).pointee,(c2+3).pointee ]
+            let components:[CGFloat] = [r1, g1, b1, a1,
+                                        r2, g2, b2, a2 ]
             
             let colorSpace = CGColorSpaceCreateDeviceRGB()
             let gradient = CGGradient(colorComponentsSpace: colorSpace, components: components, locations: locations, count: 2)

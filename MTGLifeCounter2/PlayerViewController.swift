@@ -333,18 +333,22 @@ class PlayerBackgroundView : UIView {
         let context = UIGraphicsGetCurrentContext()
         context?.saveGState()
         
-        let c1 = _color1.cgColor.components
-        let c2 = _color2.cgColor.components
+        // gradient - linear gradient because it's simpler
+        var r1: CGFloat = 0, g1: CGFloat = 0, b1: CGFloat = 0, a1: CGFloat = 0
+        var r2: CGFloat = 0, g2: CGFloat = 0, b2: CGFloat = 0, a2: CGFloat = 0
+        
+        _color1.getRed(&r1, green: &g1, blue: &b1, alpha: &a1)
+        _color2.getRed(&r2, green: &g2, blue: &b2, alpha: &a2)
         
         // draw a flat background rectangle as the gradient doesn't "keep going"
-        context?.setFillColor(c2!)
+        context?.setFillColor(_color2.cgColor)
         context?.fill(rect)
         
         //Define the gradient ----------------------
         let locations:[CGFloat] = [0.0, 1.0];
         
-        let components:[CGFloat] = [c1.pointee, (c1+1).pointee,(c1+2).pointee,(c1+3).pointee,
-            c2.pointee, (c2+1).pointee,(c2+2).pointee,(c2+3).pointee ]
+        let components:[CGFloat] = [r1, g1, b1, a1,
+                                    r2, g2, b2, a2 ]
 
         let colorSpace = CGColorSpaceCreateDeviceRGB();
 

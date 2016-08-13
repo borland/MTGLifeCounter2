@@ -230,7 +230,7 @@
 				TargetAttributes = {
 					D3F5430619B867AD0053DA1A = {
 						CreatedOnToolsVersion = 6.0;
-						DevelopmentTeam = 27PRAM6SD4;
+						DevelopmentTeam = BSE77454YY;
 						LastSwiftMigration = 0800;
 					};
 					D3F5431819B867AD0053DA1A = {
@@ -430,6 +430,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = BSE77454YY;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -437,7 +438,7 @@
 				INFOPLIST_FILE = MTGLifeCounter2/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.orionedwards.MTGLifeCounter2x;
+				PRODUCT_BUNDLE_IDENTIFIER = com.orionedwards.MTGLifeCounter2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_VERSION = 3.0;
@@ -453,6 +454,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = BSE77454YY;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -460,7 +462,7 @@
 				INFOPLIST_FILE = MTGLifeCounter2/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.orionedwards.MTGLifeCounter2x;
+				PRODUCT_BUNDLE_IDENTIFIER = com.orionedwards.MTGLifeCounter2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";

@@ -22,7 +22,6 @@
 		D3C6F6EC19D18427007232E9 /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = D3C6F6EA19D18427007232E9 /* LICENSE.txt */; };
 		D3C6F6ED19D18427007232E9 /* TemplateIcon2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D3C6F6EB19D18427007232E9 /* TemplateIcon2x.png */; };
 		D3C6F6EF19D18487007232E9 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = D3C6F6EE19D18487007232E9 /* README.txt */; };
-		D3DEE32E1D106FDC0099BE1E /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3DEE32D1D106FDC0099BE1E /* TestViewController.swift */; };
 		D3F5430D19B867AD0053DA1A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F5430C19B867AD0053DA1A /* AppDelegate.swift */; };
 		D3F5431219B867AD0053DA1A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D3F5431019B867AD0053DA1A /* Main.storyboard */; };
 		D3F5431419B867AD0053DA1A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D3F5431319B867AD0053DA1A /* Images.xcassets */; };
@@ -72,7 +71,6 @@
 		D3C6F6EA19D18427007232E9 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
 		D3C6F6EB19D18427007232E9 /* TemplateIcon2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TemplateIcon2x.png; sourceTree = "<group>"; };
 		D3C6F6EE19D18487007232E9 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
-		D3DEE32D1D106FDC0099BE1E /* TestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
 		D3F5430719B867AD0053DA1A /* MTGLifeCounter2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MTGLifeCounter2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3F5430B19B867AD0053DA1A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D3F5430C19B867AD0053DA1A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -143,7 +141,6 @@
 				D319CFDB1D108DFD001B5A0F /* RadialColorPicker.swift */,
 				D3666A4F1D3176A50051233B /* StarViewController.swift */,
 				D3F5430A19B867AD0053DA1A /* Supporting Files */,
-				D3DEE32D1D106FDC0099BE1E /* TestViewController.swift */,
 				D3BC006B19BDBFBC00101198 /* ThreePlayerViewController.swift */,
 				D3B96E6319BDBC030065B8C4 /* TwoHeadedGiantViewController.swift */,
 				D3F5432B19B86F230053DA1A /* Utility.swift */,
@@ -302,7 +299,6 @@
 				D3B96E6419BDBC030065B8C4 /* TwoHeadedGiantViewController.swift in Sources */,
 				D3F5430D19B867AD0053DA1A /* AppDelegate.swift in Sources */,
 				D319CFDC1D108DFD001B5A0F /* RadialColorPicker.swift in Sources */,
-				D3DEE32E1D106FDC0099BE1E /* TestViewController.swift in Sources */,
 				D3666A501D3176A50051233B /* StarViewController.swift in Sources */,
 				D3F5432A19B86CAA0053DA1A /* PlayerViewController.swift in Sources */,
 			);

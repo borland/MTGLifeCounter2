@@ -66,7 +66,7 @@ class RadialColorPicker : UIView {
     private let _tapCallback:(RadialColorPicker, MtgColor?) -> Void
     private let _colorInfo:[ColorInfo]
     
-    required init(frame: CGRect, tapCallback:((RadialColorPicker, MtgColor?) -> Void)) {
+    required init(frame: CGRect, tapCallback: @escaping ((RadialColorPicker, MtgColor?) -> Void)) {
         _tapCallback = tapCallback
         assert(frame.width == frame.height)
         
@@ -147,11 +147,11 @@ class RadialColorPicker : UIView {
     }
     
     private func drawSegment(_ context: CGContext, frame: CGRect, offset: CGFloat, width:CGFloat, startAngle: CGFloat, endAngle: CGFloat, color1: UIColor, color2: UIColor, hilight: Bool) -> CGRect {
-        let center = frame.midX
+        let center = CGPoint(x: frame.midX, y: frame.midX)
         
         let arc = CGMutablePath()
-        arc.addArc(nil, x: center, y: center, radius: offset, startAngle: startAngle, endAngle: endAngle, clockwise: false)
-        let strokedArc = CGPath(copyByStroking: arc, transform: nil, lineWidth: width, lineCap: CGLineCap.butt, lineJoin: CGLineJoin.miter, miterLimit: 10)
+        arc.addArc(center: center, radius: offset, startAngle: startAngle, endAngle: endAngle, clockwise: false)
+        let strokedArc = CGPath(__byStroking: arc, transform: nil, lineWidth: width, lineCap: CGLineCap.butt, lineJoin: CGLineJoin.miter, miterLimit: 10)
         let boundingBox = strokedArc?.boundingBox
         
         let resolvedColor1 = hilight ? hilightColor(color1) : color1
@@ -178,7 +178,7 @@ class RadialColorPicker : UIView {
                                         r2, g2, b2, a2 ]
             
             let colorSpace = CGColorSpaceCreateDeviceRGB()
-            let gradient = CGGradient(colorComponentsSpace: colorSpace, components: components, locations: locations, count: 2)
+            let gradient = CGGradient(colorSpace: colorSpace, colorComponents: components, locations: locations, count: 2)
             
             context.saveGState();
             context.addPath(strokedArc!);

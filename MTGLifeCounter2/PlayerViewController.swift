@@ -243,7 +243,7 @@ class PlayerViewController : UIViewController {
             constraints.affectingView(minusButton),
             constraints.affectingView(lifeTotalLabel))
         
-        let views = ["view":backgroundView!, "plus":plusButton!, "minus":minusButton!, "lifeTotal":lifeTotalLabel!]
+        let views:[String : UIView] = ["view":backgroundView!, "plus":plusButton!, "minus":minusButton!, "lifeTotal":lifeTotalLabel!]
         
         _xConstraint = lifeTotalLabel.centerXAnchor.constraint(equalTo: backgroundView.centerXAnchor, constant: innerHorizontalOffset)
         
@@ -352,7 +352,7 @@ class PlayerBackgroundView : UIView {
 
         let colorSpace = CGColorSpaceCreateDeviceRGB();
 
-        let gradient = CGGradient(colorComponentsSpace: colorSpace, components: components, locations: locations, count: locations.count);
+        let gradient = CGGradient(colorSpace: colorSpace, colorComponents: components, locations: locations, count: locations.count);
         
         //Define Gradient Positions ---------------
         

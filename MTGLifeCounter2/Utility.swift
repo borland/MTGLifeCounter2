@@ -74,7 +74,7 @@ func randomUntiedDiceRolls(_ numDice:Int, diceFaceCount:UInt) -> [(UInt, Bool)] 
     return values.map{ x in (x, x == maxVal) }
 }
 
-func delay(_ seconds: TimeInterval, block: ()->()) -> () -> () {
+func delay(_ seconds: TimeInterval, block: @escaping ()->()) -> () -> () {
     var canceled = false // volatile? lock?
     let dt = DispatchTime.now() + Double(Int64(seconds * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
     DispatchQueue.main.asyncAfter(deadline: dt) {

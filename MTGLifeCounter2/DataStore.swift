@@ -37,7 +37,7 @@ class DataStore {
         return dict
     }
 
-    class func setWithKey(_ key:String, value:NSDictionary) throws {
+    class func setWithKey(_ key:String, value:[String:Any]) throws {
         let data = try JSONSerialization.data(withJSONObject: value, options: JSONSerialization.WritingOptions(rawValue: 0))
         
         let fileManager = FileManager.default

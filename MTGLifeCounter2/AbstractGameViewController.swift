@@ -68,7 +68,7 @@ class AbstractGameViewController : UIViewController {
         UIApplication.shared.isIdleTimerDisabled = false
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let s = segue.identifier else { fatalError("segue identifier not set") }
         switch s {
         case "player1_embed", "player2_embed", "player3_embed", "player4_embed", "player5_embed":

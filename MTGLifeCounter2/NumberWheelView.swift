@@ -31,7 +31,7 @@ class NumberWheelView : UIView {
     }
     
     /*! generator will be called consecutively with a series of numbers. 0 is the "target" which the spinner will land on */
-    required init(fontSize:CGFloat, textColor: UIColor, numCells:Int, generator:(Int) -> NSAttributedString) {
+    required init(fontSize:CGFloat, textColor: UIColor, numCells:Int, generator:@escaping (Int) -> NSAttributedString) {
         _numCells = numCells
         _lineHeight = fontSize
         _generator = generator

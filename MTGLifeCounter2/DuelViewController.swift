@@ -21,7 +21,7 @@ class DuelViewController : AbstractGameViewController {
     @IBOutlet weak var d20Button: UIButton!
     @IBOutlet weak var refreshButton: UIButton!
     
-    override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
         
         if(_players.count == 2) { // all loaded

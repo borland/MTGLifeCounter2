@@ -33,16 +33,8 @@ class StarViewController : AbstractGameViewController {
     
     override func setConstraintsFor(_ traitCollection:UITraitCollection) {
         let constraints = view.constraints as [NSLayoutConstraint]
-        view.removeAllConstraints(
-            constraints.affectingView(c1!),
-            constraints.affectingView(c2!),
-            constraints.affectingView(c3!),
-            constraints.affectingView(c4!),
-            constraints.affectingView(c5!),
-            constraints.affectingView(backButton!),
-            constraints.affectingView(refreshButton!),
-            constraints.affectingView(d20Button!)
-        )
+        let toRemove = [c1!, c2!, c3!, c4!, c5!, backButton!, refreshButton!, d20Button!].flatMap{ constraints.affectingView($0) }
+        view.removeAllConstraints(toRemove)
         
         let views = ["c1":c1!, "c2":c2!, "c3":c3!, "c4":c4!, "c5":c5!]
         assert(_players.count == 5) // called before view loaded?
@@ -54,60 +46,61 @@ class StarViewController : AbstractGameViewController {
         
         switch (traitCollection.horizontalSizeClass, traitCollection.verticalSizeClass) {
         case (.compact, .regular): // phone in portrait
-            _players[0].orientation = .upsideDown
-//            _players[1].orientation = .Left
-//            _players[2].orientation = .Right
-//            _players[3].orientation = .Left
-//            _players[4].orientation = .Right
-            // I want to rotate, but it breaks; fix in progress
-            _players[1].orientation = .normal
-            _players[2].orientation = .normal
-            _players[3].orientation = .normal
-            _players[4].orientation = .normal
+//            _players[0].orientation = .upsideDown
+////            _players[1].orientation = .Left
+////            _players[2].orientation = .Right
+////            _players[3].orientation = .Left
+////            _players[4].orientation = .Right
+//            // I want to rotate, but it breaks; fix in progress
+//            _players[1].orientation = .normal
+//            _players[2].orientation = .normal
+//            _players[3].orientation = .normal
+//            _players[4].orientation = .normal
             
             view.addConstraints([
-                // c1 fills horizontal
-                c1.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                c1.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-                
-                // c2, c3
-                c2.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                c3.leadingAnchor.constraint(equalTo: c2.trailingAnchor),
-                c3.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-                
-                c3.widthAnchor.constraint(equalTo: c2.widthAnchor),
-                c3.heightAnchor.constraint(equalTo: c2.heightAnchor),
-                c3.topAnchor.constraint(equalTo: c2.topAnchor),
-                
-                // c4, c5
-                c4.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                c5.leadingAnchor.constraint(equalTo: c4.trailingAnchor),
-                c5.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-                
-                c5.widthAnchor.constraint(equalTo: c4.widthAnchor),
-                c5.heightAnchor.constraint(equalTo: c4.heightAnchor),
-                c5.topAnchor.constraint(equalTo: c4.topAnchor),
-                
-                // stack the left row all vertically
-                c1.topAnchor.constraint(equalTo: view.topAnchor),
-                c2.topAnchor.constraint(equalTo: c1.bottomAnchor),
-                c4.topAnchor.constraint(equalTo: c2.bottomAnchor),
-                c4.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-                
-                // top view gets less space (not 33%) because it's wider, other views split evenly
-                c1.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.30),
-                // c2,3 get a bit more space as they're overlapped by buttons
-                c2.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.37),
-                
-                // buttons
-                backButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 8),
-                backButton.centerYAnchor.constraint(equalTo: c1.bottomAnchor),
-                
-                d20Button.centerXAnchor.constraint(equalTo: c1.centerXAnchor),
-                d20Button.centerYAnchor.constraint(equalTo: c1.bottomAnchor),
-                
-                refreshButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -8),
-                refreshButton.centerYAnchor.constraint(equalTo: c1.bottomAnchor)
+//                // c1 fills horizontal
+//                c1.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+//                c1.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+//                
+//                // c2, c3
+//                c2.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+//                c3.leadingAnchor.constraint(equalTo: c2.trailingAnchor),
+//                c3.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+//                
+//                c3.widthAnchor.constraint(equalTo: c2.widthAnchor),
+//                c3.heightAnchor.constraint(equalTo: c2.heightAnchor),
+//                c3.topAnchor.constraint(equalTo: c2.topAnchor),
+//                
+//                // c4, c5
+//                c4.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+//                c5.leadingAnchor.constraint(equalTo: c4.trailingAnchor),
+//                c5.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+//                
+//                c5.widthAnchor.constraint(equalTo: c4.widthAnchor),
+//                c5.heightAnchor.constraint(equalTo: c4.heightAnchor),
+//                c5.topAnchor.constraint(equalTo: c4.topAnchor),
+//                
+//                // stack the left row all vertically
+//                c1.topAnchor.constraint(equalTo: view.topAnchor),
+//                c2.topAnchor.constraint(equalTo: c1.bottomAnchor),
+//                c4.topAnchor.constraint(equalTo: c2.bottomAnchor),
+//                c4.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+//                
+//                // top view gets less space (not 33%) because it's wider, other views split evenly
+//                c1.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.30),
+//                // c2,3 get a bit more space as they're overlapped by buttons
+//                c2.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.37),
+//
+//                
+//                // buttons
+//                backButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 8),
+//                backButton.centerYAnchor.constraint(equalTo: c1.bottomAnchor),
+//                
+//                d20Button.centerXAnchor.constraint(equalTo: c1.centerXAnchor),
+//                d20Button.centerYAnchor.constraint(equalTo: c1.bottomAnchor),
+//                
+//                refreshButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -8),
+//                refreshButton.centerYAnchor.constraint(equalTo: c1.bottomAnchor)
             ])
             break
             
@@ -122,17 +115,17 @@ class StarViewController : AbstractGameViewController {
             _players[4].innerHorizontalOffset = -25
             
             // first row horizontally
-            view.addConstraints("|[c1(==c2)][c2(==c3)][c3(==c1)]|", views: views)
+            view.addConstraints("H:|[c1(==c2)][c2(==c3)][c3(==c1)]|", views: views)
             
             // second row horizontally
-            view.addConstraints("|[c4(==c5)][c5(==c4)]|", views: views)
+            view.addConstraints("H:|[c4(==c5)][c5(==c4)]|", views: views)
             
             view.addAllConstraints(
                 // stack two rows vertically (just align the leftmost and let the others stick to those)
-                // top row gets 53%, not 50 due to space taken up by clock
+                // top row gets 55%, not 50 due to space taken up by clock
                 [
                     c1.topAnchor.constraint(equalTo: view.topAnchor),
-                    c1.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.53),
+                    c1.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.55),
                     
                     c4.topAnchor.constraint(equalTo: c1.bottomAnchor),
                     c4.bottomAnchor.constraint(equalTo: view.bottomAnchor),

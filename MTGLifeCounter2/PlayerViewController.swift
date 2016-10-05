@@ -207,7 +207,7 @@ class PlayerViewController : UIViewController {
     }
     
     var orientation: PlayerViewOrientation = .normal {
-        didSet {
+        didSet {            
             // we only rotate the text; all the other stuff is taken care of manually, because
             // if we rotate the background view by 90 degrees, auto-layout clips it and it looks broken
             switch orientation {
@@ -219,6 +219,17 @@ class PlayerViewController : UIViewController {
                 lifeTotalLabel.transform = CGAffineTransform.identity.rotated(by: -.pi / 2)
             case .normal:
                 lifeTotalLabel.transform = CGAffineTransform.identity
+            }
+            
+            switch orientation {
+            case .upsideDown:
+                _tracker.isUpsideDown = true
+                _tracker.attachRightTo = view.rightAnchor
+                _tracker.attachBottomTo = view.bottomAnchor
+            default:
+                _tracker.isUpsideDown = false
+                _tracker.attachLeftTo = view.leftAnchor
+                _tracker.attachTopTo = view.topAnchor
             }
         }
     }

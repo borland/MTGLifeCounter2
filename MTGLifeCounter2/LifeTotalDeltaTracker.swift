@@ -38,6 +38,14 @@ class LifeTotalDeltaTracker {
     }
     
     var parent:UIView?
+    var isUpsideDown:Bool = false
+    
+    // we either attach to the top left or bottom right
+    var attachTopTo:NSLayoutYAxisAnchor?
+    var attachLeftTo:NSLayoutXAxisAnchor?
+    
+    var attachBottomTo:NSLayoutYAxisAnchor?
+    var attachRightTo:NSLayoutXAxisAnchor?
     
     func update(_ lifeTotal:Int) {
         if let (_, lt) = _history.last {
@@ -68,9 +76,20 @@ class LifeTotalDeltaTracker {
             let fv = FloatingView(innerView:self._label, cornerRadius: Float(floatingViewFontSize) / 5)
             
             fv.showInView(p) { floatingView in
-                p.addConstraints([
-                    NSLayoutConstraint(item: floatingView, attribute: .left, relatedBy: .equal, toItem: p, attribute: .left, multiplier: 1.0, constant: 5.0),
-                    NSLayoutConstraint(item: floatingView, attribute: .top, relatedBy: .equal, toItem: p, attribute: .top, multiplier: 1.0, constant: 20.0)])
+                if let attachTop = attachTopTo, let attachLeft = attachLeftTo {
+                    p.addConstraints([
+                        floatingView.topAnchor.constraint(equalTo: attachTop, constant: 20),
+                        floatingView.leftAnchor.constraint(equalTo: attachLeft, constant: 5)
+                        ])
+                }
+                else if let attachBottom = attachBottomTo, let attachRight = attachRightTo {
+                    p.addConstraints([
+                        floatingView.bottomAnchor.constraint(equalTo: attachBottom, constant: 20),
+                        floatingView.rightAnchor.constraint(equalTo: attachRight, constant: 5)
+                        ])
+                } else {
+                    fatalError("must asign attachTop/left or attachBottom/right")
+                }
             }
             
             _floatingView = fv

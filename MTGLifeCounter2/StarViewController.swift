@@ -48,7 +48,7 @@ class StarViewController : AbstractGameViewController {
         assert(_players.count == 5) // called before view loaded?
         
         for p in _players {
-            p.buttonPosition = .sides // force buttons on the side even though we don't normally do this in landscape
+            p.buttonPosition = .rightLeft // force buttons on the side even though we don't normally do this in landscape
             p.innerHorizontalOffset = 0
         }
         

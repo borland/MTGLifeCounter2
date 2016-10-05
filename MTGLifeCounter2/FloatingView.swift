@@ -19,7 +19,7 @@ extension UIViewAutoresizing {
 
 class DiceRollView {
     
-    class func create(_ num:UInt, winner:Bool) -> FloatingView {
+    class func create(_ num:UInt, winner:Bool, orientation: PlayerViewOrientation) -> FloatingView {
         let singleUnderline:[String:AnyObject] = [NSUnderlineStyleAttributeName: NSNumber(value: 1)]
         
         let generator = { (x:Int) -> NSAttributedString in
@@ -64,6 +64,17 @@ class DiceRollView {
 
                 })
             }
+        }
+        
+        switch orientation {
+        case .upsideDown:
+            fv.transform = CGAffineTransform.identity.rotated(by: .pi)
+        case .left:
+            fv.transform = CGAffineTransform.identity.rotated(by: .pi / 2)
+        case .right:
+            fv.transform = CGAffineTransform.identity.rotated(by: -.pi / 2)
+        case .normal:
+            fv.transform = CGAffineTransform.identity
         }
         return fv
     }

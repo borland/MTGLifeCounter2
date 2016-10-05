@@ -13,11 +13,14 @@ enum DisplaySize {
     case small, normal
 }
 
-enum PlusMinusButtonPosition {
-    case auto, sides, topBottom
+enum PlusMinusButtonPosition { // use nil for auto
+    case rightLeft, // + on the right, - on the left
+    leftRight,
+    aboveBelow, // + above, - below
+    belowAbove
 }
 
-enum ViewOrientation {
+enum PlayerViewOrientation {
     case normal, upsideDown, left, right
 }
 
@@ -26,6 +29,7 @@ class PlayerViewController : UIViewController {
     
     private var _xConstraint: NSLayoutConstraint?
     private var _yConstraint: NSLayoutConstraint?
+    private var _currentColorPicker:RadialColorPicker?
     
     @IBOutlet var backgroundView: PlayerBackgroundView!
     @IBOutlet weak var lifeTotalLabel: UILabel!
@@ -41,7 +45,7 @@ class PlayerViewController : UIViewController {
     }
     
     @IBAction func lifeTotalPanning(_ sender: UIPanGestureRecognizer) {
-        let translation = sender.translation(in: backgroundView)
+        let translation = resolve(translation: sender.translation(in: backgroundView))
         
         let verticalPanDivisor:CGFloat = 10.0
         if translation.y < -verticalPanDivisor || translation.y > verticalPanDivisor { // vertical pan greater than threshold
@@ -69,10 +73,14 @@ class PlayerViewController : UIViewController {
         
         var up = true;
         switch resolveButtonPosition() {
-        case .sides:
+        case .rightLeft:
             up = location.x > (reference.size.width / 2)
-        default:
+        case .leftRight:
+            up = location.x < (reference.size.width / 2)
+        case .aboveBelow:
             up = location.y < (reference.size.height / 2)
+        case .belowAbove:
+            up = location.y > (reference.size.height / 2)
         }
         
         if(up) {
@@ -81,8 +89,6 @@ class PlayerViewController : UIViewController {
             minusButtonPressed(sender)
         }
     }
-    
-    private var _currentColorPicker:RadialColorPicker?
     
     @IBAction func viewWasLongPressed(_ sender: UILongPressGestureRecognizer) {
         if _currentColorPicker != nil {
@@ -124,7 +130,7 @@ class PlayerViewController : UIViewController {
         UIView.animate(withDuration: 0.2) { picker.alpha = 1.0 }
     }
     
-    var buttonPosition = PlusMinusButtonPosition.auto
+    var buttonPosition:PlusMinusButtonPosition? // nil means "figure it out"
     
     var innerHorizontalOffset = CGFloat(0) {
         didSet {
@@ -200,17 +206,19 @@ class PlayerViewController : UIViewController {
         }
     }
     
-    var orientation: ViewOrientation = .normal {
+    var orientation: PlayerViewOrientation = .normal {
         didSet {
+            // we only rotate the text; all the other stuff is taken care of manually, because
+            // if we rotate the background view by 90 degrees, auto-layout clips it and it looks broken
             switch orientation {
             case .upsideDown:
-                backgroundView.transform = CGAffineTransform.identity.rotated(by: CGFloat(M_PI))
+                lifeTotalLabel.transform = CGAffineTransform.identity.rotated(by: .pi)
             case .left:
-                backgroundView.transform = CGAffineTransform.identity.rotated(by: CGFloat(M_PI_2))
+                lifeTotalLabel.transform = CGAffineTransform.identity.rotated(by: .pi / 2)
             case .right:
-                backgroundView.transform = CGAffineTransform.identity.rotated(by: CGFloat(-M_PI_2))
+                lifeTotalLabel.transform = CGAffineTransform.identity.rotated(by: -.pi / 2)
             case .normal:
-                backgroundView.transform = CGAffineTransform.identity;
+                lifeTotalLabel.transform = CGAffineTransform.identity
             }
         }
     }
@@ -251,24 +259,32 @@ class PlayerViewController : UIViewController {
 
         backgroundView.addConstraints([_xConstraint!, _yConstraint!])
         
-        switch resolveButtonPosition() {
-        case .sides: // +/- on the sides
+        let position = resolveButtonPosition()
+        switch position {
+        case .rightLeft, .leftRight: // +/- on the sides
             
             let hGap:CGFloat = displaySize == .small ? 0 : 8 // in a horizontal star, pull the +/- buttons closer
             let metrics = ["hGap": hGap]
             
-            backgroundView.addConstraints("H:[minus(44)]-(hGap)-[lifeTotal]-(hGap)-[plus(44)]", views: views, metrics: metrics)
+            let vfl = position == .rightLeft ?
+                "H:[minus(44)]-(hGap)-[lifeTotal]-(hGap)-[plus(44)]" :
+                "H:[plus(44)]-(hGap)-[lifeTotal]-(hGap)-[minus(44)]"
+            
+            backgroundView.addConstraints(vfl, views: views, metrics: metrics)
             backgroundView.addConstraints([
                 plusButton.centerYAnchor.constraint(equalTo: lifeTotalLabel.centerYAnchor),
                 minusButton.centerYAnchor.constraint(equalTo: lifeTotalLabel.centerYAnchor),
             ])
             
-        default: // +/- on the top/bottom
-            
+        case .aboveBelow, .belowAbove: // +/- on the top/bottom
             let vGap:CGFloat = -16
             let metrics = ["vGap": vGap]
             
-            backgroundView.addConstraints("V:[plus(44)]-(vGap)-[lifeTotal]-(vGap)-[minus(44)]", views: views, metrics: metrics)
+            let vfl = position == .aboveBelow ?
+                "V:[plus(44)]-(vGap)-[lifeTotal]-(vGap)-[minus(44)]" :
+                "V:[minus(44)]-(vGap)-[lifeTotal]-(vGap)-[plus(44)]"
+            
+            backgroundView.addConstraints(vfl, views: views, metrics: metrics)
             backgroundView.addConstraints([
                 plusButton.centerXAnchor.constraint(equalTo: lifeTotalLabel.centerXAnchor),
                 minusButton.centerXAnchor.constraint(equalTo: lifeTotalLabel.centerXAnchor),
@@ -278,18 +294,43 @@ class PlayerViewController : UIViewController {
         backgroundView.setNeedsDisplay()
     }
     
+    func resolve(translation tx: CGPoint) -> CGPoint {
+        switch orientation {
+        case .normal:
+            return tx
+        case .upsideDown:
+            return CGPoint(x: -tx.x, y: -tx.y)
+        case .left:
+            return CGPoint(x: tx.y, y: tx.x) // test this
+        case .right:
+            return CGPoint(x: -tx.y, y: -tx.x) // test this
+        }
+    }
+    
     func resolveButtonPosition() -> PlusMinusButtonPosition {
-        switch buttonPosition {
-        case .topBottom, .sides:
-            return buttonPosition // explicitly set
-        case .auto:
-            switch (traitCollection.horizontalSizeClass, traitCollection.verticalSizeClass) {
-            case (.compact, .regular): // +/- on the sides
-                return .sides;
-            default:
-                return .topBottom;
+        func resolve(position:PlusMinusButtonPosition?) -> PlusMinusButtonPosition {
+            if let p = position {
+                switch p {
+                case .rightLeft:
+                    return orientation == .upsideDown ? .leftRight : .rightLeft
+                case .leftRight:
+                    return orientation == .upsideDown ? .rightLeft : .leftRight
+                case .aboveBelow:
+                    return orientation == .upsideDown ? .belowAbove : .aboveBelow
+                case .belowAbove:
+                    return orientation == .upsideDown ? .aboveBelow : .belowAbove
+                }
+            } else { // not set, figure it out
+                switch (traitCollection.horizontalSizeClass, traitCollection.verticalSizeClass) {
+                case (.compact, .regular): // +/- on the sides
+                    return resolve(position: .rightLeft)
+                default:
+                    return resolve(position: .aboveBelow)
+                }
             }
         }
+        
+        return resolve(position: buttonPosition)
     }
 }
 
@@ -375,55 +416,55 @@ class PlayerBackgroundView : UIView {
 
     }
 }
-
-@IBDesignable class RotationContainerView: UIView {
-    var child: UIView!
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
-    
-    override init(frame: CGRect){
-        super.init(frame: frame)
-        self.setup()
-    }
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        self.setup()
-    }
-    
-    func setup() {
+//
+//@IBDesignable class RotationContainerView: UIView {
+//    var child: UIView!
+//    
+//    required init?(coder aDecoder: NSCoder) {
+//        super.init(coder: aDecoder)
+//    }
+//    
+//    override init(frame: CGRect){
+//        super.init(frame: frame)
+//        self.setup()
+//    }
+//    
+//    override func awakeFromNib() {
+//        super.awakeFromNib()
+//        self.setup()
+//    }
+//    
+//    func setup() {
+////        
+////        rotationView.backgroundColor = UIColor.redColor()
+////        textView.backgroundColor = UIColor.yellowColor()
+////        self.addSubview(rotationView)
+////        rotationView.addSubview(textView)
+////        
+////        // could also do this with auto layout constraints
+////        textView.frame = rotationView.bounds
+//    }
+//    
+//    override func layoutSubviews() {
+////        super.layoutSubviews()
+////        
+////        rotationView.transform = CGAffineTransformIdentity // *** key line ***
+////        
+////        rotationView.frame = CGRect(origin: CGPointZero, size: CGSize(width: self.bounds.height, height: self.bounds.width))
+////        rotationView.transform = translateRotateFlip()
+//    }
+//    
+//    func translateRotateFlip() -> CGAffineTransform {
 //        
-//        rotationView.backgroundColor = UIColor.redColor()
-//        textView.backgroundColor = UIColor.yellowColor()
-//        self.addSubview(rotationView)
-//        rotationView.addSubview(textView)
+//        var transform = CGAffineTransform.identity
 //        
-//        // could also do this with auto layout constraints
-//        textView.frame = rotationView.bounds
-    }
-    
-    override func layoutSubviews() {
-//        super.layoutSubviews()
+//        // translate to new center
+//        transform = transform.translatedBy(x: (self.bounds.width / 2)-(self.bounds.height / 2), y: (self.bounds.height / 2)-(self.bounds.width / 2))
+//        // rotate counterclockwise around center
+//        transform = transform.rotated(by: CGFloat(-M_PI_2))
+//        // flip vertically
+//        transform = transform.scaledBy(x: -1, y: 1)
 //        
-//        rotationView.transform = CGAffineTransformIdentity // *** key line ***
-//        
-//        rotationView.frame = CGRect(origin: CGPointZero, size: CGSize(width: self.bounds.height, height: self.bounds.width))
-//        rotationView.transform = translateRotateFlip()
-    }
-    
-    func translateRotateFlip() -> CGAffineTransform {
-        
-        var transform = CGAffineTransform.identity
-        
-        // translate to new center
-        transform = transform.translatedBy(x: (self.bounds.width / 2)-(self.bounds.height / 2), y: (self.bounds.height / 2)-(self.bounds.width / 2))
-        // rotate counterclockwise around center
-        transform = transform.rotated(by: CGFloat(-M_PI_2))
-        // flip vertically
-        transform = transform.scaledBy(x: -1, y: 1)
-        
-        return transform
-    }
-}
+//        return transform
+//    }
+//}

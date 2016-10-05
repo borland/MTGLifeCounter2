@@ -25,6 +25,9 @@ class FloatingActionButton : UIButton {
         layer.shadowColor = UIColor.black.cgColor
         layer.shadowOffset = CGSize(width: 0, height: 0)
         layer.shadowOpacity = 0.66
+        
+        #if !(arch(i386) || arch(x86_64)) // bug in the iOS 10 sim that can't render shadowPath properly
         layer.shadowPath = shadowPath.cgPath
+        #endif
     }
 }

@@ -16,6 +16,10 @@ class FloatingActionButton : UIButton {
     override func awakeFromNib() {
         backgroundColor = GlobalTintColor
         tintColor = UIColor.white
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
         
         // http://stackoverflow.com/a/34984063/234
         clipsToBounds = true
@@ -26,8 +30,6 @@ class FloatingActionButton : UIButton {
         layer.shadowOffset = CGSize(width: 0, height: 0)
         layer.shadowOpacity = 0.66
         
-        #if !(arch(i386) || arch(x86_64)) // bug in the iOS 10 sim that can't render shadowPath properly
         layer.shadowPath = shadowPath.cgPath
-        #endif
     }
 }

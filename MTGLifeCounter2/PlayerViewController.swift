@@ -207,7 +207,7 @@ class PlayerViewController : UIViewController {
     }
     
     var orientation: PlayerViewOrientation = .normal {
-        didSet {            
+        didSet {
             // we only rotate the text; all the other stuff is taken care of manually, because
             // if we rotate the background view by 90 degrees, auto-layout clips it and it looks broken
             switch orientation {
@@ -224,12 +224,10 @@ class PlayerViewController : UIViewController {
             switch orientation {
             case .upsideDown:
                 _tracker.isUpsideDown = true
-                _tracker.attachRightTo = view.rightAnchor
-                _tracker.attachBottomTo = view.bottomAnchor
+                _tracker.attachPosition = .bottomRight(view.bottomAnchor, view.rightAnchor)
             default:
                 _tracker.isUpsideDown = false
-                _tracker.attachLeftTo = view.leftAnchor
-                _tracker.attachTopTo = view.topAnchor
+                _tracker.attachPosition = .topLeft(view.topAnchor, view.leftAnchor)
             }
         }
     }
@@ -288,7 +286,13 @@ class PlayerViewController : UIViewController {
             ])
             
         case .aboveBelow, .belowAbove: // +/- on the top/bottom
-            let vGap:CGFloat = -16
+            var vGap:CGFloat
+            switch orientation {
+            case .normal, .upsideDown:
+                vGap = -16
+            case .left, .right:
+                vGap = 0 // if the text is rotated left or right we need to move the buttons
+            }
             let metrics = ["vGap": vGap]
             
             let vfl = position == .aboveBelow ?
@@ -312,9 +316,9 @@ class PlayerViewController : UIViewController {
         case .upsideDown:
             return CGPoint(x: -tx.x, y: -tx.y)
         case .left:
-            return CGPoint(x: tx.y, y: tx.x) // test this
+            return CGPoint(x: -tx.y, y: -tx.x)
         case .right:
-            return CGPoint(x: -tx.y, y: -tx.x) // test this
+            return CGPoint(x: tx.y, y: tx.x)
         }
     }
     

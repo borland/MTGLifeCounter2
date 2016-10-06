@@ -9,6 +9,12 @@
 import Foundation
 import UIKit
 
+enum TrackerAttachPosition {
+    case none // not shown
+    case topLeft(NSLayoutYAxisAnchor, NSLayoutXAxisAnchor)
+    case bottomRight(NSLayoutYAxisAnchor, NSLayoutXAxisAnchor)
+}
+
 class LifeTotalDeltaTracker {
     
     /** How much time the delta tracker stays on screen before "committing" and going away */
@@ -38,14 +44,18 @@ class LifeTotalDeltaTracker {
     }
     
     var parent:UIView?
-    var isUpsideDown:Bool = false
     
-    // we either attach to the top left or bottom right
-    var attachTopTo:NSLayoutYAxisAnchor?
-    var attachLeftTo:NSLayoutXAxisAnchor?
+    var isUpsideDown:Bool = false {
+        didSet {
+            if isUpsideDown {
+                _label.transform = CGAffineTransform.identity.rotated(by: .pi)
+            } else {
+                _label.transform = CGAffineTransform.identity
+            }
+        }
+    }
     
-    var attachBottomTo:NSLayoutYAxisAnchor?
-    var attachRightTo:NSLayoutXAxisAnchor?
+    var attachPosition: TrackerAttachPosition = .none
     
     func update(_ lifeTotal:Int) {
         if let (_, lt) = _history.last {
@@ -76,19 +86,19 @@ class LifeTotalDeltaTracker {
             let fv = FloatingView(innerView:self._label, cornerRadius: Float(floatingViewFontSize) / 5)
             
             fv.showInView(p) { floatingView in
-                if let attachTop = attachTopTo, let attachLeft = attachLeftTo {
+                switch attachPosition {
+                case .none:
+                    break // view goes nowhere
+                case .topLeft(let top, let left):
                     p.addConstraints([
-                        floatingView.topAnchor.constraint(equalTo: attachTop, constant: 20),
-                        floatingView.leftAnchor.constraint(equalTo: attachLeft, constant: 5)
+                        floatingView.topAnchor.constraint(equalTo: top, constant: 20),
+                        floatingView.leftAnchor.constraint(equalTo: left, constant: 5)
                         ])
-                }
-                else if let attachBottom = attachBottomTo, let attachRight = attachRightTo {
+                case .bottomRight(let bottom, let right):
                     p.addConstraints([
-                        floatingView.bottomAnchor.constraint(equalTo: attachBottom, constant: 20),
-                        floatingView.rightAnchor.constraint(equalTo: attachRight, constant: 5)
+                        floatingView.bottomAnchor.constraint(equalTo: bottom, constant: -20),
+                        floatingView.rightAnchor.constraint(equalTo: right, constant: -5)
                         ])
-                } else {
-                    fatalError("must asign attachTop/left or attachBottom/right")
                 }
             }
             

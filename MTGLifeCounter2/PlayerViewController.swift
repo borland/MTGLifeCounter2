@@ -24,6 +24,10 @@ enum PlayerViewOrientation {
     case normal, upsideDown, left, right
 }
 
+protocol PlayerViewControllerDelegate : class {
+    func colorDidChange(newColor:MtgColor, sender:PlayerViewController)
+}
+
 class PlayerViewController : UIViewController {
     private let _tracker = LifeTotalDeltaTracker()
     
@@ -31,20 +35,20 @@ class PlayerViewController : UIViewController {
     private var _yConstraint: NSLayoutConstraint?
     private var _currentColorPicker:RadialColorPicker?
     
-    @IBOutlet var backgroundView: PlayerBackgroundView!
-    @IBOutlet weak var lifeTotalLabel: UILabel!
-    @IBOutlet weak var plusButton: UIButton!
-    @IBOutlet weak var minusButton: UIButton!
+    @IBOutlet private var backgroundView: PlayerBackgroundView!
+    @IBOutlet private weak var lifeTotalLabel: UILabel!
+    @IBOutlet private weak var plusButton: UIButton!
+    @IBOutlet private weak var minusButton: UIButton!
     
-    @IBAction func plusButtonPressed(_ sender: AnyObject) {
+    @IBAction private func plusButtonPressed(_ sender: AnyObject) {
         lifeTotal += 1
     }
     
-    @IBAction func minusButtonPressed(_ sender: AnyObject) {
+    @IBAction private func minusButtonPressed(_ sender: AnyObject) {
         lifeTotal -= 1
     }
     
-    @IBAction func lifeTotalPanning(_ sender: UIPanGestureRecognizer) {
+    @IBAction private func lifeTotalPanning(_ sender: UIPanGestureRecognizer) {
         let translation = resolve(translation: sender.translation(in: backgroundView))
         
         let verticalPanDivisor:CGFloat = 10.0
@@ -67,7 +71,7 @@ class PlayerViewController : UIViewController {
         }
     }
     
-    @IBAction func lifeTotalWasTapped(_ sender: UITapGestureRecognizer) {
+    @IBAction private func lifeTotalWasTapped(_ sender: UITapGestureRecognizer) {
         let location = sender.location(in: backgroundView)
         let reference = backgroundView.frame
         
@@ -90,7 +94,7 @@ class PlayerViewController : UIViewController {
         }
     }
     
-    @IBAction func viewWasLongPressed(_ sender: UILongPressGestureRecognizer) {
+    @IBAction private func viewWasLongPressed(_ sender: UILongPressGestureRecognizer) {
         if _currentColorPicker != nil {
             return
         }
@@ -130,6 +134,8 @@ class PlayerViewController : UIViewController {
         UIView.animate(withDuration: 0.2) { picker.alpha = 1.0 }
     }
     
+    weak var delegate:PlayerViewControllerDelegate?
+    
     var buttonPosition:PlusMinusButtonPosition? // nil means "figure it out"
     
     var innerHorizontalOffset = CGFloat(0) {
@@ -154,6 +160,7 @@ class PlayerViewController : UIViewController {
                 textColor = UIColor.white
             }
             backgroundView.addLabel(color.displayName, isUpsideDown: false, textColor: textColor)
+            delegate?.colorDidChange(newColor: color, sender: self)
         }
     }
     

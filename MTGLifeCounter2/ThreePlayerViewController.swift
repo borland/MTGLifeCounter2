@@ -20,6 +20,19 @@ class ThreePlayerViewController : AbstractGameViewController {
     @IBOutlet weak var d20Button: UIButton!
     @IBOutlet weak var refreshButton: UIButton!
     
+    override func playerColorDidChange() {
+        if(_players.count != 3) { return } // gets called spuriously during load
+        
+        switch (traitCollection.horizontalSizeClass, traitCollection.verticalSizeClass,
+                _players[0].color, _players[1].color, _players[2].color) {
+        case (.compact, .regular, .white, _, _), // portrait, top VC is white
+            (.compact, .compact, _, .white, _): // landscape, middle white
+            statusBarStyle = .default
+        default:
+            statusBarStyle = .lightContent
+        }
+    }
+    
     override func setConstraintsFor(_ traitCollection:UITraitCollection) {
         let constraints = view.constraints
         view.removeAllConstraints(

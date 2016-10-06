@@ -9,14 +9,20 @@
 import Foundation
 import UIKit
 
-class AbstractGameViewController : UIViewController {
+class AbstractGameViewController : UIViewController, PlayerViewControllerDelegate {
     var initialLifeTotal:Int { preconditionFailure("This method must be overridden")  }
     var configKey:String { preconditionFailure("This method must be overridden")  }
     
     var _players:[PlayerViewController] = []
     
+    var statusBarStyle = UIStatusBarStyle.lightContent {
+        didSet {
+            setNeedsStatusBarAppearanceUpdate()
+        }
+    }
+    
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
+        return statusBarStyle
     }
     
     @IBAction func backButtonPressed(_ sender: AnyObject) {
@@ -35,6 +41,12 @@ class AbstractGameViewController : UIViewController {
             p.resetLifeTotal(initialLifeTotal)
         }
     }
+    
+    func colorDidChange(newColor: MtgColor, sender: PlayerViewController) {
+        playerColorDidChange()
+    }
+    
+    func playerColorDidChange() {} // override point
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -74,6 +86,7 @@ class AbstractGameViewController : UIViewController {
         case "player1_embed", "player2_embed", "player3_embed", "player4_embed", "player5_embed":
             guard let viewController = segue.destination as? PlayerViewController else { return }
             viewController.resetLifeTotal(initialLifeTotal)
+            viewController.delegate = self
             _players.append(viewController)
         default: fatalError("unhandled segue \(s)")
         }
@@ -82,6 +95,7 @@ class AbstractGameViewController : UIViewController {
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         setConstraintsFor(traitCollection)
+        playerColorDidChange() // refresh statusBar color as things moved around
     }
     
     override var prefersStatusBarHidden: Bool {

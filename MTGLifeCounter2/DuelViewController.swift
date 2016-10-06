@@ -52,6 +52,19 @@ class DuelViewController : AbstractGameViewController {
         return false
     }
     
+    override func playerColorDidChange() {
+        if(_players.count != 2) { return } // gets called spuriously during load
+        
+        switch (traitCollection.horizontalSizeClass, traitCollection.verticalSizeClass,
+                _players[0].color, _players[1].color) {
+        case (.compact, .regular, .white, _), // portrait, top VC is white
+            (.compact, .compact, .white, .white): // landscape, both white
+            statusBarStyle = .default
+        default:
+            statusBarStyle = .lightContent // everything else SB goes white
+        }
+    }
+    
     // override this for different layouts
     override func setConstraintsFor(_ traitCollection:UITraitCollection) {
         let constraints = view.constraints as [NSLayoutConstraint]

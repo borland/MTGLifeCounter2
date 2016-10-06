@@ -31,6 +31,19 @@ class StarViewController : AbstractGameViewController {
         }
     }
     
+    override func playerColorDidChange() {
+        if(_players.count != 5) { return } // gets called spuriously during load
+        
+        switch (traitCollection.horizontalSizeClass, traitCollection.verticalSizeClass,
+                _players[0].color, _players[1].color, _players[2].color, _players[3].color, _players[4].color) {
+        case (.compact, .regular, .white, _, _, _, _), // portrait, top VC is white
+        (.compact, .compact, _, .white, _, _, _): // landscape, middle white
+            statusBarStyle = .default
+        default:
+            statusBarStyle = .lightContent
+        }
+    }
+    
     override func setConstraintsFor(_ traitCollection:UITraitCollection) {
         let constraints = view.constraints as [NSLayoutConstraint]
         let toRemove = [c1!, c2!, c3!, c4!, c5!, backButton!, refreshButton!, d20Button!].flatMap{ constraints.affectingView($0) }

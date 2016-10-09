@@ -25,8 +25,8 @@ class DuelViewController : AbstractGameViewController {
         super.prepare(for: segue, sender: sender)
         
         if(_players.count == 2) { // all loaded
-            switch (traitCollection.horizontalSizeClass, traitCollection.verticalSizeClass) {
-            case (.compact, .regular): // phone in portrait
+            switch view.bounds.size.orientation {
+            case (.portrait):
                 _players.first?.orientation = .upsideDown
             default:
                 _players.first?.orientation = .normal
@@ -34,31 +34,29 @@ class DuelViewController : AbstractGameViewController {
         }
     }
     
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        
         guard let p1 = _players.first else { return }
         
-        switch (traitCollection.horizontalSizeClass, traitCollection.verticalSizeClass) {
-        case (.compact, .regular): // phone in portrait
+        switch size.orientation {
+        case .portrait:
             p1.orientation = .upsideDown
         default:
             p1.orientation = .normal
         }
-        
-        setConstraintsFor(traitCollection)
     }
     
     override var prefersStatusBarHidden: Bool {
         return false
     }
     
-    override func playerColorDidChange() {
+    override func playerColorDidChange(deviceOrientation: ContainerOrientation) {
         if(_players.count != 2) { return } // gets called spuriously during load
         
-        switch (traitCollection.horizontalSizeClass, traitCollection.verticalSizeClass,
-                _players[0].color, _players[1].color) {
-        case (.compact, .regular, .white, _), // portrait, top VC is white
-            (.compact, .compact, .white, .white): // landscape, both white
+        switch (deviceOrientation, _players[0].color, _players[1].color) {
+        case (.portrait, .white, _), // portrait, top VC is white
+            (.landscape, .white, .white): // landscape, both white
             statusBarStyle = .default
         default:
             statusBarStyle = .lightContent // everything else SB goes white
@@ -66,7 +64,7 @@ class DuelViewController : AbstractGameViewController {
     }
     
     // override this for different layouts
-    override func setConstraintsFor(_ traitCollection:UITraitCollection) {
+    override func setConstraints(for size: CGSize) {
         let constraints = view.constraints as [NSLayoutConstraint]
         view.removeAllConstraints(
             constraints.affectingView(c1!),
@@ -78,8 +76,8 @@ class DuelViewController : AbstractGameViewController {
         
         let views = ["c1":c1!, "c2":c2!]
         
-        switch (traitCollection.horizontalSizeClass, traitCollection.verticalSizeClass) {
-        case (.compact, .regular): // vertical layout, top and bottom
+        switch size.orientation {
+        case .portrait: // vertical layout, top and bottom
             view.addConstraints("V:|[c1(==c2)][c2(==c1)]|", views: views);
             view.addConstraints("|[c1]|", views: views);
             view.addConstraints("|[c2]|", views: views);

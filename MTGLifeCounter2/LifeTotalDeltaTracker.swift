@@ -12,7 +12,9 @@ import UIKit
 enum TrackerAttachPosition {
     case none // not shown
     case topLeft(NSLayoutYAxisAnchor, NSLayoutXAxisAnchor)
+    case topRight(NSLayoutYAxisAnchor, NSLayoutXAxisAnchor)
     case bottomRight(NSLayoutYAxisAnchor, NSLayoutXAxisAnchor)
+    case bottomLeft(NSLayoutYAxisAnchor, NSLayoutXAxisAnchor)
 }
 
 class LifeTotalDeltaTracker {
@@ -44,18 +46,8 @@ class LifeTotalDeltaTracker {
     }
     
     var parent:UIView?
-    
-    var isUpsideDown:Bool = false {
-        didSet {
-            if isUpsideDown {
-                _label.transform = CGAffineTransform.identity.rotated(by: .pi)
-            } else {
-                _label.transform = CGAffineTransform.identity
-            }
-        }
-    }
-    
     var attachPosition: TrackerAttachPosition = .none
+    var orientation: PlayerViewOrientation = .normal
     
     func update(_ lifeTotal:Int) {
         if let (_, lt) = _history.last {
@@ -90,15 +82,28 @@ class LifeTotalDeltaTracker {
                 case .none:
                     break // view goes nowhere
                 case .topLeft(let top, let left):
-                    p.addConstraints([
-                        floatingView.topAnchor.constraint(equalTo: top, constant: 20),
-                        floatingView.leftAnchor.constraint(equalTo: left, constant: 5)
-                        ])
+                    floatingView.topAnchor.constraint(equalTo: top, constant: 20).isActive = true
+                    floatingView.leftAnchor.constraint(equalTo: left, constant: 5).isActive = true
+                case .topRight(let top, let right):
+                    floatingView.topAnchor.constraint(equalTo: top, constant: 20).isActive = true
+                    floatingView.rightAnchor.constraint(equalTo: right, constant: 5).isActive = true
+                case .bottomLeft(let bottom, let left):
+                    floatingView.bottomAnchor.constraint(equalTo: bottom, constant: -20).isActive = true
+                    floatingView.leftAnchor.constraint(equalTo: left, constant: -5).isActive = true
                 case .bottomRight(let bottom, let right):
-                    p.addConstraints([
-                        floatingView.bottomAnchor.constraint(equalTo: bottom, constant: -20),
-                        floatingView.rightAnchor.constraint(equalTo: right, constant: -5)
-                        ])
+                    floatingView.bottomAnchor.constraint(equalTo: bottom, constant: -20).isActive = true
+                    floatingView.rightAnchor.constraint(equalTo: right, constant: -5).isActive = true
+                }
+                
+                switch orientation {
+                case .normal:
+                    break
+                case .upsideDown: // no need to do anything, already handled
+                    floatingView.transform = CGAffineTransform.identity.rotated(by: .pi)
+                case .left:
+                    floatingView.transform = CGAffineTransform.identity.rotated(by: .pi / 2)
+                case .right:
+                    floatingView.transform = CGAffineTransform.identity.rotated(by: -.pi / 2)
                 }
             }
             

@@ -94,3 +94,20 @@ func findIndexes<T : Equatable>(_ domain:[T], value:T) -> [Int] {
         .filter{ (ix, obj) in obj == value }
         .map{ (ix, obj) in ix }
 }
+
+enum ContainerOrientation {
+    case portrait, landscape
+}
+
+extension UIView {
+    /** returns the "orientation" of the VIEW ITSELF, not neccessarily the screen */
+//    var orientation : ScreenOrientation {
+//        return bounds.size.orientation
+//    }
+}
+
+extension CGSize {
+    var orientation : ContainerOrientation {
+        return (width > height) ? .landscape : .portrait
+    }
+}

@@ -20,20 +20,20 @@ class ThreePlayerViewController : AbstractGameViewController {
     @IBOutlet weak var d20Button: UIButton!
     @IBOutlet weak var refreshButton: UIButton!
     
-    override func playerColorDidChange() {
+    override func playerColorDidChange(deviceOrientation: ContainerOrientation) {
         if(_players.count != 3) { return } // gets called spuriously during load
         
-        switch (traitCollection.horizontalSizeClass, traitCollection.verticalSizeClass,
+        switch (deviceOrientation,
                 _players[0].color, _players[1].color, _players[2].color) {
-        case (.compact, .regular, .white, _, _), // portrait, top VC is white
-            (.compact, .compact, _, .white, _): // landscape, middle white
+        case (.portrait, .white, _, _), // portrait, top VC is white
+            (.landscape, _, .white, _): // landscape, middle white
             statusBarStyle = .default
         default:
             statusBarStyle = .lightContent
         }
     }
     
-    override func setConstraintsFor(_ traitCollection:UITraitCollection) {
+    override func setConstraints(for size: CGSize) {
         let constraints = view.constraints
         view.removeAllConstraints(
             constraints.affectingView(c1!),
@@ -45,8 +45,8 @@ class ThreePlayerViewController : AbstractGameViewController {
         
         let views = ["c1":c1!, "c2":c2!, "c3":c3!]
         
-        switch (traitCollection.horizontalSizeClass, traitCollection.verticalSizeClass) {
-        case (.compact, .regular): // phone in portrait
+        switch size.orientation {
+        case .portrait: // phone in portrait
             _players[0].innerVerticalOffset = 0
             _players[1].innerVerticalOffset = 0
             _players[2].innerVerticalOffset = -20

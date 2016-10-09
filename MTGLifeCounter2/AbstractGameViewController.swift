@@ -43,12 +43,13 @@ class AbstractGameViewController : UIViewController, PlayerViewControllerDelegat
     }
     
     func colorDidChange(newColor: MtgColor, sender: PlayerViewController) {
-        playerColorDidChange()
+        playerColorDidChange(deviceOrientation: view.bounds.size.orientation)
     }
     
-    func playerColorDidChange() {} // override point
+    func playerColorDidChange(deviceOrientation: ContainerOrientation) {} // override point
     
     override func viewWillAppear(_ animated: Bool) {
+        
         super.viewWillAppear(animated)
         navigationController!.isNavigationBarHidden = true
         
@@ -61,6 +62,7 @@ class AbstractGameViewController : UIViewController, PlayerViewControllerDelegat
         } catch { } // can't really do anything productive
         
         UIApplication.shared.isIdleTimerDisabled = true
+        viewWillTransition(to: view.bounds.size, with: transitionCoordinator!)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -91,11 +93,14 @@ class AbstractGameViewController : UIViewController, PlayerViewControllerDelegat
         default: fatalError("unhandled segue \(s)")
         }
     }
-    
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        setConstraintsFor(traitCollection)
-        playerColorDidChange() // refresh statusBar color as things moved around
+
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        setConstraints(for: size)
+        // refresh statusBar color as things will move around
+        playerColorDidChange(deviceOrientation: size.orientation)
+        for player in _players {
+            player.view?.setNeedsDisplay()
+        }
     }
     
     override var prefersStatusBarHidden: Bool {
@@ -103,7 +108,7 @@ class AbstractGameViewController : UIViewController, PlayerViewControllerDelegat
     }
     
     // override this for different layouts
-    func setConstraintsFor(_ traitCollection:UITraitCollection) {
+    func setConstraints(for size:CGSize) {
         preconditionFailure("must be overridden")
     }
 }

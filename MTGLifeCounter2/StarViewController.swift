@@ -31,20 +31,20 @@ class StarViewController : AbstractGameViewController {
         }
     }
     
-    override func playerColorDidChange() {
+    override func playerColorDidChange(deviceOrientation: ContainerOrientation) {
         if(_players.count != 5) { return } // gets called spuriously during load
         
-        switch (traitCollection.horizontalSizeClass, traitCollection.verticalSizeClass,
+        switch (deviceOrientation,
                 _players[0].color, _players[1].color, _players[2].color, _players[3].color, _players[4].color) {
-        case (.compact, .regular, .white, _, _, _, _), // portrait, top VC is white
-        (.compact, .compact, _, .white, _, _, _): // landscape, middle white
+        case (.portrait, .white, _, _, _, _), // portrait, top VC is white
+        (.landscape, _, .white, _, _, _): // landscape, middle white
             statusBarStyle = .default
         default:
             statusBarStyle = .lightContent
         }
     }
     
-    override func setConstraintsFor(_ traitCollection:UITraitCollection) {
+    override func setConstraints(for size: CGSize) {
         let constraints = view.constraints as [NSLayoutConstraint]
         let toRemove = [c1!, c2!, c3!, c4!, c5!, backButton!, refreshButton!, d20Button!].flatMap{ constraints.affectingView($0) }
         view.removeAllConstraints(toRemove)
@@ -57,8 +57,8 @@ class StarViewController : AbstractGameViewController {
             p.innerHorizontalOffset = 0
         }
         
-        switch (traitCollection.horizontalSizeClass, traitCollection.verticalSizeClass) {
-        case (.compact, .regular): // phone in portrait
+        switch size.orientation {
+        case .portrait: // phone in portrait
             _players[0].orientation = .upsideDown
             
             _players[1].orientation = .right

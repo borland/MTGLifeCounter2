@@ -18,13 +18,21 @@ Technical Notes:
 -------------------------------------------------------------
 This app is written entirely in Swift 3, so it requires Xcode 8 or newer to compile.
 
-I originally (a long time ago) wrote this app in Objective-C, then ported it to swift as a learning excercise. Since porting, I've made numerous enhancements and fixes.
-The original Objective-C app was a "my first app" and was also a learning excercise. Both apps were developed under tight time constraints and for my own personal use only.
-As such, the following attributes of "professional software" are missing.
+The way the app does layout is made INCREDIBLY more complicated than it should be, because
+iOS can't rotate a view with auto layout. As such, if you read the code a lot of it will look horrible and like it's doing multiple pieces of similar work that shouldn't be neccessary. Unfortunately, it is
 
-- Design documentation (The app WAS fairly simple, but is more complex now, but nobody else needs the docs on a 1-man project)
-- Architecture (see above)
+Originally the app would simply create instances of PlayerViewController and rotate the entire PVC,
+which was fine so long as you only rotate by 180 degrees. Rotation of a non-square view by 90 degrees causes part of the background to appear as white bars and part to be clipped
 
-- Good development practices such as separation of concerns, cohesion, etc. (Speed of implementation trumps everything when you have no time)
-- Unit tests (as above)
-- Logging and diagnostics (as above)
+What happens is this:
+- AutoLayout sizes the container to 4 x 2
+- View renders at 4 x 2 resolution (so the background is 4 wide and 2 high)
+- View is rotated by 90 degrees, so is now 2 x 4 (2 wide and 4 high)
+- 2 x 4 View is placed in the center of a 4 x 2 container
+- The rendered view is only 2 wide, so there's whitespace of 1 on either side
+- The container is only 2 high, so there's clipped content of 1 on the top/bottom
+
+To work around this, the app ONLY rotates text views. All items have custom layout to place things in the place you'd expect them to be... if rotating the entire container actually worked.
+Likewise gesture recognizers all adjust their maths to pretend as if the entire view was rotated (but it's not)
+
+The upside is that this project has been an *incredibly* good learning excercise for auto layout, ViewController containers, and so forth.

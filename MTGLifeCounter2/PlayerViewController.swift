@@ -76,7 +76,7 @@ class PlayerViewController : UIViewController {
         let reference = backgroundView.frame
         
         var up = true;
-        switch resolveButtonPosition() {
+        switch resolveButtonPosition(for: view.window!.bounds.size.orientation) {
         case .rightLeft:
             up = location.x > (reference.size.width / 2)
         case .leftRight:
@@ -206,10 +206,24 @@ class PlayerViewController : UIViewController {
     
     var displaySize: DisplaySize = .normal {
         didSet {
+            let windowSize = UIScreen.main.bounds
+            let screenSize = min(windowSize.width, windowSize.height)
+            
+            // scale down more on an iPad because it doesn't quite work as nicely as math would like (the 4:3 ratio messes the maths up a little)
+            // we should probably do this based on the screen RATIO rather than size, but I don't care about iPhone 4S
+            let divisor:CGFloat = screenSize > 450 ? 4 : 3
+            let majorFontSize = screenSize / divisor
+            
+            let minorFontSize = min(windowSize.width, windowSize.height) / 8 // for tracker view
+            
             if let x = lifeTotalLabel {
-                x.font = x.font.withSize(displaySize == .normal ? 120 : 80)
+                x.font = x.font.withSize(displaySize == .normal ? majorFontSize : majorFontSize / 1.5)
+                
+                let pmFont = x.font.withSize(x.font.pointSize / 1.5)
+                plusButton?.titleLabel?.font = pmFont
+                minusButton?.titleLabel?.font = pmFont
             }
-            _tracker.floatingViewFontSize = displaySize == .normal ? 44 : 30
+            _tracker.floatingViewFontSize = displaySize == .normal ? minorFontSize : minorFontSize / 1.5
         }
     }
     
@@ -228,20 +242,21 @@ class PlayerViewController : UIViewController {
                 lifeTotalLabel.transform = CGAffineTransform.identity
             }
             
+            _tracker.orientation = orientation
             switch orientation {
-            case .upsideDown:
-                _tracker.isUpsideDown = true
-                _tracker.attachPosition = .bottomRight(view.bottomAnchor, view.rightAnchor)
-            default:
-                _tracker.isUpsideDown = false
+            case .normal:
                 _tracker.attachPosition = .topLeft(view.topAnchor, view.leftAnchor)
+            case .upsideDown:
+                _tracker.attachPosition = .bottomRight(view.bottomAnchor, view.rightAnchor)
+            case .left:
+                _tracker.attachPosition = .topRight(view.topAnchor, view.rightAnchor)
+            case .right:
+                _tracker.attachPosition = .bottomLeft(view.bottomAnchor, view.leftAnchor)
             }
         }
     }
     
     override func viewDidLoad() {
-        setConstraintsFor(traitCollection)
-        
         // trigger all the property change callbacks
         lifeTotal = self.lifeTotal + 0
         orientation = self.orientation == .normal ? .normal : self.orientation
@@ -255,12 +270,12 @@ class PlayerViewController : UIViewController {
         _tracker.parent = backgroundView // now the tracker can use the parent
     }
     
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        setConstraintsFor(traitCollection)
+    override func viewDidLayoutSubviews() {
+        setConstraints(for: view.bounds.size.orientation)
+        super.viewDidLayoutSubviews()
     }
     
-    func setConstraintsFor(_ traitCollection:UITraitCollection) {
+    func setConstraints(for containerOrientation: ContainerOrientation) {
         let constraints = backgroundView.constraints as [NSLayoutConstraint]
         backgroundView.removeAllConstraints(
             constraints.affectingView(plusButton),
@@ -275,7 +290,7 @@ class PlayerViewController : UIViewController {
 
         backgroundView.addConstraints([_xConstraint!, _yConstraint!])
         
-        let position = resolveButtonPosition()
+        let position = resolveButtonPosition(for: containerOrientation)
         switch position {
         case .rightLeft, .leftRight: // +/- on the sides
             
@@ -329,7 +344,7 @@ class PlayerViewController : UIViewController {
         }
     }
     
-    func resolveButtonPosition() -> PlusMinusButtonPosition {
+    func resolveButtonPosition(for containerOrientation: ContainerOrientation) -> PlusMinusButtonPosition {
         func resolve(position:PlusMinusButtonPosition?) -> PlusMinusButtonPosition {
             if let p = position {
                 switch p {
@@ -342,9 +357,9 @@ class PlayerViewController : UIViewController {
                 case .belowAbove:
                     return orientation == .upsideDown ? .aboveBelow : .belowAbove
                 }
-            } else { // not set, figure it out
-                switch (traitCollection.horizontalSizeClass, traitCollection.verticalSizeClass) {
-                case (.compact, .regular): // +/- on the sides
+            } else { // not set, figure it out based on the view's width/height
+                switch containerOrientation {
+                case .landscape: // +/- on the sides because our view is wider than it is tall
                     return resolve(position: .rightLeft)
                 default:
                     return resolve(position: .aboveBelow)
@@ -438,55 +453,3 @@ class PlayerBackgroundView : UIView {
 
     }
 }
-//
-//@IBDesignable class RotationContainerView: UIView {
-//    var child: UIView!
-//    
-//    required init?(coder aDecoder: NSCoder) {
-//        super.init(coder: aDecoder)
-//    }
-//    
-//    override init(frame: CGRect){
-//        super.init(frame: frame)
-//        self.setup()
-//    }
-//    
-//    override func awakeFromNib() {
-//        super.awakeFromNib()
-//        self.setup()
-//    }
-//    
-//    func setup() {
-////        
-////        rotationView.backgroundColor = UIColor.redColor()
-////        textView.backgroundColor = UIColor.yellowColor()
-////        self.addSubview(rotationView)
-////        rotationView.addSubview(textView)
-////        
-////        // could also do this with auto layout constraints
-////        textView.frame = rotationView.bounds
-//    }
-//    
-//    override func layoutSubviews() {
-////        super.layoutSubviews()
-////        
-////        rotationView.transform = CGAffineTransformIdentity // *** key line ***
-////        
-////        rotationView.frame = CGRect(origin: CGPointZero, size: CGSize(width: self.bounds.height, height: self.bounds.width))
-////        rotationView.transform = translateRotateFlip()
-//    }
-//    
-//    func translateRotateFlip() -> CGAffineTransform {
-//        
-//        var transform = CGAffineTransform.identity
-//        
-//        // translate to new center
-//        transform = transform.translatedBy(x: (self.bounds.width / 2)-(self.bounds.height / 2), y: (self.bounds.height / 2)-(self.bounds.width / 2))
-//        // rotate counterclockwise around center
-//        transform = transform.rotated(by: CGFloat(-M_PI_2))
-//        // flip vertically
-//        transform = transform.scaledBy(x: -1, y: 1)
-//        
-//        return transform
-//    }
-//}

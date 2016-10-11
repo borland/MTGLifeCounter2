@@ -40,6 +40,9 @@ class PlayerViewController : UIViewController {
     @IBOutlet private weak var plusButton: UIButton!
     @IBOutlet private weak var minusButton: UIButton!
     
+    // the last time layout was performed, what shape was the container (the PVC itself)
+    private var _lastLayoutContainerOrientation = ContainerOrientation.landscape
+    
     @IBAction private func plusButtonPressed(_ sender: AnyObject) {
         lifeTotal += 1
     }
@@ -76,7 +79,7 @@ class PlayerViewController : UIViewController {
         let reference = backgroundView.frame
         
         var up = true;
-        switch resolveButtonPosition(for: view.window!.bounds.size.orientation) {
+        switch resolveButtonPosition(for: _lastLayoutContainerOrientation) {
         case .rightLeft:
             up = location.x > (reference.size.width / 2)
         case .leftRight:
@@ -271,7 +274,8 @@ class PlayerViewController : UIViewController {
     }
     
     override func viewDidLayoutSubviews() {
-        setConstraints(for: view.bounds.size.orientation)
+        _lastLayoutContainerOrientation = view.bounds.size.orientation
+        setConstraints(for: _lastLayoutContainerOrientation)
         super.viewDidLayoutSubviews()
     }
     

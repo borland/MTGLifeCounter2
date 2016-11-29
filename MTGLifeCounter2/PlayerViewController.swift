@@ -238,9 +238,15 @@ class PlayerViewController : UIViewController {
             case .upsideDown:
                 lifeTotalLabel.transform = CGAffineTransform.identity.rotated(by: .pi)
             case .left:
-                lifeTotalLabel.transform = CGAffineTransform.identity.rotated(by: .pi / 2)
+                let xform = CGAffineTransform.identity.rotated(by: .pi / 2)
+                lifeTotalLabel.transform = xform
+                plusButton.transform = xform
+                minusButton.transform = xform
             case .right:
-                lifeTotalLabel.transform = CGAffineTransform.identity.rotated(by: -.pi / 2)
+                let xform = CGAffineTransform.identity.rotated(by: -.pi / 2)
+                lifeTotalLabel.transform = xform
+                plusButton.transform = xform
+                minusButton.transform = xform
             case .normal:
                 lifeTotalLabel.transform = CGAffineTransform.identity
             }

@@ -20,7 +20,7 @@ extension UIViewAutoresizing {
 class DiceRollView {
     
     class func create(_ num:UInt, winner:Bool, orientation: PlayerViewOrientation) -> FloatingView {
-        let singleUnderline:[String:AnyObject] = [NSUnderlineStyleAttributeName: NSNumber(value: 1)]
+        let singleUnderline:[NSAttributedStringKey:Any] = [NSAttributedStringKey.underlineStyle: 1]
         
         let generator = { (x:Int) -> NSAttributedString in
             if x == 0 {
@@ -64,7 +64,7 @@ class DiceRollView {
 
                 })
             }
-        }
+        } as (() -> Void)
         
         switch orientation {
         case .upsideDown:
@@ -126,7 +126,7 @@ class FloatingView : UIView {
     }
     
     var beforeShow:((Double) -> Void)?
-    var beforePause:((Void) -> Void)?
+    var beforePause:(() -> Void)?
     
     var isUpsideDown:Bool {
         get{ return _isUpsideDown }
@@ -140,7 +140,7 @@ class FloatingView : UIView {
         switch(propertyName) {
         case "isUpsideDown":
             if _isUpsideDown {
-                transform = CGAffineTransform.identity.rotated(by: CGFloat(M_PI));
+                transform = CGAffineTransform.identity.rotated(by: CGFloat.pi)
             } else {
                 transform = CGAffineTransform.identity;
             }

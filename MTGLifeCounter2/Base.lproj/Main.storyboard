@@ -1,31 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="ydO-1x-fO3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13178.6" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="ydO-1x-fO3">
+    <device id="retina4_0" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13156.2"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="Futura.ttc">
+            <string>Futura-Medium</string>
+        </array>
+    </customFonts>
     <scenes>
         <!--MTG Life Counter-->
         <scene sceneID="weq-uu-Ggk">
             <objects>
                 <tableViewController id="bbe-oY-pr0" customClass="MainMenuViewController" customModule="MTGLifeCounter2" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="0Kk-gb-Kvn">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <sections>
                             <tableViewSection headerTitle="Games" id="sFS-xY-2cO">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="fOC-2f-OCy" style="IBUITableViewCellStyleDefault" id="4P6-gj-Gfk">
-                                        <rect key="frame" x="0.0" y="86" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="22" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="4P6-gj-Gfk" id="iBL-0i-Cjb">
-                                            <frame key="frameInset" width="342" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="287" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Duel" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="fOC-2f-OCy">
-                                                    <frame key="frameInset" minX="15" width="325" height="43.5"/>
+                                                    <rect key="frame" x="16" y="0.0" width="269" height="43.5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -38,14 +47,14 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="KEQ-Zc-Bai" style="IBUITableViewCellStyleDefault" id="bKy-HR-WNS">
-                                        <rect key="frame" x="0.0" y="130" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="66" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bKy-HR-WNS" id="11F-vI-4Ib">
-                                            <frame key="frameInset" width="342" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="287" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Two-headed Giant" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="KEQ-Zc-Bai">
-                                                    <frame key="frameInset" minX="15" width="325" height="43.5"/>
+                                                    <rect key="frame" x="16" y="0.0" width="269" height="43.5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -58,14 +67,14 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="prP-h5-PW4" style="IBUITableViewCellStyleDefault" id="1Iz-ap-1UE">
-                                        <rect key="frame" x="0.0" y="174" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="110" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1Iz-ap-1UE" id="nuP-aU-ps6">
-                                            <frame key="frameInset" width="342" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="287" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="3-player" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="prP-h5-PW4">
-                                                    <frame key="frameInset" minX="15" width="325" height="43.5"/>
+                                                    <rect key="frame" x="16" y="0.0" width="269" height="43.5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -78,14 +87,14 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="IXt-N9-zSD" style="IBUITableViewCellStyleDefault" id="Qaw-Wd-HyM">
-                                        <rect key="frame" x="0.0" y="218" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="154" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Qaw-Wd-HyM" id="azO-iy-NyJ">
-                                            <frame key="frameInset" width="342" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="287" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Star" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="IXt-N9-zSD">
-                                                    <frame key="frameInset" minX="15" width="325" height="43.5"/>
+                                                    <rect key="frame" x="16" y="0.0" width="269" height="43.5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -102,14 +111,14 @@
                             <tableViewSection headerTitle="Utilities" id="3p0-4i-azR">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="cyt-kq-XY1" style="IBUITableViewCellStyleDefault" id="NoE-mm-0e5">
-                                        <rect key="frame" x="0.0" y="284" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="220" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="NoE-mm-0e5" id="iPN-lU-nt9">
-                                            <frame key="frameInset" width="375" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Roll D20" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="cyt-kq-XY1">
-                                                    <frame key="frameInset" minX="15" width="345" height="43.5"/>
+                                                    <rect key="frame" x="16" y="0.0" width="289" height="43.5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -141,10 +150,11 @@
                         <viewControllerLayoutGuide type="bottom" id="QRd-Rf-EwO"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="eh5-iN-f6a">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" restorationIdentifier="c1" translatesAutoresizingMaskIntoConstraints="NO" id="qzH-LN-4PL">
+                                <rect key="frame" x="0.0" y="64" width="320" height="200"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="200" placeholder="YES" id="ZNK-gE-2JU"/>
                                     <constraint firstAttribute="width" constant="320" placeholder="YES" id="gOW-c3-sNU"/>
@@ -154,6 +164,7 @@
                                 </connections>
                             </containerView>
                             <containerView opaque="NO" contentMode="scaleToFill" restorationIdentifier="c2" translatesAutoresizingMaskIntoConstraints="NO" id="c44-Tf-gBV">
+                                <rect key="frame" x="0.0" y="264" width="320" height="200"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="320" placeholder="YES" id="Cij-eS-88F"/>
                                     <constraint firstAttribute="height" constant="200" placeholder="YES" id="rBC-13-LTe"/>
@@ -163,6 +174,7 @@
                                 </connections>
                             </containerView>
                             <button contentMode="scaleToFill" restorationIdentifier="d20Button" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p08-vY-zxg" customClass="FloatingActionButton" customModule="MTGLifeCounter2" customModuleProvider="target">
+                                <rect key="frame" x="64" y="64" width="48" height="48"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="48" id="6hC-ZS-qrE"/>
                                     <constraint firstAttribute="height" constant="48" id="OaP-mV-9UN"/>
@@ -175,6 +187,7 @@
                                 </connections>
                             </button>
                             <button contentMode="scaleToFill" restorationIdentifier="backButton" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gXw-e3-Hiz" customClass="FloatingActionButton" customModule="MTGLifeCounter2" customModuleProvider="target">
+                                <rect key="frame" x="16" y="64" width="48" height="48"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="jUD-Sb-GR5"/>
                                     <constraint firstAttribute="width" constant="48" id="sMo-Px-X0s"/>
@@ -187,6 +200,7 @@
                                 </connections>
                             </button>
                             <button contentMode="scaleToFill" restorationIdentifier="refreshButton" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yiT-8n-xtT" customClass="FloatingActionButton" customModule="MTGLifeCounter2" customModuleProvider="target">
+                                <rect key="frame" x="98" y="64" width="48" height="48"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="RYm-r1-JJf"/>
                                     <constraint firstAttribute="width" constant="48" id="mdI-Ys-3GM"/>
@@ -235,10 +249,11 @@
                         <viewControllerLayoutGuide type="bottom" id="KQg-Gd-uS5"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="B7S-B7-8Rg">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XgF-9h-bMD">
+                                <rect key="frame" x="0.0" y="64" width="320" height="100"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="100" placeholder="YES" id="0tt-Gd-PfH"/>
                                     <constraint firstAttribute="width" constant="320" placeholder="YES" id="Fz0-Fc-bfJ"/>
@@ -248,16 +263,19 @@
                                 </connections>
                             </containerView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nuh-Dy-O1l">
+                                <rect key="frame" x="0.0" y="164" width="320" height="100"/>
                                 <connections>
                                     <segue destination="CaN-LE-yH2" kind="embed" identifier="player2_embed" id="sjg-Pg-UFQ"/>
                                 </connections>
                             </containerView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nN3-lG-fbo">
+                                <rect key="frame" x="0.0" y="264" width="320" height="100"/>
                                 <connections>
                                     <segue destination="CaN-LE-yH2" kind="embed" identifier="player3_embed" id="pAh-ai-Mw9"/>
                                 </connections>
                             </containerView>
                             <button contentMode="scaleToFill" restorationIdentifier="backButton" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mIu-TS-aHZ" customClass="FloatingActionButton" customModule="MTGLifeCounter2" customModuleProvider="target">
+                                <rect key="frame" x="16" y="64" width="48" height="48"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="HLL-is-vhg"/>
                                     <constraint firstAttribute="width" constant="48" id="XAE-yL-yb8"/>
@@ -270,6 +288,7 @@
                                 </connections>
                             </button>
                             <button contentMode="scaleToFill" restorationIdentifier="d20Button" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AnD-Hr-llX" customClass="FloatingActionButton" customModule="MTGLifeCounter2" customModuleProvider="target">
+                                <rect key="frame" x="64" y="64" width="48" height="48"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="48" id="CQz-hK-pdS"/>
                                     <constraint firstAttribute="height" constant="48" id="oID-mU-wt7"/>
@@ -282,6 +301,7 @@
                                 </connections>
                             </button>
                             <button contentMode="scaleToFill" restorationIdentifier="refreshButton" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BVO-jg-9cV" customClass="FloatingActionButton" customModule="MTGLifeCounter2" customModuleProvider="target">
+                                <rect key="frame" x="98" y="64" width="48" height="48"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="48" id="3FH-pg-Swe"/>
                                     <constraint firstAttribute="height" constant="48" id="BzW-YT-21f"/>
@@ -337,10 +357,11 @@
                         <viewControllerLayoutGuide type="bottom" id="n1D-F5-pec"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="UuD-OC-NhU">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" restorationIdentifier="c1" translatesAutoresizingMaskIntoConstraints="NO" id="R4n-cr-rCc">
+                                <rect key="frame" x="0.0" y="0.0" width="153" height="177"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="177" placeholder="YES" id="0tt-Gd-PHH"/>
                                     <constraint firstAttribute="width" constant="153" placeholder="YES" id="Fz0-Fc-bLJ"/>
@@ -350,6 +371,7 @@
                                 </connections>
                             </containerView>
                             <containerView opaque="NO" contentMode="scaleToFill" restorationIdentifier="c2" translatesAutoresizingMaskIntoConstraints="NO" id="4uS-9A-ZOC">
+                                <rect key="frame" x="153" y="0.0" width="167" height="177"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="177" placeholder="YES" id="0tt-GZ-PHH"/>
                                     <constraint firstAttribute="width" constant="167" placeholder="YES" id="Fz0-FZ-bLJ"/>
@@ -359,6 +381,7 @@
                                 </connections>
                             </containerView>
                             <containerView opaque="NO" contentMode="scaleToFill" restorationIdentifier="c3" translatesAutoresizingMaskIntoConstraints="NO" id="wfg-lM-tdd">
+                                <rect key="frame" x="0.0" y="177" width="161" height="155"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="155" placeholder="YES" id="9tt-Gd-P7H"/>
                                     <constraint firstAttribute="width" constant="161" placeholder="YES" id="9z0-Fc-b7J"/>
@@ -368,6 +391,7 @@
                                 </connections>
                             </containerView>
                             <containerView opaque="NO" contentMode="scaleToFill" restorationIdentifier="c4" translatesAutoresizingMaskIntoConstraints="NO" id="IIF-5D-MnG">
+                                <rect key="frame" x="161" y="177" width="159" height="155"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="155" placeholder="YES" id="0tt-Gd-P8H"/>
                                     <constraint firstAttribute="width" constant="159" placeholder="YES" id="Fz0-Fc-b8J"/>
@@ -377,6 +401,7 @@
                                 </connections>
                             </containerView>
                             <containerView opaque="NO" contentMode="scaleToFill" restorationIdentifier="c5" translatesAutoresizingMaskIntoConstraints="NO" id="PVy-TM-kwb">
+                                <rect key="frame" x="0.0" y="332" width="320" height="88"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="88" placeholder="YES" id="0tt-Gk-PqH"/>
                                     <constraint firstAttribute="width" constant="320" placeholder="YES" id="Fz0-Fk-bqJ"/>
@@ -386,6 +411,7 @@
                                 </connections>
                             </containerView>
                             <button contentMode="scaleToFill" restorationIdentifier="backButton" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N5t-sb-VMt" customClass="FloatingActionButton" customModule="MTGLifeCounter2" customModuleProvider="target">
+                                <rect key="frame" x="16" y="74" width="48" height="48"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="4Cs-En-AbM"/>
                                     <constraint firstAttribute="width" constant="48" id="9qq-VZ-cD3"/>
@@ -398,6 +424,7 @@
                                 </connections>
                             </button>
                             <button contentMode="scaleToFill" restorationIdentifier="refreshButton" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uXx-Hi-bkY" customClass="FloatingActionButton" customModule="MTGLifeCounter2" customModuleProvider="target">
+                                <rect key="frame" x="256" y="74" width="48" height="48"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="FB9-Pr-UEf"/>
                                     <constraint firstAttribute="width" constant="48" id="aHu-uG-dtD"/>
@@ -410,6 +437,7 @@
                                 </connections>
                             </button>
                             <button contentMode="scaleToFill" restorationIdentifier="d20Button" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fdk-Jy-dLJ" customClass="FloatingActionButton" customModule="MTGLifeCounter2" customModuleProvider="target">
+                                <rect key="frame" x="136" y="74" width="48" height="48"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="48" id="0Ep-b1-eWL"/>
                                     <constraint firstAttribute="height" constant="48" id="MWm-4x-OXf"/>
@@ -467,10 +495,11 @@
                         <viewControllerLayoutGuide type="bottom" id="HUz-Gq-3MK"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" restorationIdentifier="outerView" id="Yz8-Az-Kj6" customClass="RadialHostView" customModule="MTGLifeCounter2" customModuleProvider="target">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" restorationIdentifier="c1" translatesAutoresizingMaskIntoConstraints="NO" id="twt-k1-mFC">
+                                <rect key="frame" x="0.0" y="60" width="320" height="200"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="200" placeholder="YES" id="f95-8M-qCg"/>
                                     <constraint firstAttribute="width" constant="320" placeholder="YES" id="fFz-bd-ORf"/>
@@ -480,6 +509,7 @@
                                 </connections>
                             </containerView>
                             <containerView opaque="NO" contentMode="scaleToFill" restorationIdentifier="c2" translatesAutoresizingMaskIntoConstraints="NO" id="JE2-nl-vFk">
+                                <rect key="frame" x="0.0" y="260" width="320" height="200"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="200" placeholder="YES" id="Xdb-nH-C6n"/>
                                     <constraint firstAttribute="width" constant="320" placeholder="YES" id="hPf-8G-8cR"/>
@@ -489,6 +519,7 @@
                                 </connections>
                             </containerView>
                             <button contentMode="scaleToFill" restorationIdentifier="backButton" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bFb-g6-Hqj" customClass="FloatingActionButton" customModule="MTGLifeCounter2" customModuleProvider="target">
+                                <rect key="frame" x="16" y="64" width="48" height="48"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="48" id="UN0-QL-MXO"/>
                                     <constraint firstAttribute="height" constant="48" id="ymd-Ys-ooe"/>
@@ -502,6 +533,7 @@
                                 </connections>
                             </button>
                             <button contentMode="scaleToFill" restorationIdentifier="refreshButton" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F22-sC-4d2" customClass="FloatingActionButton" customModule="MTGLifeCounter2" customModuleProvider="target">
+                                <rect key="frame" x="132" y="64" width="48" height="48"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="48" id="WNe-tx-yuO"/>
                                     <constraint firstAttribute="height" constant="48" id="hIh-hc-qPL"/>
@@ -515,6 +547,7 @@
                                 </connections>
                             </button>
                             <button contentMode="scaleToFill" restorationIdentifier="d20Button" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dx4-ir-6xt" customClass="FloatingActionButton" customModule="MTGLifeCounter2" customModuleProvider="target">
+                                <rect key="frame" x="74" y="64" width="48" height="48"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="3pQ-05-QYK"/>
                                     <constraint firstAttribute="width" constant="48" id="Apv-3s-w71"/>
@@ -562,7 +595,7 @@
             <objects>
                 <navigationController id="ydO-1x-fO3" userLabel="InitialNavController" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="QRb-e2-7T5">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <rect key="frame" x="0.0" y="20" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="0.80000000000000004" green="0.69411764705882351" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="barTintColor" red="0.30196078430000001" green="0.1019607843" blue="0.70196078429999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -591,12 +624,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="20" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0jV-SI-aPq">
+                                <rect key="frame" x="126" y="122" width="148.5" height="156"/>
                                 <gestureRecognizers/>
                                 <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="120"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6kK-Je-ogu">
+                                <rect key="frame" x="349" y="164" width="31" height="72"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="50"/>
                                 <state key="normal" title="+">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -607,6 +642,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F1p-Xe-vmS">
+                                <rect key="frame" x="20" y="170" width="30" height="72"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="50"/>
                                 <state key="normal" title="-">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -661,23 +697,6 @@
                 </pongPressGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="2571" y="-126"/>
-        </scene>
-        <!--View Controller-->
-        <scene sceneID="Rno-Yg-53F">
-            <objects>
-                <viewController id="YJq-W8-hp9" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="zg8-Rn-NPC"/>
-                        <viewControllerLayoutGuide type="bottom" id="Jav-Bu-KEe"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="9XS-Ja-kAh">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="vJ6-3h-yYK" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
         </scene>
     </scenes>
     <resources>

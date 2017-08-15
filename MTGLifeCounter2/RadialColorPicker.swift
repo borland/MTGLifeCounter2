@@ -135,8 +135,8 @@ class RadialColorPicker : UIView {
             let startPct = Double(idx) / Double(num)
             let endPct = (Double(idx + 1) / Double(num))
             
-            let start = (M_PI * 2 * startPct) - M_PI_2
-            let end = (M_PI * 2 * endPct) - M_PI_2
+            let start = (Double.pi * 2.0 * startPct) - Double.pi / 2
+            let end = (Double.pi * 2.0 * endPct) - Double.pi / 2
             
             let bounds = drawSegment(context, frame: frame, offset: offset, width: width, startAngle: CGFloat(start), endAngle: CGFloat(end), color1: mtgColor.lookup(true), color2: mtgColor.lookup(false), hilight: ci.hilight)
             

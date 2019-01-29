@@ -45,8 +45,9 @@ class ThreePlayerViewController : AbstractGameViewController {
         
         let views = ["c1":c1!, "c2":c2!, "c3":c3!]
         
-        switch size.orientation {
-        case .portrait: // phone in portrait
+        let safeArea = view.safeAreaLayoutGuide
+        
+        if size.orientation == .portrait {
             _players[0].innerVerticalOffset = 0
             _players[1].innerVerticalOffset = 0
             _players[2].innerVerticalOffset = -20
@@ -68,17 +69,18 @@ class ThreePlayerViewController : AbstractGameViewController {
                     c1.heightAnchor.constraint(equalTo: c2.heightAnchor),
                     
                     // buttons
-                    backButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 8),
-                    backButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -8),
+                    backButton.leftAnchor.constraint(equalTo: safeArea.leftAnchor, constant: 8),
+                    backButton.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -8),
                     
-                    d20Button.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                    d20Button.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -8),
+                    d20Button.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
+                    d20Button.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -8),
                     
-                    refreshButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -8),
-                    refreshButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -8)
+                    refreshButton.rightAnchor.constraint(equalTo: safeArea.rightAnchor, constant: -8),
+                    refreshButton.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -8)
                 ])
+        } else {
+            assert(size.orientation == .landscape)
             
-        default:
             _players[0].innerVerticalOffset = -10
             _players[1].innerVerticalOffset = -10
             _players[2].innerVerticalOffset = -10
@@ -89,13 +91,13 @@ class ThreePlayerViewController : AbstractGameViewController {
             
             view.addConstraints([
                 backButton.centerXAnchor.constraint(equalTo: c2.leftAnchor),
-                backButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -8),
+                backButton.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -8),
                 
-                d20Button.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                d20Button.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -8),
+                d20Button.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
+                d20Button.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -8),
                 
                 refreshButton.centerXAnchor.constraint(equalTo: c2.rightAnchor),
-                refreshButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -8),
+                refreshButton.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -8),
                 ])
         }
     }

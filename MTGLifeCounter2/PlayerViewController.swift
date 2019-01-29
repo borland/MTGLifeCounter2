@@ -219,10 +219,10 @@ class PlayerViewController : UIViewController {
             
             let minorFontSize = min(windowSize.width, windowSize.height) / 8 // for tracker view
             
-            if let x = lifeTotalLabel {
-                x.font = x.font.withSize(displaySize == .normal ? majorFontSize : majorFontSize / 1.5)
+            if let lifeTotalLabel = lifeTotalLabel {
+                lifeTotalLabel.font = lifeTotalLabel.font.withSize(displaySize == .normal ? majorFontSize : majorFontSize / 1.5)
                 
-                let pmFont = x.font.withSize(x.font.pointSize / 1.5)
+                let pmFont = lifeTotalLabel.font.withSize(lifeTotalLabel.font.pointSize / 2.0)
                 plusButton?.titleLabel?.font = pmFont
                 minusButton?.titleLabel?.font = pmFont
             }
@@ -234,22 +234,22 @@ class PlayerViewController : UIViewController {
         didSet {
             // we only rotate the text; all the other stuff is taken care of manually, because
             // if we rotate the background view by 90 degrees, auto-layout clips it and it looks broken
+            let xform: CGAffineTransform
+            
             switch orientation {
             case .upsideDown:
-                lifeTotalLabel.transform = CGAffineTransform.identity.rotated(by: .pi)
+                xform = CGAffineTransform.identity.rotated(by: .pi)
             case .left:
-                let xform = CGAffineTransform.identity.rotated(by: .pi / 2)
-                lifeTotalLabel.transform = xform
-                plusButton.transform = xform
-                minusButton.transform = xform
+                xform = CGAffineTransform.identity.rotated(by: .pi / 2)
             case .right:
-                let xform = CGAffineTransform.identity.rotated(by: -.pi / 2)
-                lifeTotalLabel.transform = xform
-                plusButton.transform = xform
-                minusButton.transform = xform
+                xform = CGAffineTransform.identity.rotated(by: -.pi / 2)
             case .normal:
-                lifeTotalLabel.transform = CGAffineTransform.identity
+                xform = CGAffineTransform.identity
             }
+            
+            lifeTotalLabel.transform = xform
+            plusButton.transform = xform
+            minusButton.transform = xform
             
             _tracker.orientation = orientation
             switch orientation {
@@ -308,8 +308,8 @@ class PlayerViewController : UIViewController {
             let metrics = ["hGap": hGap]
             
             let vfl = position == .rightLeft ?
-                "H:[minus(44)]-(hGap)-[lifeTotal]-(hGap)-[plus(44)]" :
-                "H:[plus(44)]-(hGap)-[lifeTotal]-(hGap)-[minus(44)]"
+                "H:[minus(56)]-(hGap)-[lifeTotal]-(hGap)-[plus(56)]" :
+                "H:[plus(56)]-(hGap)-[lifeTotal]-(hGap)-[minus(56)]"
             
             backgroundView.addConstraints(vfl, views: views, metrics: metrics)
             backgroundView.addConstraints([
@@ -318,7 +318,7 @@ class PlayerViewController : UIViewController {
             ])
             
         case .aboveBelow, .belowAbove: // +/- on the top/bottom
-            var vGap:CGFloat
+            let vGap:CGFloat
             switch orientation {
             case .normal, .upsideDown:
                 vGap = -16
@@ -328,8 +328,8 @@ class PlayerViewController : UIViewController {
             let metrics = ["vGap": vGap]
             
             let vfl = position == .aboveBelow ?
-                "V:[plus(44)]-(vGap)-[lifeTotal]-(vGap)-[minus(44)]" :
-                "V:[minus(44)]-(vGap)-[lifeTotal]-(vGap)-[plus(44)]"
+                "V:[plus(56)]-(vGap)-[lifeTotal]-(vGap)-[minus(56)]" :
+                "V:[minus(56)]-(vGap)-[lifeTotal]-(vGap)-[plus(56)]"
             
             backgroundView.addConstraints(vfl, views: views, metrics: metrics)
             backgroundView.addConstraints([

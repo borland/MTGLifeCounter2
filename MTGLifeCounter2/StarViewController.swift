@@ -57,9 +57,11 @@ class StarViewController : AbstractGameViewController {
             p.innerHorizontalOffset = 0
         }
         
-        switch size.orientation {
-        case .portrait: // phone in portrait
+        let safeArea = view.safeAreaLayoutGuide
+        
+        if size.orientation == .portrait {
             _players[0].orientation = .upsideDown
+            _players[0].buttonPosition = .leftRight
             
             _players[1].orientation = .right
             _players[1].buttonPosition = .aboveBelow
@@ -72,7 +74,7 @@ class StarViewController : AbstractGameViewController {
             
             _players[4].orientation = .left
             _players[4].buttonPosition = .belowAbove
-          
+            
           view.addConstraints([
                 // c1 fills horizontal
                 c1.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -108,26 +110,27 @@ class StarViewController : AbstractGameViewController {
                 c4.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.38),
                 
                 // buttons
-                backButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 8),
+                backButton.leftAnchor.constraint(equalTo: safeArea.leftAnchor, constant: 8),
                 backButton.centerYAnchor.constraint(equalTo: c1.bottomAnchor),
                 
                 d20Button.centerXAnchor.constraint(equalTo: c1.centerXAnchor),
                 d20Button.centerYAnchor.constraint(equalTo: c1.bottomAnchor),
                 
-                refreshButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -8),
+                refreshButton.rightAnchor.constraint(equalTo: safeArea.rightAnchor, constant: -8),
                 refreshButton.centerYAnchor.constraint(equalTo: c1.bottomAnchor)
             ])
-            break
+        }
+        else { // landscape view
+            assert(size.orientation == .landscape)
             
-        default: // landscape view
             _players[0].orientation = .upsideDown
             _players[1].orientation = .upsideDown
             _players[2].orientation = .upsideDown
             _players[3].orientation = .normal
             _players[4].orientation = .normal
             
-            _players[3].innerHorizontalOffset = 25
-            _players[4].innerHorizontalOffset = -25
+            _players[3].innerHorizontalOffset = 20
+            _players[4].innerHorizontalOffset = -20
             
             // first row horizontally
             view.addConstraints("H:|[c1(==c2)][c2(==c3)][c3(==c1)]|", views: views)
@@ -156,11 +159,11 @@ class StarViewController : AbstractGameViewController {
                 c5.topAnchor.constraint(equalTo: c4.topAnchor),
 
                 // back button
-                backButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
+                backButton.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 8),
                 backButton.centerYAnchor.constraint(equalTo: c1.bottomAnchor),
 
                 // refresh button
-                refreshButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8),
+                refreshButton.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -8),
                 refreshButton.centerYAnchor.constraint(equalTo: c1.bottomAnchor),
 
                 // d20 button

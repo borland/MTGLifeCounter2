@@ -76,37 +76,39 @@ class DuelViewController : AbstractGameViewController {
         
         let views = ["c1":c1!, "c2":c2!]
         
-        switch size.orientation {
-        case .portrait: // vertical layout, top and bottom
+        let safeArea = view.safeAreaLayoutGuide
+        
+        if size.orientation == .portrait {
             view.addConstraints("V:|[c1(==c2)][c2(==c1)]|", views: views);
             view.addConstraints("|[c1]|", views: views);
             view.addConstraints("|[c2]|", views: views);
             
             view.addConstraints([
-                backButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 8),
+                backButton.leftAnchor.constraint(equalTo: safeArea.leftAnchor, constant: 8),
                 backButton.centerYAnchor.constraint(equalTo: c1.bottomAnchor),
                 
-                d20Button.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                d20Button.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
                 d20Button.centerYAnchor.constraint(equalTo: c1.bottomAnchor),
             
-                refreshButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -8),
+                refreshButton.rightAnchor.constraint(equalTo: safeArea.rightAnchor, constant: -8),
                 refreshButton.centerYAnchor.constraint(equalTo: c1.bottomAnchor),
             ])
-            
-        default: // horizontal, side by side
+        }
+        else {
+            assert(size.orientation == .landscape)
             view.addConstraints("|[c1(==c2)][c2(==c1)]|", views: views);
             view.addConstraints("V:|[c1]|", views: views);
             view.addConstraints("V:|[c2]|", views: views);
             
             view.addConstraints([
-                backButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                backButton.bottomAnchor.constraint(equalTo: d20Button.topAnchor, constant: -8),
+                backButton.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
+                backButton.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 8),
                 
-                d20Button.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                d20Button.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+                d20Button.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
+                d20Button.centerYAnchor.constraint(equalTo: safeArea.centerYAnchor),
                 
-                refreshButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                refreshButton.topAnchor.constraint(equalTo: d20Button.bottomAnchor, constant: 8),
+                refreshButton.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
+                refreshButton.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -8),
             ])
         }
         view.layoutSubviews()

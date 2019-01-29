@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class AbstractGameViewController : UIViewController, PlayerViewControllerDelegate {
+class AbstractGameViewController : UIViewController, PlayerViewControllerDelegate, DidTouchDelegate {
     var initialLifeTotal:Int { preconditionFailure("This method must be overridden")  }
     var configKey:String { preconditionFailure("This method must be overridden")  }
     
@@ -31,8 +31,12 @@ class AbstractGameViewController : UIViewController, PlayerViewControllerDelegat
     
     @IBAction func d20ButtonPressed(_ sender: AnyObject) {
         for (c, (num, winner)) in zip(_players, randomUntiedDiceRolls(_players.count, diceFaceCount: UInt(20))) {
-            let diceRollView = DiceRollView.create(num, winner:winner, orientation: c.orientation)
-            diceRollView.showInView(c.view) // putting the dice roll view inside the playerView means it's auto-upside down
+            let diceRollView = DiceRollView.create(num, winner: winner, orientation: c.orientation)
+            diceRollView.showInView(c.view) { // putting the dice roll view inside the playerView means it's auto-upside down
+                if winner { // finalCallback after the animation pulse
+                    c.isDiceRollWinner = true
+                }
+            }
         }
     }
     
@@ -48,8 +52,20 @@ class AbstractGameViewController : UIViewController, PlayerViewControllerDelegat
     
     func playerColorDidChange(deviceOrientation: ContainerOrientation) {} // override point
     
-    override func viewWillAppear(_ animated: Bool) {
+    override func viewDidLoad() {
+        super.viewDidLoad()
         
+        let app = UIApplication.shared as! Application
+        app.didTouch = self // weak ref so don't really care about unassigning it
+    }
+    
+    func didTouch() {
+        for p in _players {
+            p.isDiceRollWinner = false
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController!.isNavigationBarHidden = true
         

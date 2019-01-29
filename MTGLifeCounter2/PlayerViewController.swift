@@ -155,16 +155,20 @@ class PlayerViewController : UIViewController {
     
     var color = MtgColor.white {
         didSet {
-            backgroundView.setBackgroundToColors(color)
-            
-            if(color == MtgColor.white) {
-                textColor = UIColor(red: 0.2, green:0.2, blue:0.2, alpha:1.0)
-            } else {
-                textColor = UIColor.white
-            }
-            backgroundView.addLabel(color.displayName, isUpsideDown: false, textColor: textColor)
-            delegate?.colorDidChange(newColor: color, sender: self)
+            refreshColors()
         }
+    }
+    
+    func refreshColors() {
+        backgroundView.setBackgroundToColors(color)
+        
+        if(color == MtgColor.white) {
+            textColor = UIColor(red: 0.2, green:0.2, blue:0.2, alpha:1.0)
+        } else {
+            textColor = UIColor.white
+        }
+        backgroundView.addLabel(color.displayName, isUpsideDown: false, textColor: textColor)
+        delegate?.colorDidChange(newColor: color, sender: self)
     }
     
     var textColor:UIColor {
@@ -176,7 +180,11 @@ class PlayerViewController : UIViewController {
         }
         set(color) {
             guard let l = lifeTotalLabel, let plus = plusButton, let minus = minusButton else { return }
-            l.textColor = color
+            
+            UIView.transition(with: l, duration: 0.25, options: .transitionCrossDissolve, animations: {
+                l.textColor = color
+            }, completion: nil)
+            
             plus.setTitleColor(color, for: UIControlState())
             minus.setTitleColor(color, for: UIControlState())
         }
@@ -261,6 +269,22 @@ class PlayerViewController : UIViewController {
                 _tracker.attachPosition = .topRight(view.topAnchor, view.rightAnchor)
             case .right:
                 _tracker.attachPosition = .bottomLeft(view.bottomAnchor, view.leftAnchor)
+            }
+        }
+    }
+    
+    var isDiceRollWinner: Bool = false {
+        didSet {
+            if oldValue == isDiceRollWinner {
+                return // pointless update
+            }
+            
+            // if true, we show our life total in yellow, to indicate we won the dice roll, until such time as someone changes a life total or brings up the color switcher
+            // note that diceRollWinner is NOT persisted so if we back out/in it's lost too, which is on purpose
+            if isDiceRollWinner {
+                self.textColor = UIColor.yellow
+            } else {
+                refreshColors() // put it back to non-yellow
             }
         }
     }

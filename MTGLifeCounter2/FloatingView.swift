@@ -158,7 +158,7 @@ class FloatingView : UIView {
         setup(self)
     }
     
-    func showInView(_ parent: UIView, callbackDuration:Double = 2.2, pauseDuration:Double = 1.4, fadeDuration:Double = 0.6) {
+    func showInView(_ parent: UIView, callbackDuration:Double = 2.2, pauseDuration:Double = 1.4, fadeDuration:Double = 0.6, finalCallback:(() -> ())? = nil) {
         showInView(parent) { floatingView in
             // Center
             parent.addConstraints([
@@ -179,6 +179,7 @@ class FloatingView : UIView {
                 animations: { floatingView.alpha = 0 },
                 completion: { (b:Bool) in
                     floatingView.removeFromSuperview()
+                    finalCallback?()
             })
         }
     }

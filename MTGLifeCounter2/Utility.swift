@@ -21,7 +21,7 @@ func concat<T>(_ arrays: [[T]]) -> [T] {
 }
 
 extension UIView {
-    func addConstraints(_ format:String, views:[String:UIView], metrics:[String:CGFloat]? = nil, options:NSLayoutFormatOptions=NSLayoutFormatOptions(rawValue: 0)) {
+    func addConstraints(_ format:String, views:[String:UIView], metrics:[String:CGFloat]? = nil, options:NSLayoutConstraint.FormatOptions=NSLayoutConstraint.FormatOptions(rawValue: 0)) {
         let constraints = NSLayoutConstraint.constraints(
             withVisualFormat: format,
             options: options,

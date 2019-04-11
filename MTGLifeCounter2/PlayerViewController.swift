@@ -185,8 +185,8 @@ class PlayerViewController : UIViewController {
                 l.textColor = color
             }, completion: nil)
             
-            plus.setTitleColor(color, for: UIControlState())
-            minus.setTitleColor(color, for: UIControlState())
+            plus.setTitleColor(color, for: UIControl.State())
+            minus.setTitleColor(color, for: UIControl.State())
         }
     }
     
@@ -436,7 +436,7 @@ class PlayerBackgroundView : UIView {
         addSubview(label)
         UIView.animate(withDuration: 0.5,
             delay:0,
-            options:UIViewAnimationOptions(),
+            options:UIView.AnimationOptions(),
             animations:{ label.alpha = 0 },
             completion:{ _ in label.removeFromSuperview() })
     }

@@ -9,8 +9,8 @@
 import Foundation
 import UIKit
 
-extension UIViewAutoresizing {
-    static var FlexibleMargins: UIViewAutoresizing {
+extension UIView.AutoresizingMask {
+    static var FlexibleMargins: UIView.AutoresizingMask {
         get {
             return [.flexibleLeftMargin, .flexibleTopMargin, .flexibleRightMargin, .flexibleBottomMargin]
         }
@@ -20,7 +20,7 @@ extension UIViewAutoresizing {
 class DiceRollView {
     
     class func create(_ num:UInt, winner:Bool, orientation: PlayerViewOrientation) -> FloatingView {
-        let singleUnderline:[NSAttributedStringKey:Any] = [NSAttributedStringKey.underlineStyle: 1]
+        let singleUnderline:[NSAttributedString.Key:Any] = [NSAttributedString.Key.underlineStyle: 1]
         
         let generator = { (x:Int) -> NSAttributedString in
             if x == 0 {
@@ -175,7 +175,7 @@ class FloatingView : UIView {
             }
             UIView.animate(withDuration: fadeDuration,
                 delay: callbackDuration + pauseDuration,
-                options: UIViewAnimationOptions(),
+                options: UIView.AnimationOptions(),
                 animations: { floatingView.alpha = 0 },
                 completion: { (b:Bool) in
                     floatingView.removeFromSuperview()

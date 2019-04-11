@@ -77,7 +77,7 @@ class NumberWheelView : UIView {
         
         UIView.animate(withDuration: duration,
             delay: 0,
-            options: UIViewAnimationOptions.curveEaseOut,
+            options: UIView.AnimationOptions.curveEaseOut,
             animations:{ self.layoutIfNeeded() },
             completion:{ _ in
                 var validIndexes = [Int]()
@@ -96,7 +96,7 @@ class NumberWheelView : UIView {
                     let (_, constraint) = self._labels[idx]
                     constraint.constant += CGFloat(animOvershoot) // fix the overshoot
                     
-                    UIView.animate(withDuration: 0.2, delay: 0, options: UIViewAnimationOptions(), animations: {
+                    UIView.animate(withDuration: 0.2, delay: 0, options: UIView.AnimationOptions(), animations: {
                         self.layoutIfNeeded()
                         }, completion: { _ in
                             self._labels.removeAll(keepingCapacity: false)

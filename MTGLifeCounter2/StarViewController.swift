@@ -140,10 +140,10 @@ class StarViewController : AbstractGameViewController {
             
             view.addAllConstraints(
                 // stack two rows vertically (just align the leftmost and let the others stick to those)
-                // top row gets 55%, not 50 due to space taken up by clock
+                // we USED to allocate 55% to the top row to account for the clock/navbar, but since iOS 12 it doesn't show in landscape anyway
                 [
                     c1.topAnchor.constraint(equalTo: view.topAnchor),
-                    c1.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.55),
+                    c1.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.5),
                     
                     c4.topAnchor.constraint(equalTo: c1.bottomAnchor),
                     c4.bottomAnchor.constraint(equalTo: view.bottomAnchor),

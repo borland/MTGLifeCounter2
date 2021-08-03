@@ -61,7 +61,6 @@ class StarViewController : AbstractGameViewController {
         
         if size.orientation == .portrait {
             _players[0].orientation = .upsideDown
-            _players[0].buttonPosition = .leftRight
             
             _players[1].orientation = .right
             _players[1].buttonPosition = .aboveBelow

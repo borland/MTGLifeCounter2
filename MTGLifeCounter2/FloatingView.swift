@@ -19,22 +19,25 @@ extension UIView.AutoresizingMask {
 
 class DiceRollView {
     
-    class func create(_ num:UInt, winner:Bool, orientation: PlayerViewOrientation) -> FloatingView {
-        let singleUnderline:[NSAttributedString.Key:Any] = [NSAttributedString.Key.underlineStyle: 1]
-        
-        let generator = { (x:Int) -> NSAttributedString in
-            if x == 0 {
-                if (num == 6 || num == 9) {
-                    return NSAttributedString(string: "\(num)", attributes: singleUnderline)
-                } else {
-                    return NSAttributedString(string: "\(num)")
-                }
-            }
-            
-            return NSAttributedString(string: "\(arc4random_uniform(20) + 1)") // don't underline values that aren't the result, it looks bad
+    public static let standardGenerator = { (x:Int, final: Bool) -> NSAttributedString in
+        // don't underline values that aren't the result, it looks bad
+        if final && (x == 6 || x == 9) {
+            let singleUnderline:[NSAttributedString.Key:Any] = [NSAttributedString.Key.underlineStyle: 1]
+            return NSAttributedString(string: "\(x)", attributes: singleUnderline)
+        } else {
+            return NSAttributedString(string: "\(x)")
         }
-        
-        let numberView = NumberWheelView(fontSize: 110, textColor: UIColor.white, numCells:30, generator: generator)
+    }
+    
+    class func create(
+        finalValue: Int,
+        max: Int,
+        winner:Bool,
+        numCells: Int,
+        orientation: PlayerViewOrientation,
+        generator: @escaping (Int, Bool) -> NSAttributedString = DiceRollView.standardGenerator) -> FloatingView
+    {
+        let numberView = NumberWheelView(fontSize: 110, textColor: UIColor.white, numCells: numCells, finalValue: finalValue, cellMaxValue: max, generator: generator)
         let widthConstraint = NSLayoutConstraint(item: numberView, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1.0, constant: 135)
         let heightConstraint = NSLayoutConstraint(item: numberView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1.0, constant: 125)
 

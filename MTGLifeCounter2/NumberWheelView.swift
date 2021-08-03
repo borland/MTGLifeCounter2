@@ -13,8 +13,10 @@ class NumberWheelView : UIView {
     
     private var _labels = [(UILabel, NSLayoutConstraint)]()
     private let _numCells:Int
+    private let _cellMaxValue: Int
+    private let _finalValue: Int
     private let _lineHeight:CGFloat
-    private let _generator:(Int) -> NSAttributedString
+    private let _generator:(Int, Bool) -> NSAttributedString
     private let _textColor:UIColor
     
     private let _lineGap:CGFloat = 6
@@ -23,7 +25,9 @@ class NumberWheelView : UIView {
     required init?(coder aDecoder: NSCoder) {
         _lineHeight = 20
         _numCells = 20
-        _generator = { _ in NSAttributedString(string: "-") }
+        _cellMaxValue = 20
+        _finalValue = Int(arc4random_uniform(20))+1
+        _generator = { _, _ in NSAttributedString(string: "-") }
         _totalLineHeight = _lineHeight + _lineGap
         _textColor = UIColor.black
         super.init(coder: aDecoder)
@@ -31,8 +35,10 @@ class NumberWheelView : UIView {
     }
     
     /*! generator will be called consecutively with a series of numbers. 0 is the "target" which the spinner will land on */
-    required init(fontSize:CGFloat, textColor: UIColor, numCells:Int, generator:@escaping (Int) -> NSAttributedString) {
+    required init(fontSize:CGFloat, textColor: UIColor, numCells:Int, finalValue: Int, cellMaxValue: Int, generator:@escaping (Int, Bool) -> NSAttributedString) {
         _numCells = numCells
+        _cellMaxValue = cellMaxValue
+        _finalValue = finalValue
         _lineHeight = fontSize
         _generator = generator
         _textColor = textColor
@@ -50,7 +56,12 @@ class NumberWheelView : UIView {
             lbl.translatesAutoresizingMaskIntoConstraints = false
             lbl.font = UIFont(name: "Futura", size: CGFloat(_lineHeight))
             lbl.textColor = _textColor
-            lbl.attributedText = _generator(_numCells - x)
+            // for all generated placeholder cells, pick a random value. The last cell gets the configured value
+            if x == _numCells + 1 {
+                lbl.attributedText = _generator(_finalValue, true) // assume the final value has already had +1
+            } else {
+                lbl.attributedText = _generator(Int(arc4random_uniform(UInt32(_cellMaxValue))+1), false)
+            }
             
             addSubview(lbl)
             addConstraint(NSLayoutConstraint(item: lbl, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1.0, constant: 0.0))

@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-protocol DidTouchDelegate : class {
+protocol DidTouchDelegate : AnyObject {
     func didTouch()
 }
 

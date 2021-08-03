@@ -24,7 +24,7 @@ enum PlayerViewOrientation {
     case normal, upsideDown, left, right
 }
 
-protocol PlayerViewControllerDelegate : class {
+protocol PlayerViewControllerDelegate : AnyObject {
     func colorDidChange(newColor:MtgColor, sender:PlayerViewController)
 }
 
